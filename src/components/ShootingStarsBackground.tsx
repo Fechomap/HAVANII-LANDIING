@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 
 /**
@@ -35,11 +34,15 @@ interface Star {
 // Función para generar una nueva estrella con propiedades aleatorias
 const generateStar = (w: number, h: number): Star => {
   const size = Math.random() * 2 + 1.5;
-  const angle = Math.random() * Math.PI * 0.5 - Math.PI * 0.25;
+  // Posición inicial aleatoria en toda la pantalla
   const startX = Math.random() * w;
-  const startY = Math.random() * (h * 0.85);
-  const trailLength = Math.random() * 280 + 180;
-  const speed = Math.random() * 0.6 + 0.78;
+  const startY = Math.random() * h;
+  // Ángulo fijo de 150° para movimiento hacia abajo-izquierda
+  const angle = (150 * Math.PI) / 180;
+  // Incrementar el rastro un 30% sobre el valor original (1.2 * 1.3 = 1.56)
+  const trailLength = Math.hypot(w, h) * 1.56;
+  // Disminuir la velocidad de cruce en un 20%
+  const speed = (Math.random() * 0.2 + 0.8) * 0.8 * 0.85 * 0.5 * 0.5;
   return {
     x: startX,
     y: startY,
@@ -48,7 +51,7 @@ const generateStar = (w: number, h: number): Star => {
     trailLength,
     progress: 0,
     size,
-    opacity: Math.random() * 0.18 + 0.77,
+    opacity: Math.random() * 0.2 + 0.8,
     alive: true
   };
 };
@@ -71,12 +74,18 @@ const drawStar = (ctx: CanvasRenderingContext2D, star: Star) => {
   // Calcular el desplazamiento en base al progreso y ángulo
   const dx = Math.cos(star.angle) * star.trailLength * star.progress;
   const dy = Math.sin(star.angle) * star.trailLength * star.progress;
+  const canvasHeight = ctx.canvas.height;
 
+  // Posición actual de la estrella en movimiento
+  const headX = star.x + dx;
+  const headY = star.y + dy;
+
+  // Crear gradiente para la estela usando la cabeza en movimiento y una cola más corta
+  const tailX = headX - dx * 0.3;
+  const tailY = headY - dy * 0.3;
   ctx.save();
   ctx.globalAlpha = star.opacity * 0.93;
-  
-  // Crear gradiente para la estela
-  const trailGradient = ctx.createLinearGradient(star.x - dx, star.y - dy, star.x, star.y);
+  const trailGradient = ctx.createLinearGradient(tailX, tailY, headX, headY);
   trailGradient.addColorStop(0, 'rgba(255,255,255,0)');
   trailGradient.addColorStop(0.4, 'rgba(255,255,255,0.2)');
   trailGradient.addColorStop(0.7, 'rgba(255,255,255,0.6)');
@@ -88,16 +97,19 @@ const drawStar = (ctx: CanvasRenderingContext2D, star: Star) => {
   ctx.shadowColor = GLOW_COLOR;
   ctx.shadowBlur = 10;
   ctx.beginPath();
-  ctx.moveTo(star.x - dx, star.y - dy);
-  ctx.lineTo(star.x, star.y);
+  ctx.moveTo(tailX, tailY);
+  ctx.lineTo(headX, headY);
   ctx.stroke();
   ctx.restore();
 
-  // Dibujar el punto/cabeza de la estrella
+  // Dibujar cabeza con leve parpadeo al aproximarse al 'horizonte'
   ctx.save();
-  ctx.globalAlpha = star.opacity;
+  const headOpacity = headY > canvasHeight * 0.8
+    ? star.opacity * (0.8 + Math.random() * 0.2)
+    : star.opacity;
+  ctx.globalAlpha = headOpacity;
   ctx.beginPath();
-  ctx.arc(star.x, star.y, star.size * 1.2, 0, Math.PI * 2);
+  ctx.arc(headX, headY, star.size * 1.2, 0, Math.PI * 2);
   ctx.fillStyle = STAR_COLOR;
   ctx.shadowColor = GLOW_COLOR;
   ctx.shadowBlur = 20;
@@ -151,12 +163,9 @@ const ShootingStarsBackground: React.FC = () => {
 
     let lastTime = performance.now();
     let spawnAccumulator = 0;
+    // Intervalo fijo de 200 ms para la próxima estrella
+    let spawnInterval = 200;
 
-    // Crear estrellas iniciales
-    for (let i = 0; i < 5; i++) {
-      spawnStar(w, h);
-      stars[i].progress = Math.random() * 0.5; // Iniciar con progreso aleatorio
-    }
 
     // Función de animación principal
     const animate = (now: number) => {
@@ -173,9 +182,11 @@ const ShootingStarsBackground: React.FC = () => {
       spawnAccumulator += delta;
       
       // Generar nuevas estrellas a intervalos
-      if (spawnAccumulator > 220) {
+      if (spawnAccumulator > spawnInterval) {
         spawnStar(w, h);
         spawnAccumulator = 0;
+        // Intervalo fijo de 200 ms para la próxima estrella
+        spawnInterval = 200;
       }
       
       // Actualizar progreso de cada estrella
@@ -214,7 +225,7 @@ const ShootingStarsBackground: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 w-screen h-screen z-[-1] pointer-events-none select-none"
+      className="fixed inset-0 w-screen h-screen z-0 pointer-events-none select-none"
       aria-hidden="true"
     />
   );
