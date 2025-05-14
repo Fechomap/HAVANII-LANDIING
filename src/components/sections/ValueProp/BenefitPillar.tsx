@@ -1,10 +1,14 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Icon } from './Icon';
-import { BenefitData } from './benefitsData';
+import { Icon } from '@/components/ui/Icon';
+import type { BenefitData } from './benefitsData';
 
-const BenefitPillar: React.FC<BenefitData> = ({ icon, title, description, ariaLabel }) => {
+const BenefitPillar: React.FC<BenefitData> = ({ 
+  icon, 
+  title, 
+  description, 
+  ariaLabel 
+}) => {
   const pillarVariants = {
     hidden: { opacity: 0, y: 18 },
     visible: { opacity: 1, y: 0 },
