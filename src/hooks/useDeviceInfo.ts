@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
-
-interface DeviceInfo {
-  isMobile: boolean;
-  isTablet: boolean;
-  isDesktop: boolean;
-  isLowPowerDevice: boolean;
-  prefersReducedMotion: boolean;
-  connection: {
-    effectiveType: string;
-    saveData: boolean;
-  };
-}
+import type { DeviceInfo } from '@/types';
 
 /**
  * Hook para detectar información del dispositivo para optimizaciones de rendimiento
+ * Proporciona datos sobre el tipo de dispositivo, conexión y preferencias del usuario
+ * 
+ * @returns DeviceInfo - Información sobre el dispositivo actual
+ * 
+ * @example
+ * const { isMobile, isLowPowerDevice, prefersReducedMotion } = useDeviceInfo();
+ * 
+ * // Reducir animaciones en dispositivos de baja potencia
+ * useEffect(() => {
+ *   if (isLowPowerDevice || prefersReducedMotion) {
+ *     // Configurar animaciones ligeras o desactivarlas
+ *   }
+ * }, [isLowPowerDevice, prefersReducedMotion]);
  */
 export function useDeviceInfo(): DeviceInfo {
   // Valor por defecto para SSR
@@ -63,11 +65,11 @@ export function useDeviceInfo(): DeviceInfo {
       };
       
       // @ts-ignore - Navigator connection API no está en TypeScript estándar
-      if (navigator.connection) {
+      if ('connection' in navigator) {
         // @ts-ignore
-        connection.effectiveType = navigator.connection.effectiveType || '4g';
+        connection.effectiveType = navigator.connection?.effectiveType || '4g';
         // @ts-ignore
-        connection.saveData = navigator.connection.saveData || false;
+        connection.saveData = navigator.connection?.saveData || false;
       }
       
       setDeviceInfo({
@@ -86,9 +88,27 @@ export function useDeviceInfo(): DeviceInfo {
     // Actualizar en cambio de tamaño de ventana
     window.addEventListener('resize', updateDeviceInfo);
     
-    // Limpiar al desmontar
+    // Actualizar cuando cambie la preferencia de reducción de movimiento
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    reducedMotionQuery.addEventListener('change', updateDeviceInfo);
+    
+    // Actualizar cuando cambie la información de conexión
+    // @ts-ignore
+    if ('connection' in navigator && navigator.connection) {
+      // @ts-ignore
+      navigator.connection.addEventListener('change', updateDeviceInfo);
+    }
+    
+    // Limpiar event listeners al desmontar
     return () => {
       window.removeEventListener('resize', updateDeviceInfo);
+      reducedMotionQuery.removeEventListener('change', updateDeviceInfo);
+      
+      // @ts-ignore
+      if ('connection' in navigator && navigator.connection) {
+        // @ts-ignore
+        navigator.connection.removeEventListener('change', updateDeviceInfo);
+      }
     };
   }, []);
   

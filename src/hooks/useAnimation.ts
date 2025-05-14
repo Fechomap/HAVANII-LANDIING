@@ -1,19 +1,45 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { IntersectionOptions, ParallaxOptions } from '../types';
+import type { IntersectionOptions, ParallaxOptions } from '@/types';
 
 // Registrar el plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-// Hook unificado que combina funcionalidades de useIntersection y useParallax
+/**
+ * Hook unificado para animación que combina funcionalidades de
+ * useIntersection y useParallax en una sola API simplificada.
+ * 
+ * @param options - Configuración de animación
+ * @returns Objeto con ref para adjuntar al elemento, estado de visibilidad y métodos
+ * 
+ * @example
+ * // Uso básico para intersection observer
+ * const { ref, isInView } = useAnimation({ 
+ *   intersection: { threshold: 0.5, once: true } 
+ * });
+ * 
+ * // Uso con parallax
+ * const { ref } = useAnimation({ 
+ *   parallax: { speed: 0.2, direction: 'vertical' }
+ * });
+ * 
+ * // Uso combinado
+ * const { ref, isInView } = useAnimation({
+ *   intersection: { threshold: 0.5 },
+ *   parallax: { speed: 0.3 }
+ * });
+ */
 export function useAnimation(options: {
   intersection?: IntersectionOptions;
   parallax?: ParallaxOptions;
+  onInView?: (entry: IntersectionObserverEntry) => void;
 }) {
-  const { intersection, parallax } = options;
+  const { intersection, parallax, onInView } = options;
   const elementRef = useRef<HTMLElement | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const gsapInstanceRef = useRef<gsap.core.Timeline | null>(null);
   
   // Verificar preferencias de reducción de movimiento
   const prefersReducedMotion = 
@@ -26,52 +52,64 @@ export function useAnimation(options: {
       const [entry] = entries;
       
       if (entry.isIntersecting) {
-        setIsVisible(true);
+        setIsInView(true);
+        
+        // Ejecutar callback si está definido
+        if (onInView) {
+          onInView(entry);
+        }
         
         // Si la opción once está activada, desconectar después de la primera intersección
         if (intersection?.once) {
-          // Desconectar el observador para liberar recursos
-          if (elementRef.current && observer.current) {
-            observer.current.unobserve(elementRef.current);
+          if (elementRef.current && observerRef.current) {
+            observerRef.current.unobserve(elementRef.current);
           }
+        }
+      } else {
+        // Si no estamos usando "once", actualizar el estado
+        if (!intersection?.once) {
+          setIsInView(false);
         }
       }
     },
-    [intersection?.once]
+    [intersection?.once, onInView]
   );
-  
-  // Referencia al IntersectionObserver
-  const observer = useRef<IntersectionObserver | null>(null);
   
   // Configurar IntersectionObserver
   useEffect(() => {
-    if (!intersection || prefersReducedMotion) {
-      setIsVisible(true);
+    // Si prefiere reducir el movimiento, no usar animaciones
+    if (prefersReducedMotion) {
+      setIsInView(true);
       return;
     }
     
+    // Si no hay opciones de intersection, no hacer nada
+    if (!intersection) return;
+    
     const { root, rootMargin, threshold, once } = intersection;
     
-    observer.current = new IntersectionObserver(handleIntersection, {
+    observerRef.current = new IntersectionObserver(handleIntersection, {
       root: root || null,
       rootMargin: rootMargin || '0px',
       threshold: threshold || 0.4,
     });
     
-    if (elementRef.current) {
-      observer.current.observe(elementRef.current);
+    const currentElement = elementRef.current;
+    if (currentElement && observerRef.current) {
+      observerRef.current.observe(currentElement);
     }
     
     return () => {
-      if (elementRef.current && observer.current) {
-        observer.current.unobserve(elementRef.current);
+      if (currentElement && observerRef.current) {
+        observerRef.current.unobserve(currentElement);
       }
     };
   }, [handleIntersection, intersection, prefersReducedMotion]);
   
   // Configurar efecto Parallax usando GSAP
   useEffect(() => {
-    if (!parallax || prefersReducedMotion || !isVisible) return;
+    // Si prefiere reducir el movimiento o no hay opciones de parallax, no hacer nada
+    if (prefersReducedMotion || !parallax) return;
     
     const element = elementRef.current;
     if (!element) return;
@@ -88,6 +126,11 @@ export function useAnimation(options: {
       scrub = 1,
     } = parallax;
     
+    // Limpiar la animación anterior si existe
+    if (gsapInstanceRef.current) {
+      gsapInstanceRef.current.kill();
+    }
+    
     // Calcular la distancia del movimiento basada en la velocidad
     const distance = speed * 100; // Convertir a porcentaje
     
@@ -96,35 +139,57 @@ export function useAnimation(options: {
     const propX = direction === 'horizontal' ? 'x' : null;
     
     // Crear la animación con GSAP
-    const parallaxAnimation = gsap.fromTo(
-      element,
-      {
-        [propY as string]: -distance, // Valor inicial
-        [propX as string]: -distance,
-      },
-      {
-        [propY as string]: distance, // Valor final
-        [propX as string]: distance,
-        ease: 'none', // Sin easing para un movimiento lineal
-        scrollTrigger: {
-          trigger: element,
-          start,
-          end,
-          scrub,
-        },
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: element,
+        start,
+        end,
+        scrub,
       }
-    );
+    });
+    
+    if (propY) {
+      tl.fromTo(element, 
+        { y: -distance }, 
+        { y: distance, ease: 'none' }
+      );
+    }
+    
+    if (propX) {
+      tl.fromTo(element, 
+        { x: -distance }, 
+        { x: distance, ease: 'none' }
+      );
+    }
+    
+    gsapInstanceRef.current = tl;
     
     // Limpiar la animación cuando el componente se desmonte
     return () => {
-      parallaxAnimation.kill();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      if (gsapInstanceRef.current) {
+        gsapInstanceRef.current.kill();
+      }
+      const triggers = ScrollTrigger.getAll();
+      triggers.forEach(trigger => {
+        if (trigger.vars.trigger === element) {
+          trigger.kill();
+        }
+      });
     };
-  }, [isVisible, parallax, prefersReducedMotion]);
+  }, [parallax, prefersReducedMotion]);
+  
+  // Función para realizar animaciones personalizadas en el elemento
+  const animate = useCallback((animationProps: gsap.TweenVars, options?: gsap.TweenVars) => {
+    if (elementRef.current) {
+      return gsap.to(elementRef.current, { ...animationProps, ...options });
+    }
+    return null;
+  }, []);
   
   return {
     ref: elementRef,
-    isVisible,
+    isInView,
+    animate,
   };
 }
 

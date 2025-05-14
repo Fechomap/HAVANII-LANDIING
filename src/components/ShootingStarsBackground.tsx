@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useDeviceInfo } from "@/hooks/useDeviceInfo";
 
 /**
  * @component ShootingStarsBackground
  * Fondo global de estrellas fugaces optimizado para rendimiento.
+ * Adaptativo a diferentes dispositivos y preferencias de usuario.
  */
 
-// Constantes con configuración optimizada
+// Constantes de configuración optimizadas
 const STAR_COLOR = "rgba(255,255,255,0.93)";
 const GLOW_COLOR = "rgba(255,255,255,0.68)";
 const TRAIL_COLOR = "rgba(255,255,255,0.83)";
@@ -31,39 +33,43 @@ interface Star {
 const ShootingStarsBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [shouldAnimate, setShouldAnimate] = useState(true);
-  const [isLowPowerDevice, setIsLowPowerDevice] = useState(false);
   const animationFrameRef = useRef<number>();
   const starsRef = useRef<Star[]>([]);
+  
+  // Usar useDeviceInfo para optimizaciones basadas en el dispositivo
+  const { isMobile, isTablet, isLowPowerDevice, prefersReducedMotion } = useDeviceInfo();
 
-  // Detectar dispositivos de baja potencia y preferencias de reducción de movimiento
+  // Ajustar animación basada en capacidades del dispositivo y preferencias
   useEffect(() => {
-    // Verificar preferencias de reducción de movimiento
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    // Estimar si es un dispositivo de baja potencia
-    const isLowEnd = 
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
-    
     if (prefersReducedMotion) {
       setShouldAnimate(false);
-    } else if (isLowEnd) {
-      setIsLowPowerDevice(true);
-      // Sigue animando pero con menos estrellas/calidad
     } else {
       setShouldAnimate(true);
     }
-  }, []);
+  }, [prefersReducedMotion]);
 
-  // Función memoizada para generar estrella (evita recreación en cada render)
+  // Función memoizada para generar estrella
   const generateStar = useCallback((w: number, h: number): Star => {
-    const size = Math.random() * 2 + 1.5;
+    // Ajustar tamaño según dispositivo
+    const sizeFactor = isLowPowerDevice ? 0.7 : 1;
+    const size = (Math.random() * 2 + 1.5) * sizeFactor;
+    
     const startX = Math.random() * w;
     const startY = Math.random() * h;
-    const angle = (150 * Math.PI) / 180;
-    const trailLength = Math.hypot(w, h) * 1.56;
-    // Reducir velocidad en dispositivos de baja potencia
-    const speedFactor = isLowPowerDevice ? 0.3 : 0.5;
+    
+    // Ajustar ángulo para mejor visualización en diferentes dispositivos
+    const angleBase = 150;
+    const angleVariation = isMobile ? 20 : 0; // Más vertical en móvil
+    const angle = ((angleBase + (Math.random() * angleVariation - angleVariation/2)) * Math.PI) / 180;
+    
+    const trailLength = Math.hypot(w, h) * (isMobile ? 1.2 : 1.56);
+    
+    // Ajustar velocidad según dispositivo
+    let speedFactor = 1;
+    if (isLowPowerDevice) speedFactor = 0.3;
+    else if (isMobile) speedFactor = 0.4;
+    else if (isTablet) speedFactor = 0.6;
+    
     const speed = (Math.random() * 0.2 + 0.8) * 0.8 * 0.85 * speedFactor;
     
     return {
@@ -77,22 +83,32 @@ const ShootingStarsBackground: React.FC = () => {
       opacity: Math.random() * 0.2 + 0.8,
       alive: true
     };
-  }, [isLowPowerDevice]);
+  }, [isLowPowerDevice, isMobile, isTablet]);
 
-  // Función memoizada para dibujar gradiente
+  // Función memoizada para dibujar gradiente de fondo
   const drawBackgroundGradient = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number) => {
+    // Optimización: no redibujar el fondo completo en cada frame en dispositivos de baja potencia
+    if (isLowPowerDevice) {
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, w, h);
+      return;
+    }
+    
+    // Gradiente completo para dispositivos potentes
     const grad = ctx.createRadialGradient(
       w * 0.5, h * 0.04, w * 0.20,
       w * 0.5, h * 0.55, w * 1
     );
+    
     for (const stop of GRADIENT_BG) {
       grad.addColorStop(stop.stop, stop.color);
     }
+    
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
-  }, []);
+  }, [isLowPowerDevice]);
 
-  // Función memoizada para dibujar estrella
+  // Función memoizada para dibujar estrella con optimizaciones
   const drawStar = useCallback((ctx: CanvasRenderingContext2D, star: Star) => {
     const dx = Math.cos(star.angle) * star.trailLength * star.progress;
     const dy = Math.sin(star.angle) * star.trailLength * star.progress;
@@ -104,7 +120,7 @@ const ShootingStarsBackground: React.FC = () => {
     const tailX = headX - dx * 0.3;
     const tailY = headY - dy * 0.3;
     
-    // Optimización: No dibujar estrellas que están fuera del canvas
+    // Optimización: No dibujar estrellas fuera del canvas
     if (
       headX < -50 || 
       headX > ctx.canvas.width + 50 || 
@@ -114,6 +130,29 @@ const ShootingStarsBackground: React.FC = () => {
       return;
     }
     
+    // Simplificar efectos en dispositivos de baja potencia
+    if (isLowPowerDevice) {
+      ctx.save();
+      ctx.globalAlpha = star.opacity * 0.8;
+      
+      // Trazo simplificado sin gradiente ni sombra
+      ctx.strokeStyle = TRAIL_COLOR;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(tailX, tailY);
+      ctx.lineTo(headX, headY);
+      ctx.stroke();
+      
+      // Cabeza simplificada
+      ctx.beginPath();
+      ctx.arc(headX, headY, star.size, 0, Math.PI * 2);
+      ctx.fillStyle = STAR_COLOR;
+      ctx.fill();
+      ctx.restore();
+      return;
+    }
+    
+    // Versión completa con efectos para dispositivos potentes
     ctx.save();
     ctx.globalAlpha = star.opacity * 0.93;
     const trailGradient = ctx.createLinearGradient(tailX, tailY, headX, headY);
@@ -144,9 +183,9 @@ const ShootingStarsBackground: React.FC = () => {
     ctx.shadowBlur = 20;
     ctx.fill();
     ctx.restore();
-  }, []);
+  }, [isLowPowerDevice]);
 
-  // Efecto principal de animación
+  // Efecto principal de animación con optimizaciones
   useEffect(() => {
     if (!shouldAnimate) return;
     
@@ -161,59 +200,106 @@ const ShootingStarsBackground: React.FC = () => {
     let w = window.innerWidth;
     let h = window.innerHeight;
     
+    // Reducir resolución del canvas en dispositivos de baja potencia
+    if (isLowPowerDevice) {
+      canvas.width = Math.floor(w * 0.75);
+      canvas.height = Math.floor(h * 0.75);
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+    } else {
+      canvas.width = w;
+      canvas.height = h;
+    }
+    
     // Función para ajustar canvas al tamaño de la ventana
     const resizeCanvas = () => {
       w = window.innerWidth;
       h = window.innerHeight;
+      
       if (canvas) {
-        canvas.width = w;
-        canvas.height = h;
+        if (isLowPowerDevice) {
+          canvas.width = Math.floor(w * 0.75);
+          canvas.height = Math.floor(h * 0.75);
+          canvas.style.width = `${w}px`;
+          canvas.style.height = `${h}px`;
+        } else {
+          canvas.width = w;
+          canvas.height = h;
+        }
       }
     };
     
+    // Throttle para resize (optimización)
+    let resizeTimeout: number;
+    const throttledResize = () => {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = window.setTimeout(resizeCanvas, 200);
+    };
+    
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("resize", throttledResize);
     
     let lastTime = performance.now();
     let spawnAccumulator = 0;
     
-    // Ajustar intervalo según capacidad del dispositivo
-    const baseSpawnInterval = isLowPowerDevice ? 1000 : 200;
+    // Ajustar parámetros según el dispositivo
+    const baseSpawnInterval = isLowPowerDevice ? 1200 : isMobile ? 800 : 200;
     let spawnInterval = baseSpawnInterval;
     
     // Número máximo de estrellas según capacidad del dispositivo
-    const maxStars = isLowPowerDevice ? 8 : 25;
+    const maxStars = isLowPowerDevice ? 6 : isMobile ? 10 : isTablet ? 15 : 25;
     
-    // Función de animación principal
+    // Optimización: Frecuencia de actualización reducida para dispositivos de baja potencia
+    const frameSkip = isLowPowerDevice ? 2 : 1; // Saltar frames en dispositivos lentos
+    let frameCount = 0;
+    
+    // Función de animación principal optimizada
     const animate = (now: number) => {
       if (!canvas) return;
+      
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       
-      // Dibujar fondo gradiente
-      drawBackgroundGradient(ctx, w, h);
+      // Skip frames para dispositivos lentos
+      frameCount++;
+      if (isLowPowerDevice && frameCount % frameSkip !== 0) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
       
       // Calcular delta de tiempo para animación suave
       const delta = now - lastTime;
       lastTime = now;
+      
+      // Dibujar fondo solo cuando sea necesario (optimización)
+      if (!isLowPowerDevice || frameCount % 5 === 0) {
+        drawBackgroundGradient(ctx, w, h);
+      } else {
+        // En dispositivos lentos, solo limpiar el rastro de las estrellas
+        ctx.fillStyle = 'rgba(0,0,0,0.15)';
+        ctx.fillRect(0, 0, w, h);
+      }
+      
+      // Acumular tiempo para generar nuevas estrellas
       spawnAccumulator += delta;
       
-      // Generar nuevas estrellas a intervalos y si no superamos el máximo
+      // Generar nuevas estrellas a intervalos
       if (spawnAccumulator > spawnInterval && starsRef.current.length < maxStars) {
         starsRef.current.push(generateStar(w, h));
         spawnAccumulator = 0;
-        // Añadir variación al intervalo para un efecto más natural
         spawnInterval = baseSpawnInterval + Math.random() * 100;
       }
       
-      // Actualizar progreso de cada estrella
-      starsRef.current = starsRef.current.filter(star => {
+      // Actualizar y filtrar estrellas en una sola pasada (optimización)
+      const aliveStars: Star[] = [];
+      for (const star of starsRef.current) {
         star.progress += delta * star.speed / 450;
-        return star.progress < 1; // Mantener solo estrellas vivas
-      });
-      
-      // Dibujar todas las estrellas activas
-      starsRef.current.forEach(star => drawStar(ctx, star));
+        if (star.progress < 1) {
+          drawStar(ctx, star);
+          aliveStars.push(star);
+        }
+      }
+      starsRef.current = aliveStars;
       
       // Continuar animación
       animationFrameRef.current = requestAnimationFrame(animate);
@@ -224,14 +310,15 @@ const ShootingStarsBackground: React.FC = () => {
     
     // Limpieza al desmontar
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", throttledResize);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
+      if (resizeTimeout) clearTimeout(resizeTimeout);
     };
-  }, [shouldAnimate, isLowPowerDevice, generateStar, drawBackgroundGradient, drawStar]);
+  }, [shouldAnimate, isLowPowerDevice, isMobile, isTablet, generateStar, drawBackgroundGradient, drawStar]);
   
-  // Rendimiento optimizado: No renderizar nada en modo sin animación
+  // No renderizar nada en modo sin animación
   if (!shouldAnimate) return null;
 
   return (
@@ -243,4 +330,5 @@ const ShootingStarsBackground: React.FC = () => {
   );
 };
 
+// Uso de React.memo para evitar renderizados innecesarios
 export default React.memo(ShootingStarsBackground);

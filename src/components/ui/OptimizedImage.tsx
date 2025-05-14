@@ -1,20 +1,23 @@
-import React from 'react';
-
-interface OptimizedImageProps {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  className?: string;
-  loading?: 'lazy' | 'eager';
-  decoding?: 'async' | 'sync' | 'auto';
-  onLoad?: () => void;
-  priority?: boolean;
-  placeholder?: string;
-}
+import React, { useState, useEffect } from 'react';
+import type { OptimizedImageProps } from '@/types';
+import { useDeviceInfo } from '@/hooks/useDeviceInfo';
 
 /**
  * Componente OptimizedImage para estandarizar las buenas prácticas de carga de imágenes
+ * Ofrece lazy loading, placeholder de carga, manejo de errores, y optimizaciones para dispositivos
+ * 
+ * @param {OptimizedImageProps} props - Propiedades del componente
+ * @returns {JSX.Element} - Componente de imagen optimizado
+ * 
+ * @example
+ * <OptimizedImage 
+ *   src="/images/hero.webp" 
+ *   alt="Hero image" 
+ *   width={800} 
+ *   height={600} 
+ *   priority={false} 
+ *   placeholder="blur" 
+ * />
  */
 const OptimizedImage: React.FC<OptimizedImageProps> = ({
   src,
@@ -29,18 +32,44 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   placeholder = 'blur',
   ...props
 }) => {
-  // Establecer loading y decoding según priority
+  // Obtener información del dispositivo para optimizaciones adicionales
+  const { isMobile, isLowPowerDevice, connection } = useDeviceInfo();
+  
+  // Establecer loading y decoding según priority y tipo de dispositivo
   if (priority) {
     loading = 'eager';
     decoding = 'sync';
+  } else if (isLowPowerDevice || connection.saveData) {
+    loading = 'lazy';
+    decoding = 'async';
   }
 
   // Estado para manejar carga de imagen y fallback
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   
-  // Tener una imagen placeholder por defecto
+  // Imagen placeholder por defecto
   const placeholderSrc = '/placeholder.svg';
+  
+  // Determinar la imagen óptima para el dispositivo
+  // (Podría ser una versión de menor resolución para móviles o conexiones lentas)
+  const optimizedSrc = useMemo(() => {
+    // Si hay error, usar el placeholder
+    if (hasError) return placeholderSrc;
+    
+    // Si está guardando datos o es un dispositivo de baja potencia, usar versión ligera si existe
+    if (connection.saveData || (isMobile && connection.effectiveType !== '4g')) {
+      // Comprueba si existe una versión optimizada para móvil
+      // Convención: imagen.jpg -> imagen.mobile.jpg
+      const mobileSrc = src.replace(/(\.\w+)$/, '.mobile$1');
+      
+      // Aquí podrías verificar si la versión móvil existe
+      // Para simplificar, usamos directamente src
+      return src;
+    }
+    
+    return src;
+  }, [src, hasError, connection.saveData, connection.effectiveType, isMobile]);
   
   // Función para manejar la carga completa
   const handleLoad = () => {
@@ -50,11 +79,27 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   
   // Función para manejar errores de carga
   const handleError = () => {
+    console.warn(`Error loading image: ${src}`);
     setHasError(true);
   };
   
+  // Efecto para prerenderizar la imagen si es prioritaria
+  useEffect(() => {
+    if (priority && optimizedSrc !== placeholderSrc) {
+      const img = new Image();
+      img.src = optimizedSrc;
+    }
+  }, [priority, optimizedSrc, placeholderSrc]);
+  
   return (
-    <div className={`relative overflow-hidden ${className}`} style={{ width, height }}>
+    <div 
+      className={`relative overflow-hidden ${className}`} 
+      style={{ 
+        width: width || 'auto', 
+        height: height || 'auto',
+        aspectRatio: width && height ? `${width}/${height}` : 'auto'
+      }}
+    >
       {/* Mostrar placeholder mientras carga o si hay error */}
       {(!isLoaded || hasError) && placeholder === 'blur' && (
         <div 
@@ -64,11 +109,12 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
             width: '100%',
             height: '100%'
           }}
+          aria-hidden="true"
         />
       )}
       
       <img
-        src={hasError ? placeholderSrc : src}
+        src={optimizedSrc}
         alt={alt}
         width={width}
         height={height}
@@ -76,11 +122,12 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         decoding={decoding}
         onLoad={handleLoad}
         onError={handleError}
-        className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+        className={`${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 w-full h-full object-cover`}
         {...props}
       />
     </div>
   );
 };
 
+// Uso de React.memo para evitar renderizados innecesarios
 export default React.memo(OptimizedImage);
