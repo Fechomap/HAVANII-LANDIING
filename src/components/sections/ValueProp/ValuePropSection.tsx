@@ -1,11 +1,11 @@
-
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useIntersection } from '@/hooks/useIntersection';
 import BenefitPillar from './BenefitPillar';
 import { benefitsData } from './benefitsData';
 
-const ValuePropSection = () => {
+// Componente memoizado para mejor rendimiento
+const ValuePropSection: React.FC = React.memo(() => {
   const sectionRef = useIntersection(
     (entry) => {
       if (entry.isIntersecting) {
@@ -20,7 +20,8 @@ const ValuePropSection = () => {
     }
   );
 
-  const containerVariants = {
+  // Memoizar las variantes de animación para evitar recreaciones
+  const containerVariants = useMemo(() => ({
     hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,
@@ -30,7 +31,7 @@ const ValuePropSection = () => {
         staggerChildren: 0.18,
       },
     },
-  };
+  }), []);
 
   return (
     <section
@@ -60,16 +61,22 @@ const ValuePropSection = () => {
             Transformamos la complejidad técnica en soluciones claras y efectivas, permitiéndote enfocarte en hacer crecer tu negocio mientras nosotros nos encargamos del desarrollo.
           </p>
 
-          {/* Grid of benefits */}
+          {/* Grid of benefits - Optimizado con key estable */}
           <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
             {benefitsData.map((benefit, index) => (
-              <BenefitPillar key={index} {...benefit} />
+              <BenefitPillar 
+                key={`benefit-${index}`} 
+                {...benefit} 
+              />
             ))}
           </div>
         </motion.div>
       </div>
     </section>
   );
-};
+});
+
+// Añadir displayName para herramientas de desarrollo
+ValuePropSection.displayName = 'ValuePropSection';
 
 export default ValuePropSection;

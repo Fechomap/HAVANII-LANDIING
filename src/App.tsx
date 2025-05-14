@@ -1,49 +1,52 @@
-/**
- * @component App - Componente principal de la aplicación Havani
- * Este componente configura el enrutamiento y los proveedores globales para la aplicación.
- * Implementa el diseño de Pulsar de Framer adaptado para Havani.
- */
-
+import React, { Suspense, lazy } from 'react';
 import { Toaster } from "@/components/ui/toaster";
-// Eliminar esta línea: import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
 import ShootingStarsBackground from "@/components/ShootingStarsBackground";
 
-// Crear versiones simplificadas de estos componentes
-const Pricing = () => <div>Página en construcción</div>;
-const NeuralCrane = () => <div>Página en construcción</div>;
-const AutoMike = () => <div>Página en construcción</div>;
-const Conciliador = () => <div>Página en construcción</div>;
+// Lazy loading para las páginas
+const Index = lazy(() => import('./pages/Index'));
+const Pricing = lazy(() => import('./pages/Pricing'));
+const NeuralCrane = lazy(() => import('./pages/NeuralCrane'));
+const AutoMike = lazy(() => import('./pages/AutoMike'));
+const Conciliador = lazy(() => import('./pages/Conciliador'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+// Componente de carga
+const LoadingFallback = () => (
+  <div className="flex h-screen w-screen items-center justify-center bg-bg-body text-text-primary">
+    <div className="animate-pulse">Cargando...</div>
+  </div>
+);
 
 // Crear cliente de consulta para React Query
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutos
+    },
+  },
+});
 
 const App = () => (
   <>
-    {/* El componente ShootingStarsBackground debe ser el primer elemento para una correcta superposición de capas */}
     <ShootingStarsBackground />
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        {/* Componentes de notificación */}
         <Toaster />
-        {/* Eliminar esta línea: <Sonner /> */}
-        {/* Configuración de enrutamiento */}
         <BrowserRouter>
-          <Routes>
-            {/* Ruta principal - Landing page */}
-            <Route path="/" element={<Index />} />
-            {/* Rutas de servicios específicos */}
-            <Route path="/neuralcrane" element={<NeuralCrane />} />
-            <Route path="/automike" element={<AutoMike />} />
-            <Route path="/conciliador" element={<Conciliador />} />
-            <Route path="/pricing" element={<Pricing />} />
-            {/* Ruta de captura para páginas no encontradas */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/neuralcrane" element={<NeuralCrane />} />
+              <Route path="/automike" element={<AutoMike />} />
+              <Route path="/conciliador" element={<Conciliador />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
