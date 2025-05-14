@@ -1,8 +1,11 @@
 /**
- * Estilos globales para la landing page de Havani (basada en Pulsar template)
- * Estos estilos complementan Tailwind CSS con reglas específicas que no pueden
- * implementarse directamente con clases de utilidad
+ * Estilos globales para Havani
+ * Complemento a Tailwind CSS con reglas específicas
  */
+
+/* ----------------------------------------
+   1. ESTILOS BASE
+   ---------------------------------------- */
 
 /* Habilitar scroll suave */
 html {
@@ -27,7 +30,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Animaciones de hover para enlaces y botones */
+/* ----------------------------------------
+   2. UTILIDADES Y EFECTOS
+   ---------------------------------------- */
+
+/* Animaciones de hover */
 .hover-scale {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -45,12 +52,11 @@ body {
   transform: translateY(-6px);
 }
 
-/* Gradiente principal de Havani */
+/* Gradientes */
 .havani-gradient {
   background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
 }
 
-/* Gradiente de texto (para títulos) */
 .text-gradient {
   background-clip: text;
   -webkit-background-clip: text;
@@ -58,12 +64,11 @@ body {
   background-image: linear-gradient(to right, var(--accent), var(--priority-high));
 }
 
-/* Sombras para elementos destacados */
+/* Efectos visuales */
 .shadow-accent {
   box-shadow: 0 0 30px rgba(123, 97, 255, 0.3);
 }
 
-/* Efecto de glow para elementos interactivos */
 .glow-accent {
   position: relative;
 }
@@ -86,7 +91,6 @@ body {
   opacity: 0.3;
 }
 
-/* Efecto de línea animada para títulos */
 .animated-underline {
   position: relative;
   display: inline-block;
@@ -107,7 +111,6 @@ body {
   width: 100%;
 }
 
-/* Efecto de ruido para fondos (reemplazar noise.png cuando esté disponible) */
 .noise-bg {
   position: relative;
 }
@@ -125,27 +128,27 @@ body {
   z-index: 1;
 }
 
-/* Estilos para grids de Pulsar */
+/* ----------------------------------------
+   3. LAYOUTS Y GRIDS
+   ---------------------------------------- */
+
 .pulsar-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 24px;
 }
 
-@media (max-width: 1024px) {
-  .pulsar-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
+.section-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 80px 24px;
 }
 
-@media (max-width: 768px) {
-  .pulsar-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
+/* ----------------------------------------
+   4. COMPONENTES PERSONALIZADOS
+   ---------------------------------------- */
 
-/* Estilos para botones personalizados */
+/* Botones */
 .btn-primary {
   background-color: var(--accent);
   color: white;
@@ -175,7 +178,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* Estilos para tarjetas con efecto de elevación */
+/* Tarjetas */
 .card-elevation {
   background-color: var(--bg-panel);
   border-radius: 12px;
@@ -187,28 +190,35 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-/* Contenedor para sección específica de Pulsar */
-.section-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 80px 24px;
+/* Swiper (slider) */
+.havani-swiper-bullet {
+  background: #2A2B30;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 7px !important;
+  opacity: 1 !important;
+  transition: background 0.2s, transform 0.2s;
 }
 
-@media (max-width: 768px) {
-  .section-container {
-    padding: 60px 16px;
-  }
+.havani-swiper-bullet-active {
+  background: #7B61FF !important;
+  transform: scale(1.2);
 }
 
-/* -------- FROM FOOTER SECTION ----------- */
+.swiper:hover .swiper-button-prev,
+.swiper:hover .swiper-button-next {
+  opacity: 1;
+}
 
-/* Footer link underline micro-anim and color */
+/* Footer links */
 .footer-link {
   color: #888888;
   position: relative;
   transition: color 0.15s;
   text-decoration: none;
 }
+
 .footer-link:after {
   content: "";
   position: absolute;
@@ -222,20 +232,21 @@ body {
   transition: transform 0.2s cubic-bezier(.4,0,.2,1);
   transform-origin: left;
 }
+
 .footer-link:hover {
   color: #fff;
 }
+
 .footer-link:hover:after {
   transform: scaleX(1);
 }
-@media (prefers-reduced-motion: reduce) {
-  .footer-link:after {
-    transition: none;
-    transform: scaleX(1);
-  }
+
+.footer-link:focus-visible {
+  outline: 2px solid #7B61FF;
+  outline-offset: 2px;
 }
 
-/* Social icon link */
+/* Social icon links */
 .social-link {
   color: #888;
   transition: color 0.18s, transform 0.15s;
@@ -245,50 +256,72 @@ body {
   outline: none;
   outline-offset: 2px;
 }
+
 .social-link:hover {
   color: #fff;
   transform: rotate(6deg) scale(1.07);
 }
+
 .social-link:focus-visible {
   outline: 2px solid #7B61FF;
   outline-offset: 2px;
 }
+
+/* ----------------------------------------
+   5. MEDIA QUERIES
+   ---------------------------------------- */
+
 @media (prefers-reduced-motion: reduce) {
+  .footer-link:after {
+    transition: none;
+    transform: scaleX(1);
+  }
+  
   .social-link {
     transition: none;
     transform: none;
   }
 }
 
-/* Divider in footer already styled as border-[#2A2B30] */
-
-/* Responsive columns */
 @media (max-width: 1024px) {
+  .pulsar-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
   footer nav {
-    gap-x: 32px !important;
+    column-gap: 32px !important;
   }
 }
+
 @media (max-width: 768px) {
+  .section-container {
+    padding: 60px 16px;
+  }
+  
+  .pulsar-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
   footer nav {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap-x: 24px !important;
-    gap-y: 48px !important;
+    column-gap: 24px !important;
+    row-gap: 48px !important;
   }
+  
   footer {
     padding-bottom: 80px !important;
   }
-}
-@media (max-width: 480px) {
-  footer nav {
-    grid-template-columns: 1fr !important;
-    gap-y: 32px !important;
+  
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
   }
 }
 
-/* Ensure obvious visible focus for all footer links */
-.footer-link:focus-visible {
-  outline: 2px solid #7B61FF;
-  outline-offset: 2px;
+@media (max-width: 480px) {
+  footer nav {
+    grid-template-columns: 1fr !important;
+    row-gap: 32px !important;
+  }
 }
-
-/* -------- END FOOTER SECTION ---------- */

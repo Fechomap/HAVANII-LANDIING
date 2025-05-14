@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Importar estilos globales de Havani (basados en Pulsar template) */
+/* Importar estilos globales de Havani */
 @import './styles/globals.css';
 
 @layer base {
   :root {
-    /* Paleta global de Havani (Pulsar template) */
+    /* Paleta global de Havani */
     --bg-body: #000000; /* Color de fondo principal */
     --bg-panel: #15161B; /* Color de fondo de paneles */
     --bg-highlight: #1F2026; /* Color de fondo para elementos destacados */
@@ -23,36 +23,28 @@
     --success: #4ADE80; /* Éxito (verde) */
     
     /* Variables shadcn (mantenemos para compatibilidad) */
-    --background: 0 0% 0%; /* Ajustado a negro para Havani */
-    --foreground: 0 0% 100%; /* Ajustado a blanco para Havani */
-
+    --background: 0 0% 0%; /* Negro para Havani */
+    --foreground: 0 0% 100%; /* Blanco para Havani */
     --card: 220 7% 9%; /* Aproximadamente --bg-panel */
     --card-foreground: 0 0% 100%;
-
     --popover: 220 7% 9%;
     --popover-foreground: 0 0% 100%;
-
     --primary: 255 100% 69%; /* Similar a --accent */
     --primary-foreground: 0 0% 100%;
-
     --secondary: 225 6% 13%;
     --secondary-foreground: 0 0% 100%;
-
     --muted: 225 6% 13%;
     --muted-foreground: 0 0% 73%;
-
     --accent: 255 100% 69%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84.2% 60.2%; /* Similar a --priority-high */
     --destructive-foreground: 0 0% 100%;
-
     --border: 225 6% 13%;
     --input: 225 6% 13%;
     --ring: 255 100% 69%;
-
     --radius: 0.5rem;
 
+    /* Variables de sidebar */
     --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 255 100% 69%;
@@ -63,33 +55,24 @@
     --sidebar-ring: 255 100% 69%;
   }
 
-  /* No necesitamos el tema oscuro ya que Havani siempre usa tema oscuro */
-  /* Pero lo mantenemos por compatibilidad con componentes shadcn */
+  /* Tema oscuro para compatibilidad con shadcn */
   .dark {
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
-
     --card: 220 7% 9%;
     --card-foreground: 0 0% 100%;
-
     --popover: 220 7% 9%;
     --popover-foreground: 0 0% 100%;
-
     --primary: 255 100% 69%;
     --primary-foreground: 0 0% 0%;
-
     --secondary: 225 6% 13%;
     --secondary-foreground: 0 0% 100%;
-
     --muted: 225 6% 13%;
     --muted-foreground: 0 0% 73%;
-
     --accent: 255 100% 69%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-
     --border: 225 6% 13%;
     --input: 225 6% 13%;
     --ring: 255 100% 69%;
@@ -108,34 +91,5 @@
 @layer base {
   * {
     @apply border-border;
-  }
-
-  /* body {
-    @apply bg-background text-foreground;
-  } */
-}
-
-/* --- Testimonios bullets Swiper --- */
-.havani-swiper-bullet {
-  background: #2A2B30;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin: 0 7px !important;
-  opacity: 1 !important;
-  transition: background 0.2s, transform 0.2s;
-}
-.havani-swiper-bullet-active {
-  background: #7B61FF !important;
-  transform: scale(1.2);
-}
-.swiper:hover .swiper-button-prev,
-.swiper:hover .swiper-button-next {
-  opacity: 1;
-}
-@media (max-width: 768px) {
-  .swiper-button-prev,
-  .swiper-button-next {
-    display: none !important;
   }
 }
