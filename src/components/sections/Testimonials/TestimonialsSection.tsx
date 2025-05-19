@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { testimonials } from "./testimonialsData";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 
 // SVG Q mark
 const QuoteMark = ({ className = "" }: { className?: string }) => (
@@ -24,73 +24,63 @@ const createRowTestimonials = (testimonials) => {
   ];
 };
 
+// Componente de fila con efecto de pausa suave
+const TestimonialRow = ({ items, direction = "left", speed = 340 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  // Valores fijos y seguros para todas las filas, con rangos que se mantienen siempre visibles
+  const startX = direction === "left" ? "0%" : "-65%";
+  const endX = direction === "left" ? "-65%" : "0%";
+  
+  // Configuración de la animación basada en hover
+  const transition = {
+    x: {
+      duration: isHovered ? 220 : speed, // Más lento cuando está en hover, muy gradual
+      ease: isHovered ? "easeOut" : "linear",
+      repeat: Infinity,
+      repeatType: "loop"
+    }
+  };
+
+  return (
+    <motion.div 
+      className="flex gap-5"
+      initial={{ x: startX }}
+      animate={{ x: [startX, endX] }}
+      transition={transition}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      style={{ width: `${items.length * 460}px` }}
+    >
+      {items.map((item, index) => (
+        <div 
+          key={index} 
+          className="flex-shrink-0 w-[450px]"
+        >
+          <blockquote
+            className="h-55 bg-[#15161B] rounded-xl px-5 py-5 shadow-md border border-white/10 relative group hover:border-[#7B61FF]/20 transition-all duration-500 text-left"
+            role="group"
+            aria-roledescription="testimonial"
+          >
+            <span className="absolute -top-3 -left-2 w-8 h-8 text-[#7B61FF]/15 rotate-180 select-none pointer-events-none">
+              <QuoteMark className="w-full h-full" />
+            </span>
+            <p className="text-sm md:text-base leading-relaxed text-white mt-1">
+              &ldquo;{item.quote}&rdquo;
+            </p>
+            <footer className="mt-3 text-[#7B61FF] font-medium text-sm">
+              — {item.name}
+            </footer>
+          </blockquote>
+        </div>
+      ))}
+    </motion.div>
+  );
+};
+
 const TestimonialsSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  
-  // Controles de animación para cada fila
-  const row1Controls = useAnimation();
-  const row2Controls = useAnimation();
-  const row3Controls = useAnimation();
-  
-  // Crear las filas de testimonios
   const rows = createRowTestimonials(testimonials);
-
-  // Iniciar animaciones al cargar el componente
-  useEffect(() => {
-    // Solo pausar si el usuario interactúa
-    if (isPaused) {
-      row1Controls.stop();
-      row2Controls.stop();
-      row3Controls.stop();
-      return;
-    }
-
-    // Animación fila 1 (izquierda a derecha) - MUY LENTA
-    const animateRow1 = async () => {
-      await row1Controls.start({
-        x: ["-110%", "0%"],
-        transition: { 
-          duration: 240, // Velocidad ajustada a 120 segundos
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop" 
-        }
-      });
-    };
-
-    // Animación fila 2 (derecha a izquierda) - MUY LENTA
-    const animateRow2 = async () => {
-      await row2Controls.start({
-        x: ["0%", "-110%"],
-        transition: { 
-          duration: 240, // Velocidad ajustada a 120 segundos
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop" 
-        }
-      });
-    };
-
-    // Animación fila 3 (izquierda a derecha) - MUY LENTA
-    const animateRow3 = async () => {
-      await row3Controls.start({
-        x: ["-110%", "0%"],
-        transition: { 
-          duration: 240, // Velocidad ajustada a 120 segundos
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop" 
-        }
-      });
-    };
-
-    // Iniciar todas las animaciones
-    animateRow1();
-    animateRow2();
-    animateRow3();
-  }, [isPaused, row1Controls, row2Controls, row3Controls]); // Eliminamos isVisible de las dependencias
 
   return (
     <section
@@ -139,109 +129,31 @@ const TestimonialsSection = () => {
         
         {/* Contenedor del carrusel con filas que se cruzan */}
         <div className="mt-12 relative overflow-hidden">
-          {/* Primera fila - Movimiento hacia la derecha */}
+          {/* Primera fila - Movimiento hacia la izquierda */}
           <div className="mb-6 overflow-hidden">
-            <motion.div 
-              className="flex gap-5"
-              animate={row1Controls}
-              initial={{ x: "-110%" }}
-              style={{ width: `${rows[0].length * 460}px` }} // Ancho calculado para tarjetas más anchas
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-            >
-              {rows[0].map((item, index) => (
-                <div 
-                  key={`row1-${index}`} 
-                  className="flex-shrink-0 w-[450px]"
-                >
-                  <blockquote
-                    className="h-full bg-[#15161B] rounded-xl px-5 py-5 shadow-md border border-white/10 relative group hover:border-[#7B61FF]/20 transition-all duration-500 text-left"
-                    role="group"
-                    aria-roledescription="testimonial"
-                  >
-                    <span className="absolute -top-3 -left-2 w-8 h-8 text-[#7B61FF]/15 rotate-180 select-none pointer-events-none">
-                      <QuoteMark className="w-full h-full" />
-                    </span>
-                    <p className="text-sm md:text-base leading-relaxed text-white mt-1">
-                      &ldquo;{item.quote.length > 100 ? `${item.quote.substring(0, 100)}...` : item.quote}&rdquo;
-                    </p>
-                    <footer className="mt-3 text-[#7B61FF] font-medium text-sm">
-                      — {item.name}
-                    </footer>
-                  </blockquote>
-                </div>
-              ))}
-            </motion.div>
+            <TestimonialRow 
+              items={rows[0]} 
+              direction="left" 
+              speed={240}
+            />
           </div>
           
-          {/* Segunda fila - Movimiento hacia la izquierda */}
-          <div className="mb-6 overflow-hidden">
-            <motion.div 
-              className="flex gap-5"
-              animate={row2Controls}
-              initial={{ x: "0%" }}
-              style={{ width: `${rows[1].length * 460}px` }}
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-            >
-              {rows[1].map((item, index) => (
-                <div 
-                  key={`row2-${index}`} 
-                  className="flex-shrink-0 w-[450px]"
-                >
-                  <blockquote
-                    className="h-full bg-[#15161B] rounded-xl px-5 py-5 shadow-md border border-white/10 relative group hover:border-[#7B61FF]/20 transition-all duration-500 text-left"
-                    role="group"
-                    aria-roledescription="testimonial"
-                  >
-                    <span className="absolute -top-3 -left-2 w-8 h-8 text-[#7B61FF]/15 rotate-180 select-none pointer-events-none">
-                      <QuoteMark className="w-full h-full" />
-                    </span>
-                    <p className="text-sm md:text-base leading-relaxed text-white mt-1">
-                      &ldquo;{item.quote.length > 100 ? `${item.quote.substring(0, 100)}...` : item.quote}&rdquo;
-                    </p>
-                    <footer className="mt-3 text-[#7B61FF] font-medium text-sm">
-                      — {item.name}
-                    </footer>
-                  </blockquote>
-                </div>
-              ))}
-            </motion.div>
+          {/* Segunda fila - Movimiento hacia la derecha */}
+          <div className="relative mb-6 overflow-hidden z-10">
+            <TestimonialRow 
+              items={rows[1]} 
+              direction="right" 
+              speed={320}  // Ligeramente más rápido que las otras filas para evitar sincronización
+            />
           </div>
           
-          {/* Tercera fila - Movimiento hacia la derecha (como la primera) */}
+          {/* Tercera fila - Movimiento hacia la izquierda */}
           <div className="overflow-hidden">
-            <motion.div 
-              className="flex gap-5"
-              animate={row3Controls}
-              initial={{ x: "-110%" }}
-              style={{ width: `${rows[2].length * 460}px` }}
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-            >
-              {rows[2].map((item, index) => (
-                <div 
-                  key={`row3-${index}`} 
-                  className="flex-shrink-0 w-[450px]"
-                >
-                  <blockquote
-                    className="h-full bg-[#15161B] rounded-xl px-5 py-5 shadow-md border border-white/10 relative group hover:border-[#7B61FF]/20 transition-all duration-500 text-left"
-                    role="group"
-                    aria-roledescription="testimonial"
-                  >
-                    <span className="absolute -top-3 -left-2 w-8 h-8 text-[#7B61FF]/15 rotate-180 select-none pointer-events-none">
-                      <QuoteMark className="w-full h-full" />
-                    </span>
-                    <p className="text-sm md:text-base leading-relaxed text-white mt-1">
-                      &ldquo;{item.quote.length > 100 ? `${item.quote.substring(0, 100)}...` : item.quote}&rdquo;
-                    </p>
-                    <footer className="mt-3 text-[#7B61FF] font-medium text-sm">
-                      — {item.name}
-                    </footer>
-                  </blockquote>
-                </div>
-              ))}
-            </motion.div>
+            <TestimonialRow 
+              items={rows[2]} 
+              direction="left" 
+              speed={260}  // Ligeramente más lento que las otras filas
+            />
           </div>
         </div>
       </div>
