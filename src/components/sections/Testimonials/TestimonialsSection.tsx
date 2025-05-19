@@ -37,26 +37,10 @@ const TestimonialsSection = () => {
   // Crear las filas de testimonios
   const rows = createRowTestimonials(testimonials);
 
-  // Detectar visibilidad de la sección
+  // Iniciar animaciones al cargar el componente
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.15 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Controlar animaciones continuas
-  useEffect(() => {
-    if (!isVisible || isPaused) {
+    // Solo pausar si el usuario interactúa
+    if (isPaused) {
       row1Controls.stop();
       row2Controls.stop();
       row3Controls.stop();
@@ -106,7 +90,7 @@ const TestimonialsSection = () => {
     animateRow1();
     animateRow2();
     animateRow3();
-  }, [isVisible, isPaused, row1Controls, row2Controls, row3Controls]);
+  }, [isPaused, row1Controls, row2Controls, row3Controls]); // Eliminamos isVisible de las dependencias
 
   return (
     <section
