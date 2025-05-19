@@ -69,13 +69,14 @@ const Header = ({ hasScrolled }: HeaderProps) => {
       )}
       role="banner"
     >
-      <div className="max-w-[1280px] mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="text-white flex items-center">
-          {/* Placeholder de logo, reemplazar con SVG real */}
-          <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-white font-bold">
-            H
-          </div>
+          <img 
+            src="/images/logo-havani.svg" 
+            alt="Havani Logo" 
+            className="h-10 w-auto brightness-110 contrast-125"
+          />
         </Link>
         
         {/* Navegación central - Links */}
