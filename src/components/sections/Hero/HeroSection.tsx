@@ -1,4 +1,3 @@
-
 /**
  * @component HeroSection - Sección principal (Hero) de la landing page de Havani
  * Esta sección implementa el diseño del Hero de Pulsar adaptado a Havani.
@@ -120,17 +119,11 @@ const HeroSection = () => {
     }
   };
   
-  const buttonVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.55,
-        ease: [0.25, 0.8, 0.25, 1],
-        delay: 0.4 + (i * 0.05)
-      }
-    })
+  // SOLUCIÓN DEFINITIVA: Configurar ambos botones para que aparezcan como parte del contenido inicial
+  // sin animaciones especiales de entrada para evitar cualquier parpadeo
+  const buttonContainerVariants = {
+    hidden: { opacity: 1 }, // Comienza visible
+    visible: { opacity: 1 } // Permanece visible
   };
   
   const mockupVariants = {
@@ -211,27 +204,22 @@ const HeroSection = () => {
             Desarrollo a medida con un enfoque práctico y transparente. Entregamos innovación, velocidad y profesionalismo en cada línea de código.
           </motion.p>
           
-          {/* Botones */}
-          <motion.div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-10">
-            {/* Botón primario - Updated with neon glow and fill animation */}
-            <motion.button
+          {/* Contenedor con altura mínima para evitar saltos 
+              NOTA: Eliminada la animación de aparición para los botones */}
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-10 min-h-[60px]">
+            {/* Botón primario - Se eliminó la variante de animación initial para que aparezca directamente */}
+            <button
               className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] hover:outline-[#7B61FF] hover:outline-2 hover:outline-offset-4 relative overflow-hidden group"
-              variants={buttonVariants}
-              custom={0}
-              whileHover={{ scale: 1.06 }}
-              whileTap={{ scale: 0.95 }}
               data-tooltip="Inicia tu proyecto"
             >
               {/* Fill animation on hover */}
               <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
               <span className="relative z-10">Hablemos de tu Idea</span>
-            </motion.button>
+            </button>
             
-            {/* Botón secundario */}
-            <motion.button
+            {/* Botón secundario - También sin animación inicial */}
+            <button
               className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors flex items-center justify-center gap-2 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#7B61FF]"
-              variants={buttonVariants}
-              custom={1}
             >
               <motion.span
                 animate={{ 
@@ -247,8 +235,8 @@ const HeroSection = () => {
                 <Play className="w-5 h-5" />
               </motion.span>
               Watch Video
-            </motion.button>
-          </motion.div>
+            </button>
+          </div>
         </motion.div>
         
         {/* Columna derecha - Mockup */}
