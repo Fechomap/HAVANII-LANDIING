@@ -1,11 +1,10 @@
-
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 const rows = [
   [
     "Proceso / Metodología",
     "Rígido, lento (cascada), burocrático, fases interminables.",
-    "Ágil, rápido, simple (“Sin Tanto Rollo”), enfocado en valor constante."
+    'Ágil, rápido, simple ("Sin Tanto Rollo"), enfocado en valor constante.'
   ],
   [
     "Comunicación",
@@ -34,14 +33,14 @@ const rows = [
   ],
   [
     "Resultado Final",
-    "A menudo costoso, tardado y no 100 % alineado a la necesidad real.",
+    "A menudo costoso, tardado y no 100 % alineado a la necesidad real.",
     "Solución efectiva, a tiempo, dentro del presupuesto y que realmente funciona para ti."
   ],
 ];
 
 const ComparisonSection = () => {
   return (
-    <section aria-labelledby="cmp-title" className="relative bg-[#0D0D11] pt-0 pb-0 overflow-hidden">
+    <section aria-labelledby="cmp-title" className="relative bg-[#0D0D11] pt-0 pb-0">
       {/* Top divider wave */}
       <svg
         className="absolute top-0 left-0 w-full h-[110px] z-10 text-white/4"
@@ -61,50 +60,54 @@ const ComparisonSection = () => {
         <p className="mt-6 text-center mx-auto max-w-[720px] text-[#BBBBBB] text-lg md:text-xl">
           No todo el desarrollo de software es igual; compara nuestro enfoque con el que suele complicar proyectos.
         </p>
-        <div
-          className="mt-20 overflow-x-auto scrollbar-thin scrollbar-thumb-[#2A2B30] scrollbar-track-transparent rounded-lg focus:outline focus:outline-2 focus:outline-accent"
-          role="region"
-          aria-labelledby="cmp-title"
-          tabIndex={0}
-        >
-          <table className="w-full text-left border-separate border-spacing-y-2 min-w-[760px]">
-            <thead>
-              <tr className="text-xs md:text-base font-semibold tracking-wide uppercase text-[#BBBBBB] sticky top-0 z-30 backdrop-blur-[4px]">
-                <th className="w-[28%] px-6 py-3 bg-[#0D0D11]">Característica</th>
-                <th className="w-[36%] px-6 py-3 text-[#FF5F5F] bg-[#0D0D11] flex items-center gap-1">
-                  Desarrollo Tradicional <span aria-hidden="true">😟</span>
-                </th>
-                <th className="w-[36%] px-6 py-3 text-[#7B61FF] bg-[#0D0D11] flex items-center gap-1">
-                  Havani <span aria-hidden="true">✨</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody id="cmp-body">
-              {rows.map(([feat, trad, havani], i) => (
-                <motion.tr
-                  key={feat}
-                  className={`cmp-row transition-all duration-200 focus-within:ring-2 focus-within:ring-accent ${
-                    i % 2 === 1 ? "bg-[#15161B]" : ""}`}
-                  initial={{ opacity: 0, y: 26 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.55, delay: 0.12 * i, ease: [0.22, 1, 0.36, 1] }}
-                  viewport={{ once: true, amount: 0.5 }}
-                >
-                  <th scope="row" className="px-6 py-5 font-medium text-white">
-                    {feat}
-                  </th>
-                  <td className="px-6 py-5 text-[#CCCCCC]">{trad}</td>
-                  <td className="px-6 py-5 bg-[#232530]/40 text-white">{havani}</td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
-          {/* Mobile scroll hint */}
-          <span aria-hidden="true"
-            className="absolute right-4 bottom-4 text-[#BBBBBB]/60 text-xs font-medium animate-fade-in-out select-none pointer-events-none hidden sm:block"
-          >
-            Desliza →
-          </span>
+        
+        <div className="mt-20 relative rounded-xl border border-[#7B61FF] shadow-[0_0_15px_0_rgba(123,97,255,0.6)]">
+          <div className="relative rounded-xl overflow-hidden bg-[#0D0D11] border border-transparent">
+            <div
+              className="overflow-x-auto scrollbar-thin scrollbar-thumb-[#2A2B30] scrollbar-track-transparent rounded-lg focus:outline focus:outline-2 focus:outline-accent"
+              role="region"
+              aria-labelledby="cmp-title"
+              tabIndex={0}
+            >
+              <table className="w-full text-left border-separate border-spacing-y-0 min-w-[760px]">
+                <thead>
+                  <tr className="text-xs md:text-base font-semibold tracking-wide uppercase text-[#BBBBBB]">
+                    <th className="w-[28%] px-6 py-3 bg-black">Característica</th>
+                    <th className="w-[36%] px-6 py-3 bg-black text-[#FF5F5F]">
+                      <div className="flex items-center gap-1">
+                        Desarrollo Tradicional <span aria-hidden="true">😟</span>
+                      </div>
+                    </th>
+                    <th className="w-[36%] px-6 py-3 bg-black text-[#7B61FF]">
+                      <div className="flex items-center gap-1">
+                        Havani <span aria-hidden="true">✨</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="cmp-body">
+                  {rows.map(([feat, trad, havani], i) => (
+                    <tr
+                      key={feat}
+                      className={i % 2 === 0 ? "bg-[#111115]" : "bg-black"}
+                    >
+                      <th scope="row" className="px-6 py-5 font-medium text-white">
+                        {feat}
+                      </th>
+                      <td className="px-6 py-5 text-[#CCCCCC]">{trad}</td>
+                      <td className="px-6 py-5 text-white">{havani}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              
+              <span aria-hidden="true"
+                className="absolute right-4 bottom-4 text-[#BBBBBB]/60 text-xs font-medium select-none pointer-events-none hidden sm:block"
+              >
+                Desliza →
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
