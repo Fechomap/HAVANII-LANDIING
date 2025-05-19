@@ -148,7 +148,7 @@ const TestimonialsSection = () => {
             <TestimonialRow 
               items={rows[0]} 
               direction="left" 
-              speed={240}
+              speed={480}  // Aumentado de 240 a 480 para hacerlo más lento
             />
           </div>
           
@@ -157,7 +157,7 @@ const TestimonialsSection = () => {
             <TestimonialRow 
               items={rows[1]} 
               direction="right" 
-              speed={320}  // Ligeramente más rápido que las otras filas para evitar sincronización
+              speed={540}  // Aumentado de 320 a 540 para hacerlo más lento
             />
           </div>
           
@@ -166,7 +166,7 @@ const TestimonialsSection = () => {
             <TestimonialRow 
               items={rows[2]} 
               direction="left" 
-              speed={260}  // Ligeramente más lento que las otras filas
+              speed={500}  // Aumentado de 260 a 500 para hacerlo más lento
             />
           </div>
         </div>
