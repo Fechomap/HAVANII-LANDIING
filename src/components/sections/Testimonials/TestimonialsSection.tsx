@@ -129,6 +129,20 @@ const TestimonialsSection = () => {
         
         {/* Contenedor del carrusel con filas que se cruzan */}
         <div className="mt-12 relative overflow-hidden">
+          {/* Máscaras de desvanecimiento en los bordes */}
+          <div className="absolute left-0 top-0 h-full w-[150px] z-30 pointer-events-none" 
+               style={{ 
+                 background: 'linear-gradient(to right, #0B0B0F 0%, rgba(11, 11, 15, 0.9) 30%, rgba(11, 11, 15, 0.6) 60%, rgba(11, 11, 15, 0) 100%)' 
+               }} 
+               aria-hidden="true" 
+          />
+          <div className="absolute right-0 top-0 h-full w-[150px] z-30 pointer-events-none" 
+               style={{ 
+                 background: 'linear-gradient(to left, #0B0B0F 0%, rgba(11, 11, 15, 0.9) 30%, rgba(11, 11, 15, 0.6) 60%, rgba(11, 11, 15, 0) 100%)' 
+               }} 
+               aria-hidden="true" 
+          />
+          
           {/* Primera fila - Movimiento hacia la izquierda */}
           <div className="mb-6 overflow-hidden">
             <TestimonialRow 
