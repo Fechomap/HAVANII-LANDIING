@@ -17,13 +17,17 @@
     <meta name="twitter:image" content="https://via.placeholder.com/1200x630.png?text=Vista+Previo+Havani" />
     
     <!-- Devicon CSS for technology icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" media="print" onload="this.media='all'">
+    <!-- Preconnect para CDNs -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   </head>
 
   <body>
     <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <!-- Script principal -->
     <script type="module" src="/src/main.tsx"></script>
+    <!-- Script no crítico cargado de forma asíncrona -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module" async defer></script>
   </body>
 </html>
