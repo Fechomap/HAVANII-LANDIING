@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { testimonials } from "./testimonialsData";
+import gsap from "gsap";
 import { motion } from "framer-motion";
 
 // SVG Q mark
@@ -24,33 +25,98 @@ const createRowTestimonials = (testimonials) => {
   ];
 };
 
-// Componente de fila con efecto de pausa suave
+// Componente de fila con efecto de pausa suave usando GSAP
 const TestimonialRow = ({ items, direction = "left", speed = 340 }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const containerRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const animationRef = useRef(null);
   
-  // Valores fijos y seguros para todas las filas, con rangos que se mantienen siempre visibles
-  const startX = direction === "left" ? "0%" : "-65%";
-  const endX = direction === "left" ? "-65%" : "0%";
+  // Calcular el ancho total y la distancia de desplazamiento
+  const containerWidth = items.length * 460;
+  const distance = containerWidth * 0.65;
   
-  // Configuración de la animación basada en hover
-  const transition = {
-    x: {
-      duration: isHovered ? 220 : speed, // Más lento cuando está en hover, muy gradual
-      ease: isHovered ? "easeOut" : "linear",
-      repeat: Infinity,
-      repeatType: "loop"
+  useEffect(() => {
+    // Limpiar cualquier animación anterior
+    if (animationRef.current) {
+      animationRef.current.kill();
     }
-  };
+    
+    // Configuración de la animación
+    const duration = speed / 2; // Convertir duración a segundos para GSAP y hacerlo más lento
+    
+    // Obtener el elemento DOM
+    const element = containerRef.current;
+    if (!element) return;
+    
+    // Configurar la posición inicial
+    gsap.set(element, {
+      x: direction === "left" ? 0 : -distance,
+      force3D: true, // Forzar aceleración 3D
+      overwrite: true
+    });
+    
+    // Crear animación continua
+    const timeline = gsap.timeline({
+      repeat: -1,
+      yoyo: true, // Efecto de ida y vuelta para evitar saltos
+      ease: "none", // Equivalente a "linear" pero más preciso en GSAP
+      paused: isPaused
+    });
+    
+    // Añadir la animación de movimiento
+    timeline.to(element, {
+      x: direction === "left" ? -distance : 0,
+      duration,
+      ease: "none",
+      force3D: true
+    });
+    
+    // Guardar referencia de la animación para poder pausarla/reanudarla
+    animationRef.current = timeline;
+    timeline.play();
+    
+    // Limpiar al desmontar
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.kill();
+      }
+    };
+  }, [direction, distance, speed]);
+  
+  // Efecto para manejar pausa/play al hacer hover
+  useEffect(() => {
+    if (!animationRef.current) return;
+    
+    if (isPaused) {
+      // Reducir velocidad en lugar de pausar completamente
+      gsap.to(animationRef.current, {
+        timeScale: 0.3,
+        duration: 0.5
+      });
+    } else {
+      // Volver a velocidad normal
+      gsap.to(animationRef.current, {
+        timeScale: 1,
+        duration: 0.5
+      });
+    }
+  }, [isPaused]);
 
   return (
-    <motion.div 
+    <div 
+      ref={containerRef}
       className="flex gap-5"
-      initial={{ x: startX }}
-      animate={{ x: [startX, endX] }}
-      transition={transition}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      style={{ width: `${items.length * 460}px` }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      style={{ 
+        width: `${containerWidth}px`,
+        // Aplicar optimizaciones de rendimiento
+        willChange: "transform",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+        transformStyle: "preserve-3d",
+        WebkitTransformStyle: "preserve-3d"
+      }}
     >
       {items.map((item, index) => (
         <div 
@@ -74,7 +140,7 @@ const TestimonialRow = ({ items, direction = "left", speed = 340 }) => {
           </blockquote>
         </div>
       ))}
-    </motion.div>
+    </div>
   );
 };
 
@@ -148,7 +214,7 @@ const TestimonialsSection = () => {
             <TestimonialRow 
               items={rows[0]} 
               direction="left" 
-              speed={480}  // Aumentado de 240 a 480 para hacerlo más lento
+              speed={900}  // Aumentado a 900 para hacerlo mucho más lento
             />
           </div>
           
@@ -157,7 +223,7 @@ const TestimonialsSection = () => {
             <TestimonialRow 
               items={rows[1]} 
               direction="right" 
-              speed={540}  // Aumentado de 320 a 540 para hacerlo más lento
+              speed={1100}  // Aumentado a 1100 para hacerlo mucho más lento
             />
           </div>
           
@@ -166,7 +232,7 @@ const TestimonialsSection = () => {
             <TestimonialRow 
               items={rows[2]} 
               direction="left" 
-              speed={500}  // Aumentado de 260 a 500 para hacerlo más lento
+              speed={1000}  // Aumentado a 1000 para hacerlo mucho más lento
             />
           </div>
         </div>
