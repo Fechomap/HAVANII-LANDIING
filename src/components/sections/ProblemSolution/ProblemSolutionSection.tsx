@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useIntersection } from '@/hooks/useIntersection';
@@ -121,7 +120,7 @@ const ProblemSolutionSection = () => {
             Navegar el Desarrollo Puede Ser un Laberinto... Hasta Ahora.
           </motion.h2>
           
-          {/* Problem block */}
+                      {/* Problem block */}
           <motion.div 
             className="relative pl-6 border-l-2 lg:border-l-[#FF5F5F]/70 border-l-[#FF5F5F] mt-10 group"
             initial="hidden"
@@ -129,15 +128,20 @@ const ProblemSolutionSection = () => {
             viewport={{ once: true, amount: 0.5 }}
             variants={problemVariants}
           >
-            <span className="sr-only lg:not-sr-only lg:absolute lg:-left-[74px] lg:top-0 text-xs tracking-wider uppercase text-[#FF5F5F]">
-              El problema
-            </span>
+            {/* Usando texto alineado a la derecha en un contenedor de ancho fijo */}
+            <div className="sr-only lg:not-sr-only lg:absolute lg:-left-[150px] lg:top-0 lg:w-[130px] lg:text-right">
+              <span className="text-xs tracking-wider uppercase text-[#FF5F5F]">
+                El problema
+              </span>
+            </div>
             <p className="text-[#FF5F5F]/90 lg:text-[#FF5F5F]/90 italic leading-relaxed">
               <span className="lg:hidden font-bold text-[#FF5F5F]">Problema: </span>
               Los equipos técnicos tradicionales complican todo: plazos eternos, comunicación confusa, y costos impredecibles. 
               Tu empresa queda atrapada entre tecnología incomprensible y promesas que nunca llegan a materializarse.
             </p>
             <div className="absolute left-[-2px] top-0 h-full w-[2px] bg-[#FF5F5F]/70 shadow-[0_0_8px_0_#FF5F5F] animate-pulse lg:animate-[pulse_0.8s_ease-in-out_1]" />
+            {/* Línea de hover para EL PROBLEMA - similar a la de NUESTRA SOLUCIÓN */}
+            <div className="absolute left-0 bottom-0 h-[2px] w-0 bg-gradient-to-r from-[#FF5F5F]/70 to-[#FF5F5F]/40 group-hover:w-full group-focus:w-full transition-all duration-250 ease-out" />
           </motion.div>
           
           {/* Solution block */}
@@ -149,9 +153,12 @@ const ProblemSolutionSection = () => {
             variants={solutionVariants}
             tabIndex={0}
           >
-            <span className="sr-only lg:not-sr-only lg:absolute lg:-left-[104px] lg:top-0 text-xs tracking-wider uppercase text-[#7B61FF]/80">
-              Nuestra solución
-            </span>
+            {/* Usando texto alineado a la derecha en un contenedor del mismo ancho fijo */}
+            <div className="sr-only lg:not-sr-only lg:absolute lg:-left-[150px] lg:top-0 lg:w-[130px] lg:text-right">
+              <span className="text-xs tracking-wider uppercase text-[#7B61FF]/80">
+                Nuestra solución
+              </span>
+            </div>
             <p className="text-[#BBBBBB] leading-relaxed">
               <span className="lg:hidden font-bold text-[#7B61FF]">Solución: </span>
               Havani traduce la complejidad técnica en soluciones claras y efectivas. 
