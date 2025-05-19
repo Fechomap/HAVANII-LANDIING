@@ -22,8 +22,8 @@ const ProblemSolutionSection = () => {
   // Ref for the image container to enable 3D tilt effect
   const imageRef = useRef<HTMLDivElement>(null);
   
-  // Create a parallax effect for the image when scrolling
-  const parallaxRef = useParallax({ speed: 0.25, direction: 'vertical' });
+  // No parallax effect to prevent unwanted movement
+  const parallaxRef = useRef<HTMLDivElement>(null);
 
   // Animation variants for text elements
   const titleVariants = {
@@ -54,16 +54,18 @@ const ProblemSolutionSection = () => {
   };
   
   const imageVariants = {
-    hidden: { opacity: 0, scale: 0.9, x: 44 },
+    hidden: { opacity: 0, x: 20 },
     visible: { 
       opacity: 1, 
-      scale: 1, 
       x: 0, 
-      transition: { duration: 0.8, delay: 0.4, ease: [0.33, 1.5, 0.5, 1] }
+      transition: { 
+        opacity: { duration: 0.5, ease: 'linear' },
+        x: { duration: 0.5, ease: 'linear' }
+      }
     }
   };
 
-  // Handle mouse move for tilt effect
+  // Handle mouse move for tilt effect - with reduced tilt amount and no reset on mouse leave
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!imageRef.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     
@@ -73,15 +75,10 @@ const ProblemSolutionSection = () => {
     const x = (clientX - left) / width - 0.5;
     const y = (clientY - top) / height - 0.5;
     
-    // Apply tilt effect
-    imageRef.current.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
-  };
-  
-  const handleMouseLeave = () => {
-    if (!imageRef.current) return;
-    
-    // Reset transform on mouse leave
-    imageRef.current.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
+    // Apply tilt effect with reduced intensity (3deg instead of 6deg)
+    // Adding a subtle transition to smooth movement
+    imageRef.current.style.transition = 'transform 0.1s linear';
+    imageRef.current.style.transform = `perspective(1000px) rotateY(${x * 3}deg) rotateX(${-y * 3}deg)`;
   };
 
   return (
@@ -172,17 +169,16 @@ const ProblemSolutionSection = () => {
         {/* Right column - Illustration */}
         <motion.figure 
           ref={parallaxRef}
-          className="relative order-last lg:order-none"
+          className="relative order-last lg:order-none transform-gpu"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.4 }}
           variants={imageVariants}
         >
           <div 
             ref={imageRef}
-            className="relative rounded-3xl border border-white/6 shadow-[inset_0_0_20px_rgba(0,0,0,.25)] overflow-hidden transition-transform duration-300 ease-out will-change-transform"
+            className="relative rounded-3xl border border-white/6 shadow-[inset_0_0_20px_rgba(0,0,0,.25)] overflow-hidden will-change-transform backface-visibility-hidden"
             onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
           >
             <div className="aspect-w-4 aspect-h-3">
               <img 
