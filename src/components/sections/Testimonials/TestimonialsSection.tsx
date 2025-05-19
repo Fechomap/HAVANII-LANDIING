@@ -1,47 +1,116 @@
-
 import { useEffect, useRef, useState } from "react";
-import { Pagination, Navigation, Autoplay, A11y } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { testimonials } from "./testimonialsData";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
-// SVG Q mark.
+// SVG Q mark
 const QuoteMark = ({ className = "" }: { className?: string }) => (
-  <svg className={className} width="64" height="64" viewBox="0 0 60 60" fill="none" aria-hidden="true">
+  <svg className={className} width="40" height="40" viewBox="0 0 60 60" fill="none" aria-hidden="true">
     <path d="M44 12C50 13.0001 54 17.0001 54 25.0001C54 32.0001 50.0001 38.0001 43.0001 41.0001V32.0001C46.0001 31.0001 48.0001 29.0001 48.0001 26.0001C48 23.0001 46.0001 21.0001 43.0001 20.0001C43.0001 14.0001 44 12 44 12Z" fill="currentColor" fillOpacity="0.15"/>
     <path d="M16 12C22 13.0001 26 17.0001 26 25.0001C26 32.0001 22.0001 38.0001 15.0001 41.0001V32.0001C18.0001 31.0001 20.0001 29.0001 20.0001 26.0001C20 23.0001 18.0001 21.0001 15.0001 20.0001C15.0001 14.0001 16 12 16 12Z" fill="currentColor" fillOpacity="0.15"/>
   </svg>
 );
 
+// Crear grupos de testimonios para las tres filas
+const createRowTestimonials = (testimonials) => {
+  const row1 = [...testimonials];
+  const row2 = [...testimonials].reverse();
+  const row3 = [...testimonials].sort(() => Math.random() - 0.5);
+  
+  // Repetir 4 veces cada conjunto para tener suficientes elementos
+  return [
+    Array(4).fill(row1).flat(),
+    Array(4).fill(row2).flat(),
+    Array(4).fill(row3).flat()
+  ];
+};
+
 const TestimonialsSection = () => {
-  // Control autoplay with intersection observer
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [autoplayActive, setAutoplayActive] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  
+  // Controles de animación para cada fila
+  const row1Controls = useAnimation();
+  const row2Controls = useAnimation();
+  const row3Controls = useAnimation();
+  
+  // Crear las filas de testimonios
+  const rows = createRowTestimonials(testimonials);
 
+  // Detectar visibilidad de la sección
   useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return; // do not enable autoplay
-
-    const observer = new window.IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting) setAutoplayActive(true);
-        else setAutoplayActive(false);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.25 }
+      { threshold: 0.15 }
     );
 
-    observer.observe(sectionRef.current);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     return () => observer.disconnect();
   }, []);
 
+  // Controlar animaciones continuas
+  useEffect(() => {
+    if (!isVisible || isPaused) {
+      row1Controls.stop();
+      row2Controls.stop();
+      row3Controls.stop();
+      return;
+    }
+
+    // Animación fila 1 (izquierda a derecha) - MUY LENTA
+    const animateRow1 = async () => {
+      await row1Controls.start({
+        x: ["-110%", "0%"],
+        transition: { 
+          duration: 240, // Velocidad ajustada a 120 segundos
+          ease: "linear",
+          repeat: Infinity,
+          repeatType: "loop" 
+        }
+      });
+    };
+
+    // Animación fila 2 (derecha a izquierda) - MUY LENTA
+    const animateRow2 = async () => {
+      await row2Controls.start({
+        x: ["0%", "-110%"],
+        transition: { 
+          duration: 240, // Velocidad ajustada a 120 segundos
+          ease: "linear",
+          repeat: Infinity,
+          repeatType: "loop" 
+        }
+      });
+    };
+
+    // Animación fila 3 (izquierda a derecha) - MUY LENTA
+    const animateRow3 = async () => {
+      await row3Controls.start({
+        x: ["-110%", "0%"],
+        transition: { 
+          duration: 240, // Velocidad ajustada a 120 segundos
+          ease: "linear",
+          repeat: Infinity,
+          repeatType: "loop" 
+        }
+      });
+    };
+
+    // Iniciar todas las animaciones
+    animateRow1();
+    animateRow2();
+    animateRow3();
+  }, [isVisible, isPaused, row1Controls, row2Controls, row3Controls]);
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="test-title"
       id="testimonials"
       className="relative bg-[#0B0B0F] overflow-hidden"
@@ -72,8 +141,7 @@ const TestimonialsSection = () => {
         />
       </svg>
       <div
-        ref={sectionRef}
-        className="relative max-w-[1000px] mx-auto px-6 md:px-12 py-[140px] md:py-[180px] text-center z-20"
+        className="relative w-full mx-auto px-1 py-[120px] md:py-[140px] text-center z-20"
       >
         <h2
           id="test-title"
@@ -81,100 +149,132 @@ const TestimonialsSection = () => {
         >
           Ellos Ya Confían en Havani: Historias Reales
         </h2>
-        <p className="mt-6 text-[#BBBBBB] text-lg md:text-xl">
-          Descubre cómo nuestro enfoque “Sin Tanto Rollo” transforma negocios como el tuyo.
+        <p className="mt-6 text-[#BBBBBB] text-lg md:text-xl max-w-2xl mx-auto">
+          Descubre cómo nuestro enfoque "Sin Tanto Rollo" transforma negocios como el tuyo.
         </p>
-        <div className="mt-20 relative">
-          <Swiper
-            modules={[Autoplay, Pagination, Navigation, A11y]}
-            slidesPerView={1}
-            loop
-            effect="fade"
-            autoplay={autoplayActive ? { delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true } : false}
-            speed={600}
-            pagination={{
-              clickable: true,
-              bulletClass: "havani-swiper-bullet",
-              bulletActiveClass: "havani-swiper-bullet-active"
-            }}
-            navigation={{
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev"
-            }}
-            a11y={{ enabled: true }}
-            aria-live="polite"
-            lazyPreloadPrevNext={1} // only one ahead
-            style={{ "--swiper-pagination-bottom": "0px" } as any}
-          >
-            {testimonials.map(({ quote, name }, i) => (
-              <SwiperSlide key={name}>
-                <motion.blockquote
-                  className="mx-auto max-w-[700px] bg-[#15161B] rounded-[28px] px-12 py-14 shadow-[0_12px_24px_-8px_rgba(0,0,0,.55)] border border-white/10 relative group focus-within:outline-[#7B61FF] focus-within:outline-2 focus-within:outline-offset-4"
-                  role="group"
-                  aria-roledescription="testimonial"
-                  tabIndex={0}
-                  initial={{ opacity: 0, scale: 0.94 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.55, ease: [0.25, 0.8, 0.25, 1] }}
+        
+        {/* Contenedor del carrusel con filas que se cruzan */}
+        <div className="mt-12 relative overflow-hidden">
+          {/* Primera fila - Movimiento hacia la derecha */}
+          <div className="mb-6 overflow-hidden">
+            <motion.div 
+              className="flex gap-5"
+              animate={row1Controls}
+              initial={{ x: "-110%" }}
+              style={{ width: `${rows[0].length * 460}px` }} // Ancho calculado para tarjetas más anchas
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {rows[0].map((item, index) => (
+                <div 
+                  key={`row1-${index}`} 
+                  className="flex-shrink-0 w-[450px]"
                 >
-                  {/* Quotation Mark */}
-                  <span className="absolute -top-6 -left-6 md:w-16 md:h-16 w-12 h-12 text-[#7B61FF]/15 rotate-180 select-none pointer-events-none transition-transform duration-500 group-hover:rotate-0">
-                    <QuoteMark className="w-full h-full" />
-                  </span>
-                  <p className="text-lg md:text-xl leading-relaxed text-white">
-                    &ldquo;{quote}&rdquo;
-                  </p>
-                  <footer className="mt-8 text-[#7B61FF] font-semibold">
-                    — {name}
-                  </footer>
-                </motion.blockquote>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          {/* Custom arrows */}
-          <button
-            className="swiper-button-prev after:content-[''] w-12 h-12 rounded-full bg-white/5 border border-white/15 text-white hover:bg-white/10 transition-colors absolute top-1/2 left-0 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 focus:opacity-100 duration-200"
-            aria-label="Testimonio anterior"
-            aria-controls="testimonials-swiper"
-            tabIndex={0}
-            type="button"
-          >
-            <svg width="28" height="28" fill="none" aria-hidden="true"><path d="M18 6 10 14l8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-          </button>
-          <button
-            className="swiper-button-next after:content-[''] w-12 h-12 rounded-full bg-white/5 border border-white/15 text-white hover:bg-white/10 transition-colors absolute top-1/2 right-0 -translate-y-1/2 z-30 opacity-0 group-hover:opacity-100 focus:opacity-100 duration-200"
-            aria-label="Siguiente testimonio"
-            aria-controls="testimonials-swiper"
-            tabIndex={0}
-            type="button"
-          >
-            <svg width="28" height="28" fill="none" aria-hidden="true"><path d="M10 6l8 8-8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-          </button>
+                  <blockquote
+                    className="h-full bg-[#15161B] rounded-xl px-5 py-5 shadow-md border border-white/10 relative group hover:border-[#7B61FF]/20 transition-all duration-500 text-left"
+                    role="group"
+                    aria-roledescription="testimonial"
+                  >
+                    <span className="absolute -top-3 -left-2 w-8 h-8 text-[#7B61FF]/15 rotate-180 select-none pointer-events-none">
+                      <QuoteMark className="w-full h-full" />
+                    </span>
+                    <p className="text-sm md:text-base leading-relaxed text-white mt-1">
+                      &ldquo;{item.quote.length > 100 ? `${item.quote.substring(0, 100)}...` : item.quote}&rdquo;
+                    </p>
+                    <footer className="mt-3 text-[#7B61FF] font-medium text-sm">
+                      — {item.name}
+                    </footer>
+                  </blockquote>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+          
+          {/* Segunda fila - Movimiento hacia la izquierda */}
+          <div className="mb-6 overflow-hidden">
+            <motion.div 
+              className="flex gap-5"
+              animate={row2Controls}
+              initial={{ x: "0%" }}
+              style={{ width: `${rows[1].length * 460}px` }}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {rows[1].map((item, index) => (
+                <div 
+                  key={`row2-${index}`} 
+                  className="flex-shrink-0 w-[450px]"
+                >
+                  <blockquote
+                    className="h-full bg-[#15161B] rounded-xl px-5 py-5 shadow-md border border-white/10 relative group hover:border-[#7B61FF]/20 transition-all duration-500 text-left"
+                    role="group"
+                    aria-roledescription="testimonial"
+                  >
+                    <span className="absolute -top-3 -left-2 w-8 h-8 text-[#7B61FF]/15 rotate-180 select-none pointer-events-none">
+                      <QuoteMark className="w-full h-full" />
+                    </span>
+                    <p className="text-sm md:text-base leading-relaxed text-white mt-1">
+                      &ldquo;{item.quote.length > 100 ? `${item.quote.substring(0, 100)}...` : item.quote}&rdquo;
+                    </p>
+                    <footer className="mt-3 text-[#7B61FF] font-medium text-sm">
+                      — {item.name}
+                    </footer>
+                  </blockquote>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+          
+          {/* Tercera fila - Movimiento hacia la derecha (como la primera) */}
+          <div className="overflow-hidden">
+            <motion.div 
+              className="flex gap-5"
+              animate={row3Controls}
+              initial={{ x: "-110%" }}
+              style={{ width: `${rows[2].length * 460}px` }}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {rows[2].map((item, index) => (
+                <div 
+                  key={`row3-${index}`} 
+                  className="flex-shrink-0 w-[450px]"
+                >
+                  <blockquote
+                    className="h-full bg-[#15161B] rounded-xl px-5 py-5 shadow-md border border-white/10 relative group hover:border-[#7B61FF]/20 transition-all duration-500 text-left"
+                    role="group"
+                    aria-roledescription="testimonial"
+                  >
+                    <span className="absolute -top-3 -left-2 w-8 h-8 text-[#7B61FF]/15 rotate-180 select-none pointer-events-none">
+                      <QuoteMark className="w-full h-full" />
+                    </span>
+                    <p className="text-sm md:text-base leading-relaxed text-white mt-1">
+                      &ldquo;{item.quote.length > 100 ? `${item.quote.substring(0, 100)}...` : item.quote}&rdquo;
+                    </p>
+                    <footer className="mt-3 text-[#7B61FF] font-medium text-sm">
+                      — {item.name}
+                    </footer>
+                  </blockquote>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
+      
       <style>{`
-        .havani-swiper-bullet {
-          background: #2A2B30;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          margin: 0 7px !important;
-          opacity: 1 !important;
-          transition: background 0.2s, transform 0.2s;
+        /* Estilos sutiles para las tarjetas */
+        blockquote {
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          transition: all 0.4s ease;
         }
-        .havani-swiper-bullet-active {
-          background: #7B61FF !important;
-          transform: scale(1.2);
+        
+        blockquote:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         }
-        .swiper:hover .swiper-button-prev,
-        .swiper:hover .swiper-button-next {
-          opacity: 1;
-        }
-        @media (max-width: 768px) {
-          .swiper-button-prev, .swiper-button-next { display: none !important; }
-        }
-      `}
-      </style>
+      `}</style>
     </section>
   );
 };

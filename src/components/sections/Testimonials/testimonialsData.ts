@@ -24,6 +24,26 @@ export const testimonials: Testimonial[] = [
   {
     quote: "¡Rápidos, confiables y geniales! Desarrollaron nuestra app de seguimiento justo como la pedimos y antes de lo esperado. Confianza total en su ejecución.",
     name: "Miguel, Director en Empresa de Paquetería"
+  },
+  {
+    quote: "La solución de automatización que implementó Havani para nuestro restaurante nos permitió reducir tiempos de espera en un 40%. La atención al cliente mejoró significativamente.",
+    name: "Ana, Gerente de Restaurante Gourmet"
+  },
+  {
+    quote: "Necesitábamos una plataforma educativa intuitiva y escalable. Havani superó nuestras expectativas con un diseño limpio y funcional que nuestros estudiantes aman.",
+    name: "Carlos, Director de Academia Digital"
+  },
+  {
+    quote: "El sistema de gestión de inventario que desarrollaron ha revolucionado nuestra cadena de suministro. Ahora tenemos control total en tiempo real de nuestro stock.",
+    name: "Elena, Gerente de Cadena de Farmacias"
+  },
+  {
+    quote: "Havani transformó nuestra presencia digital. Pasamos de ser invisibles a liderar nuestro sector en conversiones online en solo 6 meses.",
+    name: "Diego, CEO de Startup Tecnológica"
+  },
+  {
+    quote: "La aplicación móvil que crearon para nuestro gimnasio ha mejorado la experiencia de nuestros socios en un 200%. ¡Nunca habíamos tenido tantas reseñas positivas!",
+    name: "Valeria, Dueña de Cadena de Gimnasios"
   }
 ];
 
