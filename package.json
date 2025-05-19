@@ -8,7 +8,8 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean:install": "rm -rf node_modules package-lock.json && npm install --legacy-peer-deps && npm run dev"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.0",
@@ -25,7 +26,7 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.26.2",
-    "swiper": "^9.4.1",
+    "swiper": "^11.2.6",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"
   },
