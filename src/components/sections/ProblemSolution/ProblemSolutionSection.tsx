@@ -186,36 +186,11 @@ const ProblemSolutionSection = () => {
           >
             <div className="aspect-w-4 aspect-h-3">
               <img 
-                src="/placeholder.svg" 
-                alt="Representación del caos frente a la claridad proporcionada por Havani" 
+                src="/images/imageproblem.jpeg" 
+                alt="Ilustración del problema y solución" 
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              {/* Visualization of problem on left, solution on right */}
-              <div className="absolute inset-0 flex">
-                <div className="w-1/2 bg-[#51202B] flex items-center justify-center">
-                  <svg className="w-full h-full opacity-30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    {/* Chaotic spaghetti lines */}
-                    <path d="M10,90 Q30,40 50,70 T90,20" stroke="#FF5F5F" fill="none" strokeWidth="0.5" />
-                    <path d="M20,30 Q50,90 80,50 T40,10" stroke="#FF5F5F" fill="none" strokeWidth="0.5" />
-                    <path d="M30,10 Q10,50 90,50 T10,80" stroke="#FF5F5F" fill="none" strokeWidth="0.5" />
-                    <path d="M40,80 Q70,20 10,30 T90,70" stroke="#FF5F5F" fill="none" strokeWidth="0.5" />
-                    <path d="M50,50 Q30,80 70,20 T20,60" stroke="#FF5F5F" fill="none" strokeWidth="0.5" />
-                    <path d="M60,20 Q90,60 30,70 T50,10" stroke="#FF5F5F" fill="none" strokeWidth="0.5" />
-                  </svg>
-                </div>
-                <div className="w-1/2 bg-[#15161B] flex items-center justify-center">
-                  <svg className="w-full h-full opacity-60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    {/* Orderly grid */}
-                    <defs>
-                      <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                        <path d="M10,0 L0,0 L0,10" fill="none" stroke="#8EF7B5" strokeWidth="0.5" />
-                      </pattern>
-                    </defs>
-                    <rect width="100" height="100" fill="url(#grid)" />
-                  </svg>
-                </div>
-              </div>
             </div>
             {/* Glow effect */}
             <div className="absolute -bottom-10 -right-10 w-[200px] h-[200px] rounded-full bg-[#7B61FF] opacity-20 blur-[140px] will-change-transform" />
