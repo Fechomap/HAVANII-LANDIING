@@ -1,4 +1,4 @@
-import { motion, Variants } from "framer-motion";
+import React from "react";
 
 const rows = [
   [
@@ -40,7 +40,7 @@ const rows = [
 
 const ComparisonSection = () => {
   return (
-    <section aria-labelledby="cmp-title" className="relative bg-[#0D0D11] pt-0 pb-0">
+    <section aria-labelledby="cmp-title" className="relative bg-[#0D0D11] pt-0 pb-0 overflow-hidden">
       {/* Top divider wave */}
       <svg
         className="absolute top-0 left-0 w-full h-[110px] z-10 text-white/4"
@@ -61,8 +61,18 @@ const ComparisonSection = () => {
           No todo el desarrollo de software es igual; compara nuestro enfoque con el que suele complicar proyectos.
         </p>
         
-        <div className="mt-20 relative rounded-xl border border-[#7B61FF] shadow-[0_0_15px_0_rgba(123,97,255,0.6)]">
-          <div className="relative rounded-xl overflow-hidden bg-[#0D0D11] border border-transparent">
+        {/* Contenedor de la tabla con el borde neon */}
+        <div className="mt-20 relative rounded-xl">
+          {/* Simple neon glow border */}
+          <div className="absolute -inset-[2px] rounded-xl bg-[#7B61FF] opacity-70 z-10"
+               style={{ 
+                 boxShadow: "0 0 15px 5px rgba(123, 97, 255, 0.5)", 
+                 filter: "blur(1px)" 
+               }} 
+          />
+          
+          {/* Contenido de la tabla con fondo negro */}
+          <div className="relative rounded-xl overflow-hidden bg-black border border-transparent z-20">
             <div
               className="overflow-x-auto scrollbar-thin scrollbar-thumb-[#2A2B30] scrollbar-track-transparent rounded-lg focus:outline focus:outline-2 focus:outline-accent"
               role="region"
@@ -89,7 +99,7 @@ const ComparisonSection = () => {
                   {rows.map(([feat, trad, havani], i) => (
                     <tr
                       key={feat}
-                      className={i % 2 === 0 ? "bg-[#111115]" : "bg-black"}
+                      className={i % 2 === 0 ? "bg-[#0A0A0A]" : "bg-black"}
                     >
                       <th scope="row" className="px-6 py-5 font-medium text-white">
                         {feat}
@@ -101,6 +111,7 @@ const ComparisonSection = () => {
                 </tbody>
               </table>
               
+              {/* Mobile scroll hint */}
               <span aria-hidden="true"
                 className="absolute right-4 bottom-4 text-[#BBBBBB]/60 text-xs font-medium select-none pointer-events-none hidden sm:block"
               >
