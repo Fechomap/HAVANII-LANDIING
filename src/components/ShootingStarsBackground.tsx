@@ -66,11 +66,12 @@ const ShootingStarsBackground: React.FC = () => {
     
     // Ajustar velocidad según dispositivo
     let speedFactor = 1;
-    if (isLowPowerDevice) speedFactor = 0.3;
-    else if (isMobile) speedFactor = 0.4;
-    else if (isTablet) speedFactor = 0.6;
+    if (isLowPowerDevice) speedFactor = 0.08;  // Muy lento para dispositivos de bajo rendimiento
+    else if (isMobile) speedFactor = 0.1;     // Muy lento para móviles
+    else if (isTablet) speedFactor = 0.15;    // Muy lento para tablets
     
-    const speed = (Math.random() * 0.2 + 0.8) * 0.8 * 0.85 * speedFactor;
+    // Reducción drástica de la velocidad base (0.3) - aproximadamente 25% de la velocidad original
+    const speed = (Math.random() * 0.2 + 0.8) * 0.8 * 0.85 * speedFactor * 0.3;
     
     return {
       x: startX,
