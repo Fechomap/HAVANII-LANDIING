@@ -17,6 +17,7 @@ import BenefitsSection from '@/components/sections/Benefits/BenefitsSection';
 import StorySection from '@/components/sections/Story/StorySection';
 import TestimonialsSection from '@/components/sections/Testimonials/TestimonialsSection';
 import ComparisonSection from '@/components/sections/Comparison/ComparisonSection';
+import TechnologyStackSection from '@/components/sections/TechnologyStack/TechnologyStackSection';
 import FinalCTASection from "@/components/sections/CTA/FinalCTASection";
 import FooterSection from "@/components/sections/Footer/FooterSection";
 
@@ -69,6 +70,9 @@ const Index = () => {
       
       {/* Sección Comparativa */}
       <ComparisonSection />
+      
+      {/* Sección de Tecnologías */}
+      <TechnologyStackSection />
       
       {/* SECCIÓN CTA FINAL */}
       <FinalCTASection />
