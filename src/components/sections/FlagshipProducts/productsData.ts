@@ -28,12 +28,12 @@ export const products: Product[] = [
     name: 'NyxBot',
     description: 'Chatbot inteligente que automatiza la atención al cliente en múltiples plataformas.',
     icon: 'bot',
-    url: '/nyxbot'
+    url: '/texmlbotivr'
   },
   {
     name: 'FacturAPI SaaS',
     description: 'Facturación electrónica simplificada vía Telegram y web para negocios mexicanos.',
     icon: 'message-square',
-    url: '/facturapi-saas'
+    url: '/facturapisaas'
   }
 ];

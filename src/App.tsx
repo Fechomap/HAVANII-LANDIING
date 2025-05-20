@@ -11,6 +11,8 @@ const Pricing = lazy(() => import('./pages/Pricing'));
 const NeuralCrane = lazy(() => import('./pages/NeuralCrane'));
 const AutoMike = lazy(() => import('./pages/AutoMike'));
 const Conciliador = lazy(() => import('./pages/Conciliador'));
+const TeXMLBotIVR = lazy(() => import('./pages/TeXMLBotIVR'));
+const FacturAPISaaS = lazy(() => import('./pages/FacturAPISaaS'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Componente de carga
@@ -43,6 +45,8 @@ const App = () => (
               <Route path="/neuralcrane" element={<NeuralCrane />} />
               <Route path="/automike" element={<AutoMike />} />
               <Route path="/conciliador" element={<Conciliador />} />
+              <Route path="/texmlbotivr" element={<TeXMLBotIVR />} />
+              <Route path="/facturapisaas" element={<FacturAPISaaS />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
