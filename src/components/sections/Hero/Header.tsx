@@ -71,10 +71,21 @@ const Header = ({ hasScrolled }: HeaderProps) => {
     
     requestAnimationFrame(scrollAnimation);
   };
-
-  // Manejar el scroll al hacer clic en los enlaces
+  // Update the handleLinkClick function in the Header component
   const handleLinkClick = (id: string, href: string, e: React.MouseEvent) => {
     setActiveLink(id);
+    
+    // Special case for Home - scroll to top
+    if (id === 'home') {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      // Update URL if needed
+      window.history.pushState({}, '', '/');
+      return;
+    }
     
     if (href.startsWith('#')) {
       e.preventDefault();
@@ -87,7 +98,7 @@ const Header = ({ hasScrolled }: HeaderProps) => {
         const offsetPosition = element.getBoundingClientRect().top + window.pageYOffset - headerOffset;
         
         // Usar nuestra función de scroll suave personalizada
-        smoothScrollTo(offsetPosition, 800); // 800ms es una buena duración para un scroll agradable
+        smoothScrollTo(offsetPosition, 800);
         
         // Actualizar la URL sin recargar la página
         window.history.pushState({}, '', href);
