@@ -39,13 +39,28 @@ const ShootingStarsBackground: React.FC = () => {
   // Usar useDeviceInfo para optimizaciones basadas en el dispositivo
   const { isMobile, isTablet, isLowPowerDevice, prefersReducedMotion } = useDeviceInfo();
 
-  // Ajustar animación basada en capacidades del dispositivo y preferencias
+  // Detectar navegador Chrome para ajustar parámetros que causan lags
+  const isChrome = useMemo(() => {
+    if (typeof navigator === "undefined") return false;
+    return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+  }, []);
+
+  // Ajustar animación según preferencias y visibilidad de la pestaña
   useEffect(() => {
-    if (prefersReducedMotion) {
-      setShouldAnimate(false);
-    } else {
-      setShouldAnimate(true);
-    }
+    const updateAnimation = () => {
+      if (prefersReducedMotion || document.hidden) {
+        setShouldAnimate(false);
+      } else {
+        setShouldAnimate(true);
+      }
+    };
+
+    updateAnimation();
+    document.addEventListener("visibilitychange", updateAnimation);
+
+    return () => {
+      document.removeEventListener("visibilitychange", updateAnimation);
+    };
   }, [prefersReducedMotion]);
 
   // Función memoizada para generar estrella
@@ -244,7 +259,8 @@ const ShootingStarsBackground: React.FC = () => {
     let spawnAccumulator = 0;
     
     // Ajustar parámetros según el dispositivo
-    const baseSpawnInterval = isLowPowerDevice ? 1200 : isMobile ? 800 : 200;
+    const baseSpawnInterval =
+      isLowPowerDevice || isChrome ? 1200 : isMobile ? 800 : 200;
     let spawnInterval = baseSpawnInterval;
     
     // Número máximo de estrellas según capacidad del dispositivo
