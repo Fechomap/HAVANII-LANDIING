@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap } from 'lucide-react';
+import { ArrowRight, CheckCircle, MessageCircle, Map, DollarSign, Truck, Clock, Shield, Smartphone, Globe } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
 import FooterSection from '@/components/sections/Footer/FooterSection';
 
-const AutoMike = () => {
+const TelegramBot = () => {
   // Establecer el título de la página y el fondo
   useEffect(() => {
-    document.title = 'AutoMike | Havani - Automatización de Expedientes';
+    document.title = 'Bot de Seguimiento para Telegram | Havani - Seguimiento de Expedientes';
     document.body.classList.add('bg-bg-body');
     document.body.classList.add('text-text-primary');
     
@@ -68,7 +68,7 @@ const AutoMike = () => {
       
       {/* Main Content */}
       <main>
-        {/* Sección ¿Qué es AutoMike? */}
+        {/* Sección ¿Qué es el Bot de Telegram? */}
         <AboutSection />
         
         {/* Características clave */}
@@ -80,7 +80,7 @@ const AutoMike = () => {
         {/* Cómo funciona */}
         <HowItWorksSection />
         
-        {/* Requisitos del sistema */}
+        {/* Información técnica y compatibilidad */}
         <RequirementsSection />
         
         {/* CTA - Llamado a la acción final */}
@@ -129,20 +129,20 @@ const HeroSection = () => {
           </div>
           
           <h1 className="mt-4 text-[clamp(44px,6vw,76px)] font-extrabold leading-[1.1] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,.5)]">
-            <span className="block">AutoMike</span>
-            <span className="block text-[#7B61FF]">Automatización</span>
-            <span className="block">para Proveedores IKE</span>
+            <span className="block">Seguimiento</span>
+            <span className="block text-[#7B61FF]">de Expedientes</span>
+            <span className="block">en Telegram</span>
           </h1>
           
           <p className="mt-6 max-w-[540px] text-lg md:text-xl text-[#CCCCCC] tracking-tight">
-            Revoluciona la validación de expedientes con nuestra solución de automatización inteligente que reduce hasta un 90% el tiempo de procesamiento, eliminando errores humanos y maximizando la eficiencia operativa.
+            Asistente virtual que permite a tus clientes consultar y dar seguimiento a sus expedientes de servicio en tiempo real, directamente desde Telegram.
           </p>
           
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-10">
             <Link to="/#contacto">
               <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] hover:outline-[#7B61FF] hover:outline-2 hover:outline-offset-4 relative overflow-hidden group">
                 <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
-                <span className="relative z-10">Solicitar Demo</span>
+                <span className="relative z-10">Solicitar Implementación</span>
               </Button>
             </Link>
             
@@ -176,7 +176,7 @@ const HeroSection = () => {
           {/* Imagen del mockup */}
           <img 
             src="/placeholder.svg" 
-            alt="Interfaz de AutoMike - Dashboard de automatización" 
+            alt="Interfaz del Bot de Telegram para seguimiento de expedientes" 
             className="w-full max-w-[760px] h-auto rounded-[32px] border border-white/6 shadow-[0_40px_60px_-10px_rgba(0,0,0,.6)] translate-y-[40px]"
           />
         </motion.div>
@@ -220,11 +220,11 @@ const AboutSection = () => {
           className="text-center"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-            ¿Qué es AutoMike?
+            ¿Qué es el Bot de Seguimiento para Telegram?
           </h2>
           
           <p className="mt-8 text-lg leading-relaxed text-[#BBBBBB] max-w-[900px] mx-auto">
-            AutoMike es una solución de automatización especializada para proveedores de IKE Asistencia que revoluciona el proceso de validación y gestión de expedientes. Diseñado específicamente para agilizar los flujos de trabajo, este software optimiza la validación de expedientes mediante la automatización inteligente, reduciendo drásticamente tiempos operativos y eliminando errores humanos.
+            Nuestro Bot de Seguimiento para Telegram es un asistente virtual que permite a los clientes consultar y dar seguimiento a sus expedientes de servicio de grúas en tiempo real. Elimina la necesidad de realizar llamadas telefónicas o visitas presenciales para obtener información actualizada sobre el estado de los servicios, proporcionando toda la información necesaria a través de una interfaz conversacional intuitiva disponible 24/7.
           </p>
         </motion.div>
       </div>
@@ -236,39 +236,43 @@ const AboutSection = () => {
 const FeaturesSection = () => {
   const features = [
     {
-      title: "Automatización Inteligente",
-      icon: <Zap className="h-7 w-7 text-[#7B61FF]" />,
+      title: "Consulta de Expedientes",
+      icon: <MessageCircle className="h-7 w-7 text-[#7B61FF]" />,
       points: [
-        "Procesamiento masivo desde archivos Excel con validaciones automáticas",
-        "Comparación automática de costos entre sistema local y portal",
-        "Liberación automática de expedientes cuando los costos coinciden"
+        "Búsqueda rápida mediante número de expediente",
+        "Visualización inmediata del estatus actual del servicio",
+        "Información básica del cliente, vehículo y destino",
+        "Interfaz conversacional intuitiva mediante Telegram"
       ]
     },
     {
-      title: "Interfaz Intuitiva y Amigable",
-      icon: <BarChart className="h-7 w-7 text-[#7B61FF]" />,
+      title: "Información de Costos",
+      icon: <DollarSign className="h-7 w-7 text-[#7B61FF]" />,
       points: [
-        "Diseño moderno y funcional con elementos visuales bien organizados",
-        "Indicadores visuales de progreso en tiempo real",
-        "Resúmenes estadísticos detallados al finalizar el proceso"
+        "Desglose detallado de los costos del servicio",
+        "Diferenciación entre servicios locales y carreteros",
+        "Visualización de costos adicionales (casetas, resguardo, maniobras)",
+        "Transparencia total en cargos aplicados"
       ]
     },
     {
-      title: "Seguridad Avanzada",
-      icon: <Lock className="h-7 w-7 text-[#7B61FF]" />,
+      title: "Datos de Unidad y Operador",
+      icon: <Truck className="h-7 w-7 text-[#7B61FF]" />,
       points: [
-        "Sistema de licencias por token que protege el acceso",
-        "Almacenamiento encriptado de credenciales de usuario",
-        "Modo fuera de línea con sincronización posterior"
+        "Información del operador asignado al servicio",
+        "Detalles de la grúa (tipo, color, número económico, placas)",
+        "Identificación visual de la unidad en servicio",
+        "Contacto directo con la unidad cuando es necesario"
       ]
     },
     {
-      title: "Compatibilidad y Flexibilidad",
-      icon: <Globe className="h-7 w-7 text-[#7B61FF]" />,
+      title: "Seguimiento en Tiempo Real",
+      icon: <Map className="h-7 w-7 text-[#7B61FF]" />,
       points: [
-        "Funciona en Windows y macOS adaptándose a cualquier organización",
-        "Detecta automáticamente navegadores disponibles en el sistema",
-        "Actualizaciones automáticas con las últimas mejoras"
+        "Ubicación GPS actual de la grúa en servicio",
+        "Enlace directo a Google Maps para visualización de ubicación",
+        "Tiempo estimado restante para la llegada",
+        "Actualizaciones automáticas del progreso del servicio"
       ]
     }
   ];
@@ -295,7 +299,7 @@ const FeaturesSection = () => {
             Características Clave
           </h2>
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
-            AutoMike ofrece un conjunto completo de funcionalidades diseñadas para maximizar la eficiencia en la validación de expedientes.
+            Nuestro Bot de Telegram ofrece funcionalidades diseñadas para brindar una experiencia completa de seguimiento a tus clientes.
           </p>
         </motion.div>
         
@@ -340,19 +344,19 @@ const FeaturesSection = () => {
 const BenefitsSection = () => {
   const benefits = [
     {
-      title: "Eficiencia Operativa",
-      description: "Reduce hasta un 90% el tiempo dedicado a la validación manual de expedientes. Elimina revisiones repetitivas y procesa cientos de expedientes en minutos.",
+      title: "Atención 24/7",
+      description: "Disponibilidad constante para consultas, independientemente de horarios de oficina. Acceso instantáneo a información actualizada sin tiempos de espera.",
       icon: <Clock className="h-8 w-8 text-[#7B61FF]" />
     },
     {
-      title: "Precisión Garantizada",
-      description: "Elimina errores humanos en la comparación de costos. Asegura la correcta aceptación de expedientes con costos coincidentes y mantiene registros detallados.",
-      icon: <CheckCircle className="h-8 w-8 text-[#7B61FF]" />
+      title: "Transparencia en el Servicio",
+      description: "Visibilidad completa de costos, cargos y detalles del servicio. Seguimiento en tiempo real del progreso y conocimiento exacto de quién está atendiendo la solicitud.",
+      icon: <Shield className="h-8 w-8 text-[#7B61FF]" />
     },
     {
-      title: "Reportes y Seguimiento",
-      description: "Actualiza automáticamente archivos Excel con resultados del proceso. Genera estadísticas visuales y facilita el seguimiento y auditoría de expedientes.",
-      icon: <Database className="h-8 w-8 text-[#7B61FF]" />
+      title: "Mejora en la Experiencia",
+      description: "Interfaz conversacional intuitiva mediante Telegram. Reducción de incertidumbre durante la espera del servicio y autonomía para obtener información.",
+      icon: <Smartphone className="h-8 w-8 text-[#7B61FF]" />
     }
   ];
 
@@ -380,10 +384,10 @@ const BenefitsSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-            Beneficios para Proveedores de IKE
+            Beneficios para tus Clientes
           </h2>
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
-            Transformamos por completo la forma en que gestionas tus expedientes, aportando valor real a tu operación diaria.
+            Mejora la satisfacción y fidelidad de tus clientes ofreciendo una forma moderna y eficiente de dar seguimiento a sus servicios.
           </p>
         </motion.div>
         
@@ -420,28 +424,28 @@ const HowItWorksSection = () => {
   const steps = [
     {
       number: "01",
-      title: "Selección de expedientes",
-      description: "El usuario selecciona un archivo Excel que contiene los expedientes a procesar."
+      title: "Inicio de la conversación",
+      description: "El usuario inicia la conversación con el bot mediante el comando /start en Telegram."
     },
     {
       number: "02",
-      title: "Inicio del proceso",
-      description: "Con un solo clic se inicia el proceso automatizado de validación."
+      title: "Selección de opciones",
+      description: "Selecciona 'Seguimiento de Expediente' del menú principal presentado por el bot."
     },
     {
       number: "03",
-      title: "Procesamiento inteligente",
-      description: "El sistema lee los expedientes, inicia sesión en el portal de IKE y verifica toda la información."
+      title: "Ingreso del expediente",
+      description: "Ingresa su número de expediente cuando el bot lo solicita para iniciar la consulta."
     },
     {
       number: "04",
-      title: "Validación y aceptación",
-      description: "Compara los costos registrados con los del portal y acepta automáticamente los expedientes coincidentes."
+      title: "Información básica",
+      description: "Recibe información básica del expediente (estatus, servicio, datos del vehículo)."
     },
     {
       number: "05",
-      title: "Resultados y estadísticas",
-      description: "Actualiza el archivo Excel con resultados y muestra un resumen con estadísticas completas."
+      title: "Opciones específicas",
+      description: "Accede a un menú con opciones específicas (costo, datos unidad, ubicación, tiempos)."
     }
   ];
 
@@ -456,10 +460,10 @@ const HowItWorksSection = () => {
           className="text-center mb-20"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-            Cómo Funciona AutoMike
+            Cómo Funciona el Bot de Telegram
           </h2>
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
-            Un proceso fluido y eficiente que revoluciona la forma de validar expedientes.
+            Un proceso sencillo e intuitivo para que tus clientes obtengan toda la información que necesitan.
           </p>
         </motion.div>
         
@@ -511,24 +515,30 @@ const HowItWorksSection = () => {
 // Requirements Section
 const RequirementsSection = () => {
   const requirements = [
-    "Sistema operativo: Windows 10/11 o macOS 10.14+",
-    "Navegador web: Google Chrome (recomendado), Microsoft Edge o Firefox",
-    "Microsoft Excel o compatible para archivos de entrada",
-    "Conexión a internet para la validación en línea (con modo fuera de línea disponible)",
-    "Licencia válida de AutoMike"
+    "Compatible con cualquier dispositivo que soporte Telegram",
+    "Disponible para iOS, Android, Windows, macOS y navegadores web",
+    "Desarrollado en Node.js con integración a APIs REST",
+    "No requiere instalación adicional, solo buscar el bot en Telegram"
+  ];
+
+  const integrations = [
+    "Conexión con sistemas internos de seguimiento",
+    "APIs de geolocalización para seguimiento en tiempo real",
+    "Integración con Google Maps para visualización de ubicación",
+    "Conexión con bases de datos de expedientes existentes"
   ];
 
   const supportFeatures = [
-    "Actualizaciones automáticas periódicas con mejoras y nuevas funcionalidades",
-    "Sistema de renovación de licencias sencillo y seguro",
-    "Soporte técnico dedicado para resolver cualquier incidencia",
-    "Documentación completa y guías de usuario disponibles"
+    "Mejoras continuas en funcionalidad y experiencia de usuario",
+    "Comando /help disponible para asistencia básica",
+    "Interfaz autoexplicativa que no requiere entrenamiento especial",
+    "Mensajes de ayuda contextual en cada etapa del proceso"
   ];
 
   return (
     <section className="relative bg-[#0B0B0F] py-[120px] overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           {/* Requisitos del sistema */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -537,7 +547,7 @@ const RequirementsSection = () => {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-              Requisitos del Sistema
+              Información Técnica
             </h2>
             
             <ul className="space-y-4">
@@ -550,15 +560,36 @@ const RequirementsSection = () => {
             </ul>
           </motion.div>
           
-          {/* Soporte y actualizaciones */}
+          {/* Integraciones */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-              Soporte y Actualizaciones
+              Integraciones Disponibles
+            </h2>
+            
+            <ul className="space-y-4">
+              {integrations.map((integration, index) => (
+                <li key={index} className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                  <span className="text-[#BBBBBB]">{integration}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+          
+          {/* Soporte y servicios */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
+              Soporte y Asistencia
             </h2>
             
             <ul className="space-y-4">
@@ -595,7 +626,7 @@ const CTASection = () => {
           transition={{ duration: 0.6, ease: [0.6, 0.8, 0.25, 1] }}
           className="text-3xl md:text-4xl font-extrabold leading-tight text-white"
         >
-          Automatiza Hoy y Transforma Tu Productividad
+          Tu expediente siempre a un mensaje de distancia
         </motion.h2>
         
         <motion.p
@@ -605,7 +636,7 @@ const CTASection = () => {
           transition={{ duration: 0.6, delay: 0.1, ease: [0.6, 0.8, 0.25, 1] }}
           className="mt-6 text-lg md:text-xl text-[#BBBBBB] max-w-[560px] mx-auto"
         >
-          Únete a los proveedores de IKE que ya están ahorrando tiempo y recursos con AutoMike. Solicita una demostración personalizada hoy mismo.
+          Mejora la experiencia de tus clientes implementando nuestro Bot de Seguimiento para Telegram. Contacta con nosotros para una demostración personalizada.
         </motion.p>
         
         <motion.div
@@ -619,17 +650,18 @@ const CTASection = () => {
             <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] relative overflow-hidden group">
               <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
               <span className="relative z-10 flex items-center">
-                Solicitar Demo 
+                Implementar Ahora 
                 <ArrowRight className="ml-2 h-5 w-5" />
               </span>
             </Button>
           </Link>
           
-          <Link to="/#valor">
+          <a href="https://t.me/HavaniExampleBot" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors">
-              Ver Más Productos
+              <MessageCircle className="w-5 h-5 mr-2" />
+              Ver Demo en Telegram
             </Button>
-          </Link>
+          </a>
         </motion.div>
         
         <motion.p
@@ -639,11 +671,11 @@ const CTASection = () => {
           transition={{ duration: 0.4, delay: 0.4 }}
           className="mt-8 text-sm text-[#BBBBBB]/70"
         >
-          *AutoMike - Automatizando el éxito para proveedores de IKE Asistencia
+          Para asistencia adicional, comunícate con soporte@havani.com
         </motion.p>
       </div>
     </section>
   );
 };
 
-export default AutoMike;
+export default TelegramBot;

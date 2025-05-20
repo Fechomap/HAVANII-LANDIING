@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap } from 'lucide-react';
+import { ArrowRight, CheckCircle, Phone, Bot, Clock, BarChart2, Headphones, Server, Users, Mic, Database, Settings } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
 import FooterSection from '@/components/sections/Footer/FooterSection';
 
-const AutoMike = () => {
+const TeXMLBotIVR = () => {
   // Establecer el título de la página y el fondo
   useEffect(() => {
-    document.title = 'AutoMike | Havani - Automatización de Expedientes';
+    document.title = 'TeXML Bot IVR | Havani - Sistema de Respuesta de Voz Interactiva';
     document.body.classList.add('bg-bg-body');
     document.body.classList.add('text-text-primary');
     
@@ -68,7 +68,7 @@ const AutoMike = () => {
       
       {/* Main Content */}
       <main>
-        {/* Sección ¿Qué es AutoMike? */}
+        {/* Sección ¿Qué es TeXML Bot IVR? */}
         <AboutSection />
         
         {/* Características clave */}
@@ -129,13 +129,13 @@ const HeroSection = () => {
           </div>
           
           <h1 className="mt-4 text-[clamp(44px,6vw,76px)] font-extrabold leading-[1.1] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,.5)]">
-            <span className="block">AutoMike</span>
-            <span className="block text-[#7B61FF]">Automatización</span>
-            <span className="block">para Proveedores IKE</span>
+            <span className="block">TeXML Bot</span>
+            <span className="block text-[#7B61FF]">IVR</span>
+            <span className="block text-3xl md:text-4xl mt-2">Sistema de Respuesta de Voz Interactiva</span>
           </h1>
           
           <p className="mt-6 max-w-[540px] text-lg md:text-xl text-[#CCCCCC] tracking-tight">
-            Revoluciona la validación de expedientes con nuestra solución de automatización inteligente que reduce hasta un 90% el tiempo de procesamiento, eliminando errores humanos y maximizando la eficiencia operativa.
+            Automatiza la atención telefónica de tus clientes para consultas de expedientes y cotización de servicios vía telefónica con tecnología de IA avanzada.
           </p>
           
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-10">
@@ -176,7 +176,7 @@ const HeroSection = () => {
           {/* Imagen del mockup */}
           <img 
             src="/placeholder.svg" 
-            alt="Interfaz de AutoMike - Dashboard de automatización" 
+            alt="Interfaz del sistema TeXML Bot IVR con flujo de llamadas" 
             className="w-full max-w-[760px] h-auto rounded-[32px] border border-white/6 shadow-[0_40px_60px_-10px_rgba(0,0,0,.6)] translate-y-[40px]"
           />
         </motion.div>
@@ -220,11 +220,11 @@ const AboutSection = () => {
           className="text-center"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-            ¿Qué es AutoMike?
+            ¿Qué es TeXML Bot IVR?
           </h2>
           
           <p className="mt-8 text-lg leading-relaxed text-[#BBBBBB] max-w-[900px] mx-auto">
-            AutoMike es una solución de automatización especializada para proveedores de IKE Asistencia que revoluciona el proceso de validación y gestión de expedientes. Diseñado específicamente para agilizar los flujos de trabajo, este software optimiza la validación de expedientes mediante la automatización inteligente, reduciendo drásticamente tiempos operativos y eliminando errores humanos.
+            TeXML Bot IVR es un Sistema de Respuesta de Voz Interactiva (IVR) que automatiza la consulta de expedientes y la cotización de servicios vía telefónica. Utilizando la tecnología Telnyx TeXML, este sistema elimina la necesidad de personal dedicado a atender consultas rutinarias, proporcionando información actualizada a tus clientes de forma automática, precisa y disponible 24/7.
           </p>
         </motion.div>
       </div>
@@ -236,39 +236,43 @@ const AboutSection = () => {
 const FeaturesSection = () => {
   const features = [
     {
-      title: "Automatización Inteligente",
-      icon: <Zap className="h-7 w-7 text-[#7B61FF]" />,
+      title: "Consulta de Expedientes",
+      icon: <Phone className="h-7 w-7 text-[#7B61FF]" />,
       points: [
-        "Procesamiento masivo desde archivos Excel con validaciones automáticas",
-        "Comparación automática de costos entre sistema local y portal",
-        "Liberación automática de expedientes cuando los costos coinciden"
+        "Sistema intuitivo para consulta mediante marcación por tonos (DTMF)",
+        "Verificación automática de expedientes con información en tiempo real",
+        "Menú contextual adaptado al estatus de cada expediente",
+        "Caché optimizado para respuestas rápidas en expedientes frecuentes"
       ]
     },
     {
-      title: "Interfaz Intuitiva y Amigable",
-      icon: <BarChart className="h-7 w-7 text-[#7B61FF]" />,
+      title: "Información Detallada",
+      icon: <BarChart2 className="h-7 w-7 text-[#7B61FF]" />,
       points: [
-        "Diseño moderno y funcional con elementos visuales bien organizados",
-        "Indicadores visuales de progreso en tiempo real",
-        "Resúmenes estadísticos detallados al finalizar el proceso"
+        "Datos generales del expediente (estatus, cliente, vehículo)",
+        "Costos detallados (total, desglose, conceptos adicionales)",
+        "Ubicación y tiempo estimado de llegada para servicios en proceso",
+        "Datos de la unidad operativa y tiempos de servicio"
       ]
     },
     {
-      title: "Seguridad Avanzada",
-      icon: <Lock className="h-7 w-7 text-[#7B61FF]" />,
+      title: "Cotización por Voz",
+      icon: <Mic className="h-7 w-7 text-[#7B61FF]" />,
       points: [
-        "Sistema de licencias por token que protege el acceso",
-        "Almacenamiento encriptado de credenciales de usuario",
-        "Modo fuera de línea con sincronización posterior"
+        "Reconocimiento de voz para capturar coordenadas y datos del vehículo",
+        "Procesamiento con inteligencia artificial (OpenAI)",
+        "Cotización automática basada en distancia y tipo de vehículo",
+        "Confirmación verbal de la información capturada"
       ]
     },
     {
-      title: "Compatibilidad y Flexibilidad",
-      icon: <Globe className="h-7 w-7 text-[#7B61FF]" />,
+      title: "Arquitectura Robusta",
+      icon: <Server className="h-7 w-7 text-[#7B61FF]" />,
       points: [
-        "Funciona en Windows y macOS adaptándose a cualquier organización",
-        "Detecta automáticamente navegadores disponibles en el sistema",
-        "Actualizaciones automáticas con las últimas mejoras"
+        "Sistema de caché con Redis para alto rendimiento",
+        "Monitoreo completo con métricas y registros detallados",
+        "Manejo inteligente de errores con reintentos automáticos",
+        "Transferencia a agentes humanos cuando sea necesario"
       ]
     }
   ];
@@ -295,7 +299,7 @@ const FeaturesSection = () => {
             Características Clave
           </h2>
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
-            AutoMike ofrece un conjunto completo de funcionalidades diseñadas para maximizar la eficiencia en la validación de expedientes.
+            TeXML Bot IVR ofrece un conjunto completo de funcionalidades diseñadas para automatizar y mejorar la experiencia de atención telefónica.
           </p>
         </motion.div>
         
@@ -340,19 +344,19 @@ const FeaturesSection = () => {
 const BenefitsSection = () => {
   const benefits = [
     {
-      title: "Eficiencia Operativa",
-      description: "Reduce hasta un 90% el tiempo dedicado a la validación manual de expedientes. Elimina revisiones repetitivas y procesa cientos de expedientes en minutos.",
+      title: "Reducción de Costos Operativos",
+      description: "Disminución de hasta 70% en personal dedicado a atención telefónica básica. Funcionamiento 24/7 sin costos adicionales por horarios extendidos y optimización de recursos humanos.",
       icon: <Clock className="h-8 w-8 text-[#7B61FF]" />
     },
     {
-      title: "Precisión Garantizada",
-      description: "Elimina errores humanos en la comparación de costos. Asegura la correcta aceptación de expedientes con costos coincidentes y mantiene registros detallados.",
-      icon: <CheckCircle className="h-8 w-8 text-[#7B61FF]" />
+      title: "Mejora en la Experiencia del Cliente",
+      description: "Respuestas inmediatas sin tiempos de espera, información actualizada y consistente en cada interacción, y accesibilidad continua a la información del servicio.",
+      icon: <Headphones className="h-8 w-8 text-[#7B61FF]" />
     },
     {
-      title: "Reportes y Seguimiento",
-      description: "Actualiza automáticamente archivos Excel con resultados del proceso. Genera estadísticas visuales y facilita el seguimiento y auditoría de expedientes.",
-      icon: <Database className="h-8 w-8 text-[#7B61FF]" />
+      title: "Escalabilidad y Adaptabilidad",
+      description: "Capacidad para manejar volúmenes variables de llamadas sin degradación del servicio, adaptación a diferentes tipos de expedientes y fácil integración con sistemas existentes.",
+      icon: <Users className="h-8 w-8 text-[#7B61FF]" />
     }
   ];
 
@@ -380,10 +384,10 @@ const BenefitsSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-            Beneficios para Proveedores de IKE
+            Beneficios para tu Empresa
           </h2>
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
-            Transformamos por completo la forma en que gestionas tus expedientes, aportando valor real a tu operación diaria.
+            TeXML Bot IVR transforma la forma en que gestionas la atención telefónica, aportando valor real a tu operación diaria.
           </p>
         </motion.div>
         
@@ -420,28 +424,33 @@ const HowItWorksSection = () => {
   const steps = [
     {
       number: "01",
-      title: "Selección de expedientes",
-      description: "El usuario selecciona un archivo Excel que contiene los expedientes a procesar."
+      title: "Llamada al sistema IVR",
+      description: "El cliente llama al número telefónico asociado al sistema TeXML Bot IVR."
     },
     {
       number: "02",
-      title: "Inicio del proceso",
-      description: "Con un solo clic se inicia el proceso automatizado de validación."
+      title: "Menú principal",
+      description: "El sistema responde con un menú principal ofreciendo opciones de consulta de expediente o cotización."
     },
     {
       number: "03",
-      title: "Procesamiento inteligente",
-      description: "El sistema lee los expedientes, inicia sesión en el portal de IKE y verifica toda la información."
+      title: "Ingreso de información",
+      description: "Para consultas de expediente, el cliente ingresa el número mediante marcación por tonos (DTMF)."
     },
     {
       number: "04",
-      title: "Validación y aceptación",
-      description: "Compara los costos registrados con los del portal y acepta automáticamente los expedientes coincidentes."
+      title: "Verificación y recuperación",
+      description: "El sistema verifica y recupera la información actualizada del expediente en tiempo real."
     },
     {
       number: "05",
-      title: "Resultados y estadísticas",
-      description: "Actualiza el archivo Excel con resultados y muestra un resumen con estadísticas completas."
+      title: "Presentación contextual",
+      description: "Se presenta un menú con opciones relevantes según el estatus del expediente, permitiendo seleccionar detalles específicos."
+    },
+    {
+      number: "06",
+      title: "Finalización o transferencia",
+      description: "El cliente puede finalizar la llamada o transferirse a un agente en cualquier momento del proceso."
     }
   ];
 
@@ -456,10 +465,10 @@ const HowItWorksSection = () => {
           className="text-center mb-20"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-            Cómo Funciona AutoMike
+            Cómo Funciona TeXML Bot IVR
           </h2>
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
-            Un proceso fluido y eficiente que revoluciona la forma de validar expedientes.
+            Un proceso fluido y eficiente que revoluciona la atención telefónica de tus clientes.
           </p>
         </motion.div>
         
@@ -511,24 +520,30 @@ const HowItWorksSection = () => {
 // Requirements Section
 const RequirementsSection = () => {
   const requirements = [
-    "Sistema operativo: Windows 10/11 o macOS 10.14+",
-    "Navegador web: Google Chrome (recomendado), Microsoft Edge o Firefox",
-    "Microsoft Excel o compatible para archivos de entrada",
-    "Conexión a internet para la validación en línea (con modo fuera de línea disponible)",
-    "Licencia válida de AutoMike"
+    "Node.js v18+",
+    "Redis para sistema de caché",
+    "Cuenta Telnyx con número telefónico",
+    "Compatibilidad con cualquier sistema telefónico, fijo o móvil"
+  ];
+
+  const integrations = [
+    "APIs de consulta de expedientes",
+    "Servicios de geolocalización",
+    "Sistemas CRM existentes",
+    "OpenAI para procesamiento de lenguaje natural"
   ];
 
   const supportFeatures = [
-    "Actualizaciones automáticas periódicas con mejoras y nuevas funcionalidades",
-    "Sistema de renovación de licencias sencillo y seguro",
-    "Soporte técnico dedicado para resolver cualquier incidencia",
-    "Documentación completa y guías de usuario disponibles"
+    "Mejoras continuas y nuevas funcionalidades sin costo adicional",
+    "Asistencia 24/7 para resolución de incidencias",
+    "Documentación completa y sesiones de capacitación para administradores",
+    "Panel de administración con métricas y estadísticas de uso"
   ];
 
   return (
     <section className="relative bg-[#0B0B0F] py-[120px] overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           {/* Requisitos del sistema */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -550,15 +565,36 @@ const RequirementsSection = () => {
             </ul>
           </motion.div>
           
-          {/* Soporte y actualizaciones */}
+          {/* Integraciones */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-              Soporte y Actualizaciones
+              Integraciones Disponibles
+            </h2>
+            
+            <ul className="space-y-4">
+              {integrations.map((integration, index) => (
+                <li key={index} className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                  <span className="text-[#BBBBBB]">{integration}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+          
+          {/* Soporte y servicios */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
+              Soporte y Servicios
             </h2>
             
             <ul className="space-y-4">
@@ -595,7 +631,7 @@ const CTASection = () => {
           transition={{ duration: 0.6, ease: [0.6, 0.8, 0.25, 1] }}
           className="text-3xl md:text-4xl font-extrabold leading-tight text-white"
         >
-          Automatiza Hoy y Transforma Tu Productividad
+          La información que tus clientes necesitan, al alcance de una llamada
         </motion.h2>
         
         <motion.p
@@ -605,7 +641,7 @@ const CTASection = () => {
           transition={{ duration: 0.6, delay: 0.1, ease: [0.6, 0.8, 0.25, 1] }}
           className="mt-6 text-lg md:text-xl text-[#BBBBBB] max-w-[560px] mx-auto"
         >
-          Únete a los proveedores de IKE que ya están ahorrando tiempo y recursos con AutoMike. Solicita una demostración personalizada hoy mismo.
+          Solicita una demostración gratuita para comprobar cómo TeXML Bot IVR puede transformar tu atención al cliente y reducir costos operativos.
         </motion.p>
         
         <motion.div
@@ -639,11 +675,11 @@ const CTASection = () => {
           transition={{ duration: 0.4, delay: 0.4 }}
           className="mt-8 text-sm text-[#BBBBBB]/70"
         >
-          *AutoMike - Automatizando el éxito para proveedores de IKE Asistencia
+          *TeXML Bot IVR - Automatizando la atención telefónica de tus clientes
         </motion.p>
       </div>
     </section>
   );
 };
 
-export default AutoMike;
+export default TeXMLBotIVR;
