@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
+import ShootingStarsBackground from '@/components/ShootingStarsBackground';
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,9 @@ const AutoMike = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-bg-body text-text-primary">
+    <div className="flex flex-col min-h-screen bg-bg-body text-text-primary relative">
+      {/* Fondo de estrellas fugaces */}
+      <ShootingStarsBackground />
       {/* Header con navegación */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.35)] backdrop-blur-sm">
         <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">
@@ -99,7 +102,7 @@ const HeroSection = () => {
     <section className="relative w-full min-h-[90vh] overflow-hidden flex flex-col pt-32 md:pt-48">
       {/* Nebulosa glow */}
       <div 
-        className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[180%] h-[140%] z-0"
+        className="absolute top-[240px] left-1/2 -translate-x-1/2 w-[1800px] h-[900px] z-0"
         style={{
           background: '#7B61FF33',
           filter: 'blur(160px)',
@@ -114,15 +117,17 @@ const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.7, ease: "linear" }}
           className="flex flex-col"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <div className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-white/10 text-sm font-semibold text-white hover:bg-white/20 w-max">
             Solución Havani 
             <motion.span
               whileHover={{ x: 4 }}
-              transition={{ duration: 0.15 }}
+              transition={{ duration: 0.15, ease: "linear" }}
               className="w-4 h-4"
+              style={{ willChange: "transform" }}
             >
               →
             </motion.span>
@@ -159,7 +164,8 @@ const HeroSection = () => {
           className="relative"
           initial={{ opacity: 0, scale: 0.88, x: 60 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 0.9, ease: [0.25, 0.8, 0.25, 1.7] }}
+          transition={{ duration: 0.9, ease: "linear" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           {/* Glow effect para el mockup */}
           <div
@@ -187,8 +193,13 @@ const HeroSection = () => {
 
 // About Section
 const AboutSection = () => {
+  const controls = useAnimation();
   const sectionRef = useIntersection(
-    (entry) => { /* Animation handled by Framer Motion */ },
+    (entry) => { 
+      if (entry.isIntersecting) {
+        controls.start({ opacity: 1, y: 0 });
+      }
+    },
     { threshold: 0.4, once: true }
   );
 
@@ -216,8 +227,9 @@ const AboutSection = () => {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: "linear" }}
           className="text-center"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
             ¿Qué es AutoMike?
@@ -288,8 +300,9 @@ const FeaturesSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: "linear" }}
           className="text-center mb-16"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
             Características Clave
@@ -309,9 +322,11 @@ const FeaturesSection = () => {
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.15,
-                ease: [0.22, 1, 0.36, 1]
+                ease: "linear",
+                repeatType: "mirror"
               }}
               className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)]"
+              style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             >
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5 mr-4">
@@ -376,8 +391,9 @@ const BenefitsSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: "linear" }}
           className="text-center mb-16"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
             Beneficios para Proveedores de IKE
@@ -397,9 +413,11 @@ const BenefitsSection = () => {
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.15,
-                ease: [0.22, 1, 0.36, 1]
+                ease: "linear",
+                repeatType: "mirror"
               }}
               className="bg-[#15161B] border border-white/5 rounded-2xl p-8 text-center hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] flex flex-col items-center"
+              style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             >
               <div className="w-16 h-16 flex items-center justify-center rounded-full bg-white/5 mb-6">
                 {benefit.icon}
@@ -452,8 +470,9 @@ const HowItWorksSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: "linear" }}
           className="text-center mb-20"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
             Cómo Funciona AutoMike
@@ -477,9 +496,11 @@ const HowItWorksSection = () => {
                 transition={{ 
                   duration: 0.5, 
                   delay: index * 0.1,
-                  ease: [0.22, 1, 0.36, 1]
+                  ease: "linear",
+                  repeatType: "mirror"
                 }}
                 className="flex items-start"
+                style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
               >
                 {/* Número del paso */}
                 <div className="relative">
@@ -534,7 +555,8 @@ const RequirementsSection = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, ease: "linear" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
               Requisitos del Sistema
@@ -555,7 +577,8 @@ const RequirementsSection = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "linear" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
               Soporte y Actualizaciones
@@ -583,8 +606,8 @@ const CTASection = () => {
       {/* Overlay Glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[-22%] z-0 h-[340px] w-[820px] -translate-x-1/2 blur-[170px]"
-        style={{ background: "rgba(123,97,255,0.05)" }}
+        className="pointer-events-none absolute left-1/2 top-[-180px] z-0 h-[340px] w-[820px] -translate-x-1/2 blur-[170px]"
+        style={{ willChange: "transform", background: "rgba(123,97,255,0.05)" }}
       />
       
       <div className="relative z-10 max-w-[800px] mx-auto px-6 md:px-12 flex flex-col items-center text-center">
@@ -592,8 +615,9 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.6, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.6, ease: "linear" }}
           className="text-3xl md:text-4xl font-extrabold leading-tight text-white"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           Automatiza Hoy y Transforma Tu Productividad
         </motion.h2>
@@ -602,8 +626,9 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.6, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "linear" }}
           className="mt-6 text-lg md:text-xl text-[#BBBBBB] max-w-[560px] mx-auto"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           Únete a los proveedores de IKE que ya están ahorrando tiempo y recursos con AutoMike. Solicita una demostración personalizada hoy mismo.
         </motion.p>
@@ -612,8 +637,9 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.6, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "linear", repeatType: "mirror" }}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <Link to="/#contacto">
             <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] relative overflow-hidden group">
@@ -636,8 +662,9 @@ const CTASection = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.4 }}
+          transition={{ duration: 0.4, delay: 0.4, ease: "linear" }}
           className="mt-8 text-sm text-[#BBBBBB]/70"
+          style={{ willChange: "transform" }}
         >
           *AutoMike - Automatizando el éxito para proveedores de IKE Asistencia
         </motion.p>
