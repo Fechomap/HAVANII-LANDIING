@@ -102,11 +102,12 @@ const HeroSection = () => {
     <section className="relative w-full min-h-[90vh] overflow-hidden flex flex-col pt-32 md:pt-48">
       {/* Nebulosa glow */}
       <div 
-        className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[180%] h-[140%] z-0"
+        className="absolute top-[240px] left-1/2 -translate-x-1/2 w-[1800px] h-[900px] z-0"
         style={{
           background: '#7B61FF33',
           filter: 'blur(160px)',
-          mixBlendMode: 'normal'
+          mixBlendMode: 'normal',
+          willChange: 'transform, opacity'
         }}
         aria-hidden="true"
       />
@@ -117,15 +118,17 @@ const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.7, ease: "linear" }}
           className="flex flex-col"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <div className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-white/10 text-sm font-semibold text-white hover:bg-white/20 w-max">
             Solución Havani 
             <motion.span
               whileHover={{ x: 4 }}
-              transition={{ duration: 0.15 }}
+              transition={{ duration: 0.15, ease: "linear" }}
               className="w-4 h-4"
+              style={{ willChange: "transform" }}
             >
               →
             </motion.span>
@@ -162,7 +165,8 @@ const HeroSection = () => {
           className="relative"
           initial={{ opacity: 0, scale: 0.88, x: 60 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 0.9, ease: [0.25, 0.8, 0.25, 1.7] }}
+          transition={{ duration: 0.9, ease: "linear" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           {/* Glow effect para el mockup */}
           <div
@@ -627,7 +631,7 @@ const CTASection = () => {
       {/* Overlay Glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[-22%] z-0 h-[340px] w-[820px] -translate-x-1/2 blur-[170px]"
+        className="pointer-events-none absolute left-1/2 top-[-240px] z-0 h-[340px] w-[820px] -translate-x-1/2 blur-[170px]"
         style={{ background: "rgba(123,97,255,0.05)" }}
       />
       
@@ -636,7 +640,8 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.6, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.6, ease: "linear" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="text-3xl md:text-4xl font-extrabold leading-tight text-white"
         >
           La información que tus clientes necesitan, al alcance de una llamada
@@ -646,7 +651,8 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.6, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "linear" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-6 text-lg md:text-xl text-[#BBBBBB] max-w-[560px] mx-auto"
         >
           Solicita una demostración gratuita para comprobar cómo TeXML Bot IVR puede transformar tu atención al cliente y reducir costos operativos.
@@ -656,7 +662,8 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.6, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "linear" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
           <Link to="/#contacto">
