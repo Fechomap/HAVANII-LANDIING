@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle, Phone, Bot, Clock, BarChart2, Headphones, Server, Users, Mic, Database, Settings } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
+import ShootingStarsBackground from '@/components/ShootingStarsBackground';
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,9 @@ const TeXMLBotIVR = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-bg-body text-text-primary">
+    <div className="flex flex-col min-h-screen bg-bg-body text-text-primary relative">
+      {/* Fondo de estrellas fugaces */}
+      <ShootingStarsBackground />
       {/* Header con navegación */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.35)] backdrop-blur-sm">
         <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">
@@ -187,9 +190,14 @@ const HeroSection = () => {
 
 // About Section
 const AboutSection = () => {
+  const controls = useAnimation();
   const sectionRef = useIntersection(
-    (entry) => { /* Animation handled by Framer Motion */ },
-    { threshold: 0.4, once: true }
+    (entry) => { 
+      if (entry.isIntersecting) {
+        controls.start({ opacity: 1, y: 0 });
+      }
+    },
+    { root: null, rootMargin: '0px', threshold: 0.4, once: true }
   );
 
   return (
