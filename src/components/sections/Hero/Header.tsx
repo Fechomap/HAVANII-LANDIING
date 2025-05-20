@@ -1,4 +1,3 @@
-
 /**
  * @component Header - Barra de navegación principal de Havani
  * Este componente implementa el header sticky con navegación, siguiendo el diseño de Pulsar.
@@ -8,7 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { motion, animate } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 
@@ -46,47 +45,55 @@ const Header = ({ hasScrolled }: HeaderProps) => {
     }
   };
 
+  // Función para realizar un scroll suave personalizado
+  const smoothScrollTo = (targetPosition: number, duration: number = 800) => {
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    let startTime: number | null = null;
+    
+    // Función de easing suave - easeInOutQuad
+    const easeInOutQuad = (t: number): number => {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    };
+    
+    const scrollAnimation = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const easedProgress = easeInOutQuad(progress);
+      
+      window.scrollTo(0, startPosition + distance * easedProgress);
+      
+      if (timeElapsed < duration) {
+        requestAnimationFrame(scrollAnimation);
+      }
+    };
+    
+    requestAnimationFrame(scrollAnimation);
+  };
+
   // Manejar el scroll al hacer clic en los enlaces
   const handleLinkClick = (id: string, href: string, e: React.MouseEvent) => {
-    e.preventDefault();
     setActiveLink(id);
     
     if (href.startsWith('#')) {
+      e.preventDefault();
       const targetId = href.substring(1);
       const element = document.getElementById(targetId);
       
       if (element) {
         // Calcular la posición considerando el header fijo
-        const headerOffset = 100; // Ajusta este valor según la altura de tu header
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        const headerOffset = -55; // Ajusta este valor según la altura de tu header
+        const offsetPosition = element.getBoundingClientRect().top + window.pageYOffset - headerOffset;
         
-        // Definir una función de ease personalizada con dos rebotes
-        const customBounceEase = (t: number): number => {
-          // Valores ajustables para controlar los rebotes
-          const bounce = 0.25; // Intensidad del rebote
-          const frequency = 2.5; // Número de rebotes (ajusta para más o menos rebotes)
-          
-          // Fórmula para crear el efecto de rebote
-          // Esta fórmula crea un efecto que comienza rápido y termina con rebotes
-          const base = Math.max(0, 1 - t);
-          return 1 - (Math.pow(base, 2) * Math.abs(Math.sin(t * frequency * Math.PI) * bounce));
-        };
-        
-        // Usar Framer Motion con nuestra función de ease personalizada
-        animate(window.scrollY, offsetPosition, {
-          duration: 1.5, // Duración un poco más larga para apreciar los rebotes
-          ease: customBounceEase,
-          onUpdate: (value) => window.scrollTo(0, value)
-        });
+        // Usar nuestra función de scroll suave personalizada
+        smoothScrollTo(offsetPosition, 800); // 800ms es una buena duración para un scroll agradable
         
         // Actualizar la URL sin recargar la página
         window.history.pushState({}, '', href);
       }
-    } else {
-      // Para enlaces que no son anclas, navegar normalmente
-      window.location.href = href;
     }
+    // Para enlaces que no son anclas, el comportamiento predeterminado se maneja automáticamente
   };
   
   return (
