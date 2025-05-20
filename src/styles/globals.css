@@ -325,3 +325,18 @@ body {
     row-gap: 32px !important;
   }
 }
+
+/* ----------------------------------------
+   6. COMPATIBILIDAD ENTRE NAVEGADORES
+   ---------------------------------------- */
+
+/* FallBack para soporte consistente de backdrop-blur */
+.backdrop-blur-sm {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-\[2px\] {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}

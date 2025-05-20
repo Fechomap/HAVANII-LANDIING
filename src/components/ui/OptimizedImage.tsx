@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type { OptimizedImageProps } from '@/types';
 import { useDeviceInfo } from '@/hooks/useDeviceInfo';
 
