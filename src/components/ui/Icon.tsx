@@ -16,6 +16,7 @@ import {
   Route,
   FileText,
   Receipt,
+  MessageSquare,
   
   // Benefits icons
   Brain,
@@ -51,6 +52,8 @@ export type IconName =
   | 'route'
   | 'file-text'
   | 'receipt'
+  | 'bot'
+  | 'message-square'
   // Benefits icons
   | 'brain-lightning'
   | 'clear'
@@ -108,6 +111,8 @@ export const Icon: React.FC<IconProps> = ({
     'route': Route,
     'file-text': FileText,
     'receipt': Receipt,
+    'bot': Bot,
+    'message-square': MessageSquare,
     
     // Benefits icons
     'brain-lightning': Brain,

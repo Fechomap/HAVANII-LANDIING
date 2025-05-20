@@ -1,8 +1,7 @@
-
 export interface Product {
   name: string;
   description: string;
-  icon: 'route' | 'file-text' | 'receipt';
+  icon: 'route' | 'file-text' | 'receipt' | 'bot' | 'message-square';
   url: string;
 }
 
@@ -24,5 +23,17 @@ export const products: Product[] = [
     description: 'Factura y concilia servicios sin esfuerzo, con visibilidad total de cobros.',
     icon: 'receipt',
     url: '/conciliador'
+  },
+  {
+    name: 'NyxBot',
+    description: 'Chatbot inteligente que automatiza la atención al cliente en múltiples plataformas.',
+    icon: 'bot',
+    url: '/nyxbot'
+  },
+  {
+    name: 'FacturAPI SaaS',
+    description: 'Facturación electrónica simplificada vía Telegram y web para negocios mexicanos.',
+    icon: 'message-square',
+    url: '/facturapi-saas'
   }
 ];
