@@ -1,68 +1,94 @@
 /**
  * @component HeroSection - Sección principal (Hero) de la landing page de Havani
- * Esta sección implementa el diseño del Hero de Pulsar adaptado a Havani.
- * Incluye header con navegación, fondo con estrellas animadas, contenido principal
- * y mockup de dashboard.
- * 
- * Prompt 1 - Hero v4
+ * Versión optimizada para mejor rendimiento y tiempos de carga
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useIntersection } from '@/hooks/useIntersection';
 import { Play, ArrowDown } from 'lucide-react';
-import Header from './Header';
+import { useDeviceInfo } from '@/hooks/useDeviceInfo';
 
+// Carga diferida del Header para priorizar los elementos visibles
+const Header = lazy(() => import('./Header'));
+
+// Componente minimalista para ser usado como fallback durante la carga
+const HeaderSkeleton = () => (
+  <header className="fixed top-0 inset-x-0 z-50 h-20 bg-black/30 backdrop-blur-sm">
+    <div className="max-w-[1280px] mx-auto px-6 py-6 flex justify-between">
+      <div className="w-32 h-8 bg-white/10 rounded animate-pulse"></div>
+      <div className="hidden md:flex gap-4">
+        {[1, 2, 3, 4].map(i => (
+          <div key={i} className="w-20 h-8 bg-white/10 rounded animate-pulse"></div>
+        ))}
+      </div>
+    </div>
+  </header>
+);
+
+// Componente optimizado del Hero
 const HeroSection = () => {
   // Estados para animaciones
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [isContentLoaded, setIsContentLoaded] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   const controls = useAnimation();
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Ref para el indicador de scroll
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   
-  // Referencia para la animación del texto por líneas (headline)
-  const headlineRef = useRef<HTMLHeadingElement>(null);
+  // Obtener información del dispositivo para optimizaciones específicas
+  const { isLowPowerDevice, isMobile, prefersReducedMotion } = useDeviceInfo();
   
-  // Detectar cuando la sección es visible para iniciar animaciones
+  // Detectar intersección para iniciar animaciones solo cuando sea visible
   const elementRef = useIntersection((entry) => {
     if (entry.isIntersecting) {
-      // 👉 Iniciar secuencia de animaciones cuando el elemento es visible en un 40% del viewport
-      controls.start('visible');
+      // Mostrar contenido principal
+      setIsContentLoaded(true);
+      
+      // En dispositivos de baja potencia o con preferencia de reducción de movimiento,
+      // mostrar directamente sin animación
+      if (!isLowPowerDevice && !prefersReducedMotion) {
+        controls.start('visible');
+      }
     }
   });
   
-  // Secuencia de animaciones para los elementos
+  // Mostrar Header con un pequeño retraso para priorizar el contenido principal
   useEffect(() => {
-    // Iniciar animaciones cuando el componente se monta
-    controls.start('visible');
+    const timer = setTimeout(() => {
+      setIsHeaderVisible(true);
+    }, 100);
     
-    // 👉 Detectar scroll para ocultar el indicador y cambiar el header
+    return () => clearTimeout(timer);
+  }, []);
+  
+  // Manejar eventos de scroll de manera optimizada con throttling
+  useEffect(() => {
+    let lastScrollTime = 0;
+    const scrollThreshold = 50; // ms
+    
     const handleScroll = () => {
+      const now = Date.now();
+      if (now - lastScrollTime < scrollThreshold) return;
+      lastScrollTime = now;
+      
       if (window.scrollY > 8 && !hasScrolled) {
         setHasScrolled(true);
         
-        // Ocultar el indicador de scroll con animación
+        // Ocultar indicador de scroll
         if (scrollIndicatorRef.current) {
           scrollIndicatorRef.current.style.opacity = '0';
-          setTimeout(() => {
-            if (scrollIndicatorRef.current) {
-              scrollIndicatorRef.current.style.display = 'none';
-            }
-          }, 400); // Después de la transición
         }
       }
     };
     
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [controls, hasScrolled]);
+  }, [hasScrolled]);
   
-  // Manejar scroll suave al hacer clic en el indicador de scroll
+  // Manejar scroll suave al hacer clic en el indicador
   const handleScrollClick = () => {
     const valorSection = document.getElementById('valor');
     if (valorSection) {
@@ -70,71 +96,38 @@ const HeroSection = () => {
     }
   };
 
-  // Variantes de animación para los distintos elementos
+  // Variantes de animación simplificadas - reducir complejidad para dispositivos lentos
   const containerVariants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.06,
-        delayChildren: 0.15,
+        staggerChildren: isLowPowerDevice ? 0.02 : 0.06,
+        delayChildren: 0.1,
       }
     }
   };
   
-  const badgeVariants = {
-    hidden: { opacity: 0, y: -12 },
+  // Definir variantes de animación solo si son necesarias
+  const textVariants = {
+    hidden: { opacity: 0, y: 15 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.55,
-        ease: [0.25, 0.8, 0.25, 1],
-        delay: 0.15
+        duration: 0.5,
+        ease: "easeOut",
       }
     }
-  };
-  
-  const headlineVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.75,
-        ease: [0.25, 0.8, 0.25, 1]
-      }
-    }
-  };
-  
-  const subtitleVariants = {
-    hidden: { opacity: 0, y: 26 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.55,
-        ease: [0.25, 0.8, 0.25, 1],
-        delay: 0.25
-      }
-    }
-  };
-  
-  // SOLUCIÓN DEFINITIVA: Configurar ambos botones para que aparezcan como parte del contenido inicial
-  // sin animaciones especiales de entrada para evitar cualquier parpadeo
-  const buttonContainerVariants = {
-    hidden: { opacity: 1 }, // Comienza visible
-    visible: { opacity: 1 } // Permanece visible
   };
   
   const mockupVariants = {
-    hidden: { opacity: 0, scale: 0.88, x: 60 },
+    hidden: { opacity: 0, scale: 0.95 },
     visible: {
       opacity: 1,
       scale: 1,
-      x: 0,
       transition: {
-        duration: 0.9,
-        ease: [0.25, 0.8, 0.25, 1.7] // Simular Out Back
+        duration: 0.6,
+        ease: "easeOut"
       }
     }
   };
@@ -142,55 +135,53 @@ const HeroSection = () => {
   return (
     <section 
       ref={elementRef}
-      className="relative w-full min-h-[100vh] lg:min-h-[100vh] md:min-h-[120vh] overflow-hidden flex flex-col"
+      className="relative w-full min-h-screen overflow-hidden flex flex-col"
       id="hero"
     >
-      {/* Header con navegación */}
-      <Header hasScrolled={hasScrolled} />
+      {/* Header con carga diferida */}
+      {isHeaderVisible ? (
+        <Suspense fallback={<HeaderSkeleton />}>
+          <Header hasScrolled={hasScrolled} />
+        </Suspense>
+      ) : (
+        <HeaderSkeleton />
+      )}
       
-      {/* Nota: El fondo de estrellas se maneja globalmente desde App.tsx */}
+      {/* Nebulosa de fondo - Optimizada */}
+      {!isLowPowerDevice && (
+        <div 
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-full md:w-[120%] h-[80%] opacity-30 z-0"
+          style={{
+            background: 'radial-gradient(circle at center 20%, rgba(123, 97, 255, 0.4) 0%, rgba(0, 0, 0, 0) 70%)',
+            filter: isMobile ? 'blur(80px)' : 'blur(120px)',
+          }}
+          aria-hidden="true"
+        />
+      )}
       
-      {/* Nebulosa glow */}
-      <div 
-        className="absolute -top-[50%] left-1/2 -translate-x-1/2 w-[180%] h-[140%] z-0"
-        style={{
-          background: '#7B61FF33',
-          filter: 'blur(160px)',
-          mixBlendMode: 'normal'
-        }}
-        aria-hidden="true"
-      />
-      
-      {/* Grid principal */}
-      <div className="relative z-10 max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[46%_54%] gap-8 px-6 md:px-12 lg:px-24 pt-[200px] pb-[140px] lg:pt-[200px] lg:pb-[140px] md:pt-28 md:pb-24">
+      {/* Grid principal - Renderizado condicional para mejor rendimiento */}
+      <div className="relative z-10 max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[46%_54%] gap-8 px-6 md:px-12 lg:px-24 pt-36 pb-24 md:pt-44 md:pb-28">
         
         {/* Columna izquierda - Texto */}
         <motion.div
           variants={containerVariants}
-          initial="hidden"
-          animate={controls}
+          initial={prefersReducedMotion ? "visible" : "hidden"}
+          animate={isContentLoaded ? "visible" : "hidden"}
           className="flex flex-col order-2 lg:order-1"
         >
-          {/* Badge "Descubre Havani →" */}
+          {/* Badge */}
           <motion.div 
             className="group inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-white/10 text-sm font-semibold text-white hover:bg-white/20 cursor-pointer"
-            variants={badgeVariants}
+            variants={textVariants}
           >
             Descubre Havani 
-            <motion.span
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.15 }}
-              className="w-4 h-4"
-            >
-              →
-            </motion.span>
+            <span className="ml-1">→</span>
           </motion.div>
           
-          {/* Headline */}
+          {/* Headline - Optimizado sin drop-shadow costosa */}
           <motion.h1 
-            ref={headlineRef}
-            className="mt-4 text-[clamp(44px,6vw,76px)] font-extrabold leading-[1.1] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,.5)]"
-            variants={headlineVariants}
+            className="mt-4 text-[clamp(44px,6vw,72px)] font-extrabold leading-[1.1] text-white"
+            variants={textVariants}
           >
             <span className="block">HAVANI</span>
             <span className="block">Desarrollo Sin Tanto Rollo.</span>
@@ -198,98 +189,84 @@ const HeroSection = () => {
           
           {/* Subtítulo */}
           <motion.p 
-            className="mt-6 max-w-[540px] text-lg md:text-xl text-[#CCCCCC] tracking-tight"
-            variants={subtitleVariants}
+            className="mt-6 max-w-[540px] text-lg md:text-xl text-[#CCCCCC]"
+            variants={textVariants}
           >
             Desarrollo a medida con un enfoque práctico y transparente. Entregamos innovación, velocidad y profesionalismo en cada línea de código.
           </motion.p>
           
-          {/* Contenedor con altura mínima para evitar saltos 
-              NOTA: Eliminada la animación de aparición para los botones */}
-          <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-10 min-h-[60px]">
-            {/* Botón primario - Se eliminó la variante de animación initial para que aparezca directamente */}
+          {/* Botones - Sin animaciones innecesarias */}
+          <motion.div 
+            className="flex flex-col md:flex-row gap-4 md:gap-6 mt-10"
+            variants={textVariants}
+          >
+            {/* Botón primario */}
             <button
-              className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] hover:outline-[#7B61FF] hover:outline-2 hover:outline-offset-4 relative overflow-hidden group"
-              data-tooltip="Inicia tu proyecto"
+              className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold hover:shadow-lg transition-shadow duration-200 relative overflow-hidden group"
             >
-              {/* Fill animation on hover */}
-              <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute inset-0 w-0 bg-[#7B61FF]/10 transition-all duration-300 group-hover:w-full"></span>
               <span className="relative z-10">Hablemos de tu Idea</span>
             </button>
             
-            {/* Botón secundario - También sin animación inicial */}
+            {/* Botón secundario */}
             <button
-              className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors flex items-center justify-center gap-2 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#7B61FF]"
+              className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
             >
-              <motion.span
-                animate={{ 
-                  scale: [1, 1.15, 1],
-                  transition: {
-                    duration: 3,
-                    repeat: Infinity,
-                    repeatType: 'loop'
-                  }
-                }}
-                className="flex items-center justify-center"
-              >
+              <span className="flex items-center justify-center">
                 <Play className="w-5 h-5" />
-              </motion.span>
+              </span>
               Watch Video
             </button>
-          </div>
+          </motion.div>
         </motion.div>
         
-        {/* Columna derecha - Mockup */}
-        <div className="relative order-1 lg:order-2 overflow-visible">
+        {/* Columna derecha - Mockup con optimizaciones */}
+        <div className="relative order-1 lg:order-2">
           <motion.div 
             className="relative"
             variants={mockupVariants}
-            initial="hidden"
-            animate={controls}
+            initial={prefersReducedMotion ? "visible" : "hidden"}
+            animate={isContentLoaded ? "visible" : "hidden"}
           >
-            {/* Glow effect para el mockup */}
-            <div
-              className="absolute inset-0 -z-10"
-              style={{
-                background: 'radial-gradient(50% 50% at 50% 50%, rgba(123, 97, 255, 0.5) 0%, rgba(123, 97, 255, 0) 100%)',
-                transform: 'translateY(40px)',
-                filter: 'blur(120px)',
-                willChange: 'transform, opacity'
-              }}
-              aria-hidden="true"
-            />
+            {/* Glow effect simplificado para mejor rendimiento */}
+            {!isLowPowerDevice && (
+              <div
+                className="absolute inset-0 -z-10 opacity-60"
+                style={{
+                  background: 'radial-gradient(70% 50% at center center, rgba(123, 97, 255, 0.3) 0%, rgba(0, 0, 0, 0) 100%)',
+                  filter: 'blur(60px)',
+                }}
+                aria-hidden="true"
+              />
+            )}
             
-            {/* Imagen del mockup */}
+            {/* Imagen del mockup - Con lazy loading y dimensiones explícitas */}
             <img 
-              src="/placeholder.svg" // Placeholder temporal, debería reemplazarse con la imagen real
+              src="/placeholder.svg"
               alt="Panel Havani" 
-              className="w-full max-w-[760px] h-auto rounded-[32px] border border-white/6 shadow-[0_40px_60px_-10px_rgba(0,0,0,.6)] translate-y-[40px]"
+              width="760"
+              height="480"
+              className="w-full max-w-[760px] h-auto rounded-2xl border border-white/6 shadow-lg"
               loading="lazy"
+              decoding="async"
             />
           </motion.div>
         </div>
       </div>
       
-      {/* Indicador de scroll */}
-      <motion.div
-        ref={scrollIndicatorRef}
-        className="absolute left-1/2 translate-x-[-50%] bottom-8 z-20 flex items-center justify-center cursor-pointer"
-        animate={{ 
-          y: [0, 8, 0],
-          transition: {
-            duration: 2,
-            repeat: Infinity,
-            repeatType: 'loop',
-            ease: 'easeInOut'
-          }
-        }}
-        onClick={handleScrollClick}
-        aria-label="scroll a la siguiente sección"
-      >
-        <div className="w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center">
-          <ArrowDown className="w-5 h-5 text-white/70" />
+      {/* Indicador de scroll - Simplificado */}
+      {!isMobile && (
+        <div
+          ref={scrollIndicatorRef}
+          className="absolute left-1/2 -translate-x-1/2 bottom-8 z-20 flex items-center justify-center cursor-pointer opacity-80 hover:opacity-100 transition-opacity"
+          onClick={handleScrollClick}
+          aria-label="Ir a la siguiente sección"
+        >
+          <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center">
+            <ArrowDown className="w-5 h-5 text-white/70" />
+          </div>
         </div>
-      </motion.div>
+      )}
     </section>
   );
 };
