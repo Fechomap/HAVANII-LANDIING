@@ -35,6 +35,7 @@ const FlagshipProductsSection = () => {
     <section
       ref={sectionRef}
       aria-labelledby="fp-title"
+      id="productos" // Añade esta línea
       className="relative bg-[#0D0D11] overflow-hidden"
       style={{
         backgroundImage: 'url("/assets/noise.png")',
