@@ -104,7 +104,7 @@ export default function FinalCTASection() {
   return (
     <section
       aria-labelledby="cta-title"
-      id="final-cta"
+      id="contacto"
       className="relative overflow-hidden bg-[#09090C]"
       ref={sectionRef}
     >

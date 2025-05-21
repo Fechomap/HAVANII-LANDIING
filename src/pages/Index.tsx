@@ -6,60 +6,24 @@
  * a medida que se vayan desarrollando con los prompts específicos.
  */
 
-import React, { useEffect, lazy, Suspense, useState } from 'react';
-import { useIntersection } from '@/hooks/useIntersection';
+import React, { useEffect } from 'react';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 
-const HeroSection = lazy(() => import('@/components/sections/Hero/HeroSection'));
-const ValuePropSection = lazy(() => import('@/components/sections/ValueProp/ValuePropSection'));
-const ProblemSolutionSection = lazy(() => import('@/components/sections/ProblemSolution/ProblemSolutionSection'));
-const ProcessSection = lazy(() => import('@/components/sections/Process/ProcessSection'));
-const FlagshipProductsSection = lazy(() => import('@/components/sections/FlagshipProducts/FlagshipProductsSection'));
-const ServicesSection = lazy(() => import('@/components/sections/Services/ServicesSection'));
-const BenefitsSection = lazy(() => import('@/components/sections/Benefits/BenefitsSection'));
-const StorySection = lazy(() => import('@/components/sections/Story/StorySection'));
-const TestimonialsSection = lazy(() => import('@/components/sections/Testimonials/TestimonialsSection'));
-const ComparisonSection = lazy(() => import('@/components/sections/Comparison/ComparisonSection'));
-const TechnologyStackSection = lazy(() => import('@/components/sections/TechnologyStack/TechnologyStackSection'));
-const FinalCTASection = lazy(() => import('@/components/sections/CTA/FinalCTASection'));
-const FooterSection = lazy(() => import('@/components/sections/Footer/FooterSection'));
-
-/**
- * Fallback spinner used during lazy loading
- */
-const SpinnerFallback = ({ height }: { height: string }) => (
-  <div
-    style={{ minHeight: height }}
-    className="flex items-center justify-center w-full"
-  >
-    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]" />
-  </div>
-);
-
-interface LazySectionProps {
-  Component: React.LazyExoticComponent<React.ComponentType<Record<string, unknown>>>;
-  height?: string;
-  immediate?: boolean;
-}
-
-const LazySection = ({ Component, height = '50vh', immediate = false }: LazySectionProps) => {
-  const [visible, setVisible] = useState(immediate);
-  const ref = useIntersection(() => setVisible(true));
-  const fallback = <SpinnerFallback height={height} />;
-
-  return (
-    <div ref={ref as React.RefObject<HTMLDivElement>}>
-      {visible ? (
-        <Suspense fallback={fallback}>
-          <Component />
-        </Suspense>
-      ) : (
-        fallback
-      )}
-    </div>
-  );
-};
+// Importar componentes directamente en lugar de usar lazy loading
+import HeroSection from '@/components/sections/Hero/HeroSection';
+import ValuePropSection from '@/components/sections/ValueProp/ValuePropSection';
+import ProblemSolutionSection from '@/components/sections/ProblemSolution/ProblemSolutionSection';
+import ProcessSection from '@/components/sections/Process/ProcessSection';
+import FlagshipProductsSection from '@/components/sections/FlagshipProducts/FlagshipProductsSection';
+import ServicesSection from '@/components/sections/Services/ServicesSection';
+import BenefitsSection from '@/components/sections/Benefits/BenefitsSection';
+import StorySection from '@/components/sections/Story/StorySection';
+import TestimonialsSection from '@/components/sections/Testimonials/TestimonialsSection';
+import ComparisonSection from '@/components/sections/Comparison/ComparisonSection';
+import TechnologyStackSection from '@/components/sections/TechnologyStack/TechnologyStackSection';
+import FinalCTASection from '@/components/sections/CTA/FinalCTASection';
+import FooterSection from '@/components/sections/Footer/FooterSection';
 
 const Index = () => {
   // Hook para la navegación a Home con transición
@@ -89,43 +53,43 @@ const Index = () => {
         onComplete={completeTransition} 
       />
       {/* Sección Hero - Implementada con el prompt específico */}
-      <LazySection Component={HeroSection} height="100vh" immediate />
+      <HeroSection />
       
       {/* Sección Propuesta de Valor */}
-      <LazySection Component={ValuePropSection} />
+      <ValuePropSection />
       
       {/* Sección Problema/Solución */}
-      <LazySection Component={ProblemSolutionSection} />
+      <ProblemSolutionSection />
       
       {/* Sección Proceso */}
-      <LazySection Component={ProcessSection} />
+      <ProcessSection />
       
       {/* Sección Servicios */}
-      <LazySection Component={ServicesSection} />
+      <ServicesSection />
       
       {/* Sección Beneficios */}
-      <LazySection Component={BenefitsSection} />
+      <BenefitsSection />
       
       {/* Sección Productos Insignia */}
-      <LazySection Component={FlagshipProductsSection} />
+      <FlagshipProductsSection />
       
       {/* Sección Historia */}
-      <LazySection Component={StorySection} />
+      <StorySection />
       
       {/* Sección Testimonios */}
-      <LazySection Component={TestimonialsSection} />
+      <TestimonialsSection />
       
       {/* Sección Comparativa */}
-      <LazySection Component={ComparisonSection} />
+      <ComparisonSection />
       
       {/* Sección de Tecnologías */}
-      <LazySection Component={TechnologyStackSection} />
+      <TechnologyStackSection />
       
       {/* SECCIÓN CTA FINAL */}
-      <LazySection Component={FinalCTASection} />
+      <FinalCTASection />
       
       {/* Footer */}
-      <LazySection Component={FooterSection} />
+      <FooterSection />
       
       {/* Aquí se añadirán el resto de secciones específicas */}
       {/* Sección Características */}

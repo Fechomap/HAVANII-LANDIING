@@ -21,7 +21,7 @@ const Header = ({ hasScrolled }: HeaderProps) => {
     { name: 'Proceso', id: 'proceso', href: '#proceso' },
     { name: 'Productos', id: 'productos', href: '#productos' },
     { name: 'Precios', id: 'precios', href: '/pricing' },
-    { name: 'Contacto', id: 'contacto', href: '#final-cta' }
+    { name: 'Contacto', id: 'contacto', href: '#contacto' }
   ];
   
   const linkStyles = "relative px-4 py-2 text-white hover:text-white/90 transition-colors";
@@ -34,31 +34,6 @@ const Header = ({ hasScrolled }: HeaderProps) => {
     }
   };
 
-  const smoothScrollTo = (targetPosition: number, duration: number = 800) => {
-    const startPosition = window.pageYOffset;
-    const distance = targetPosition - startPosition;
-    let startTime: number | null = null;
-    
-    const easeInOutQuad = (t: number): number => {
-      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    };
-    
-    const scrollAnimation = (currentTime: number) => {
-      if (startTime === null) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      const progress = Math.min(timeElapsed / duration, 1);
-      const easedProgress = easeInOutQuad(progress);
-      
-      window.scrollTo(0, startPosition + distance * easedProgress);
-      
-      if (timeElapsed < duration) {
-        requestAnimationFrame(scrollAnimation);
-      }
-    };
-    
-    requestAnimationFrame(scrollAnimation);
-  };
-  
   const handleLinkClick = (id: string, href: string, e: React.MouseEvent) => {
     setActiveLink(id);
     
@@ -77,11 +52,16 @@ const Header = ({ hasScrolled }: HeaderProps) => {
       const element = document.getElementById(targetId);
       
       if (element) {
-        const headerOffset = -55;
-        const offsetPosition = element.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        const headerOffset = 80;
+        const offsetPosition = element.getBoundingClientRect().top + window.scrollY - headerOffset;
         
-        smoothScrollTo(offsetPosition, 800);
+        // Usar scrollTo nativo para mayor compatibilidad
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
         
+        // Actualizar URL después del scroll
         window.history.pushState({}, '', href);
       }
     }
