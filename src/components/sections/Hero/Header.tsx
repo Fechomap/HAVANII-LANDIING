@@ -23,7 +23,7 @@ const Header = ({ hasScrolled }: HeaderProps) => {
   // Enlaces de navegación
   const navLinks = [
     { name: 'Home', id: 'home', href: '/' },
-    { name: 'Valor', id: 'valor', href: '#valor' },
+    { name: 'Servicios', id: 'servicios', href: '#servicios' },
     { name: 'Proceso', id: 'proceso', href: '#proceso' },
     { name: 'Productos', id: 'productos', href: '#productos' },
     { name: 'Precios', id: 'precios', href: '/pricing' },

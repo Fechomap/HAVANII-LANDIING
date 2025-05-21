@@ -34,6 +34,7 @@ const ServicesSection = () => {
     <section
       ref={sectionRef}
       aria-labelledby="services-title"
+      id="servicios"
       className="relative bg-[#0B0B0F] overflow-hidden"
       style={{
         backgroundImage: 'url("/assets/noise.png")',
