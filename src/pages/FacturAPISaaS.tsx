@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useHomeNavigation } from '@/hooks/useHomeNavigation';
+import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, FileText, MessageCircle, Users, CreditCard, Database, Shield, Clock, Globe, Receipt, Tag } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
 import ShootingStarsBackground from '@/components/ShootingStarsBackground';
@@ -10,6 +12,9 @@ import { Button } from '@/components/ui/button';
 import FooterSection from '@/components/sections/Footer/FooterSection';
 
 const FacturAPISaaS = () => {
+  // Hook para la navegación a Home con transición
+  const { goToHome, isTransitioning, completeTransition } = useHomeNavigation();
+  
   // Establecer el título de la página y el fondo
   useEffect(() => {
     document.title = 'FacturAPI SaaS | Havani - Facturación Electrónica Simple';
@@ -25,12 +30,17 @@ const FacturAPISaaS = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-bg-body text-text-primary relative">
+      {/* Componente de transición */}
+      <HomeTransition 
+        isActive={isTransitioning} 
+        onComplete={completeTransition} 
+      />
       {/* Fondo de estrellas fugaces */}
       <ShootingStarsBackground />
       {/* Header con navegación */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.35)] backdrop-blur-sm">
         <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">
-          <Link to="/" className="text-white flex items-center">
+          <Link to="/" className="text-white flex items-center" onClick={goToHome}>
             <img 
               src="/images/logo-havani.svg" 
               alt="Havani Logo" 
@@ -39,16 +49,26 @@ const FacturAPISaaS = () => {
           </Link>
           
           <nav className="hidden md:flex items-center space-x-1">
-            <Link to="/" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
+            <Link to="/" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors" onClick={goToHome}>
               Home
             </Link>
             <Link to="/pricing" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
               Precios
             </Link>
-            <Link to="/#productos" className="relative rounded-full bg-white/[.12] text-white px-4 py-2">
+            <Link to="/#productos" className="relative rounded-full bg-white/[.12] text-white px-4 py-2" onClick={(e) => {
+              // Si el enlace es a la página principal con un ancla, usamos goToHome
+              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                goToHome(e);
+              }
+            }}>
               Productos
             </Link>
-            <Link to="/#contacto" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
+            <Link to="/#contacto" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors" onClick={(e) => {
+              // Si el enlace es a la página principal con un ancla, usamos goToHome
+              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                goToHome(e);
+              }
+            }}>
               Contacto
             </Link>
           </nav>
@@ -98,6 +118,9 @@ const FacturAPISaaS = () => {
 
 // Hero Section
 const HeroSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   return (
     <section className="relative w-full min-h-[90vh] overflow-hidden flex flex-col pt-32 md:pt-48">
       {/* Nebulosa glow */}
@@ -152,7 +175,11 @@ const HeroSection = () => {
               </Button>
             </Link>
             
-            <Link to="/#valor">
+            <Link to="/#valor" onClick={(e) => {
+              if (e.currentTarget.getAttribute('href') === '/') {
+                goToHome(e);
+              }
+            }}>
               <Button variant="outline" className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors">
                 Ver Planes y Precios
               </Button>
@@ -194,6 +221,9 @@ const HeroSection = () => {
 
 // About Section
 const AboutSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const controls = useAnimation();
   const sectionRef = useIntersection(
     (entry) => { 
@@ -246,6 +276,9 @@ const AboutSection = () => {
 
 // Features Section
 const FeaturesSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const features = [
     {
       title: "Bot de Telegram para Facturación Rápida",
@@ -354,6 +387,9 @@ const FeaturesSection = () => {
 
 // Benefits Section
 const BenefitsSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const benefits = [
     {
       title: "Ahorro de Tiempo y Recursos",
@@ -433,6 +469,9 @@ const BenefitsSection = () => {
 
 // How It Works Section
 const HowItWorksSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const steps = [
     {
       number: "01",
@@ -526,6 +565,9 @@ const HowItWorksSection = () => {
 
 // Plans Section
 const PlansSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const plans = [
     {
       name: "Básico",
@@ -567,7 +609,6 @@ const PlansSection = () => {
       highlight: false
     }
   ];
-
   return (
     <section className="relative bg-[#0B0B0F] py-[120px] overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
@@ -625,7 +666,11 @@ const PlansSection = () => {
               </ul>
               
               <div className="mt-auto pt-4">
-                <Link to="/#contacto">
+                <Link to="/#contacto" onClick={(e) => {
+                  if (e.currentTarget.getAttribute('href') === '/') {
+                    goToHome(e);
+                  }
+                }}>
                   <Button className={`w-full rounded-full ${plan.highlight ? 'bg-[#7B61FF] text-white hover:bg-[#6A50E0]' : 'bg-white/10 text-white hover:bg-white/20'} font-semibold transition-colors`}>
                     Comenzar Prueba Gratuita
                   </Button>
@@ -651,6 +696,9 @@ const PlansSection = () => {
 
 // CTA Section
 const CTASection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   return (
     <section className="relative bg-[#09090C] py-[120px] overflow-hidden">
       {/* Overlay Glow */}

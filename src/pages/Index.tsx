@@ -7,6 +7,8 @@
  */
 
 import { useEffect } from 'react';
+import { useHomeNavigation } from '@/hooks/useHomeNavigation';
+import HomeTransition from '@/components/transitions/HomeTransition';
 import HeroSection from '@/components/sections/Hero/HeroSection';
 import ValuePropSection from '@/components/sections/ValueProp/ValuePropSection';
 import ProblemSolutionSection from '@/components/sections/ProblemSolution/ProblemSolutionSection';
@@ -22,6 +24,8 @@ import FinalCTASection from "@/components/sections/CTA/FinalCTASection";
 import FooterSection from "@/components/sections/Footer/FooterSection";
 
 const Index = () => {
+  // Hook para la navegación a Home con transición
+  const { isTransitioning, completeTransition } = useHomeNavigation();
   
   // Establecer el color de fondo del cuerpo y otras configuraciones globales
   useEffect(() => {
@@ -41,6 +45,11 @@ const Index = () => {
   
   return (
     <div className="flex flex-col min-h-screen bg-bg-body text-text-primary">
+      {/* Componente de transición */}
+      <HomeTransition 
+        isActive={isTransitioning} 
+        onComplete={completeTransition} 
+      />
       {/* Sección Hero - Implementada con el prompt específico */}
       <HeroSection />
       

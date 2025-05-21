@@ -63,6 +63,9 @@ const Header = ({ hasScrolled }: HeaderProps) => {
     
     // Caso especial para Home - usar nuestro hook de navegación
     if (id === 'home') {
+      // Siempre forzamos la animación incluso cuando ya estamos en la página principal
+      e.preventDefault();
+      // Usar goToHome que ya maneja la transición correctamente
       goToHome(e);
       return;
     }

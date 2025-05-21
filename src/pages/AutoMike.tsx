@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useHomeNavigation } from '@/hooks/useHomeNavigation';
+import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
 import ShootingStarsBackground from '@/components/ShootingStarsBackground';
@@ -10,6 +12,9 @@ import { Button } from '@/components/ui/button';
 import FooterSection from '@/components/sections/Footer/FooterSection';
 
 const AutoMike = () => {
+  // Hook para la navegación a Home con transición
+  const { goToHome, isTransitioning, completeTransition } = useHomeNavigation();
+  
   // Establecer el título de la página y el fondo
   useEffect(() => {
     document.title = 'AutoMike | Havani - Automatización de Expedientes';
@@ -25,12 +30,17 @@ const AutoMike = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-bg-body text-text-primary relative">
+      {/* Componente de transición */}
+      <HomeTransition 
+        isActive={isTransitioning} 
+        onComplete={completeTransition} 
+      />
       {/* Fondo de estrellas fugaces */}
       <ShootingStarsBackground />
       {/* Header con navegación */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.35)] backdrop-blur-sm">
         <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">
-          <Link to="/" className="text-white flex items-center">
+          <Link to="/" className="text-white flex items-center" onClick={goToHome}>
             <img 
               src="/images/logo-havani.svg" 
               alt="Havani Logo" 
@@ -39,16 +49,26 @@ const AutoMike = () => {
           </Link>
           
           <nav className="hidden md:flex items-center space-x-1">
-            <Link to="/" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
+            <Link to="/" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors" onClick={goToHome}>
               Home
             </Link>
             <Link to="/pricing" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
               Precios
             </Link>
-            <Link to="/#productos" className="relative rounded-full bg-white/[.12] text-white px-4 py-2">
+            <Link to="/#productos" className="relative rounded-full bg-white/[.12] text-white px-4 py-2" onClick={(e) => {
+              // Si el enlace es a la página principal con un ancla, usamos goToHome
+              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                goToHome(e);
+              }
+            }}>
               Productos
             </Link>
-            <Link to="/#contacto" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
+            <Link to="/#contacto" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors" onClick={(e) => {
+              // Si el enlace es a la página principal con un ancla, usamos goToHome
+              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                goToHome(e);
+              }
+            }}>
               Contacto
             </Link>
           </nav>
@@ -98,6 +118,9 @@ const AutoMike = () => {
 
 // Hero Section
 const HeroSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   return (
     <section className="relative w-full min-h-[90vh] overflow-hidden flex flex-col pt-32 md:pt-48">
       {/* Nebulosa glow */}
@@ -144,14 +167,24 @@ const HeroSection = () => {
           </p>
           
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-10">
-            <Link to="/#contacto">
+            <Link to="/#contacto" onClick={(e) => {
+              // Si el enlace es a la página principal con un ancla, usamos goToHome
+              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                goToHome(e);
+              }
+            }}>
               <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] hover:outline-[#7B61FF] hover:outline-2 hover:outline-offset-4 relative overflow-hidden group">
                 <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
                 <span className="relative z-10">Solicitar Demo</span>
               </Button>
             </Link>
             
-            <Link to="/#valor">
+            <Link to="/#valor" onClick={(e) => {
+              // Si el enlace es a la página principal con un ancla, usamos goToHome
+              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                goToHome(e);
+              }
+            }}>
               <Button variant="outline" className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors">
                 Conocer Más
               </Button>
@@ -193,6 +226,9 @@ const HeroSection = () => {
 
 // About Section
 const AboutSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const controls = useAnimation();
   const sectionRef = useIntersection(
     (entry) => { 
@@ -246,6 +282,9 @@ const AboutSection = () => {
 
 // Features Section
 const FeaturesSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const features = [
     {
       title: "Automatización Inteligente",
@@ -353,6 +392,9 @@ const FeaturesSection = () => {
 
 // Benefits Section
 const BenefitsSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const benefits = [
     {
       title: "Eficiencia Operativa",
@@ -435,6 +477,9 @@ const BenefitsSection = () => {
 
 // How It Works Section
 const HowItWorksSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const steps = [
     {
       number: "01",
@@ -531,6 +576,9 @@ const HowItWorksSection = () => {
 
 // Requirements Section
 const RequirementsSection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   const requirements = [
     "Sistema operativo: Windows 10/11 o macOS 10.14+",
     "Navegador web: Google Chrome (recomendado), Microsoft Edge o Firefox",
@@ -601,6 +649,9 @@ const RequirementsSection = () => {
 
 // CTA Section
 const CTASection = () => {
+  // Acceder al hook de navegación en el contexto del componente
+  const { goToHome } = useHomeNavigation();
+  
   return (
     <section className="relative bg-[#09090C] py-[120px] overflow-hidden">
       {/* Overlay Glow */}
@@ -641,7 +692,11 @@ const CTASection = () => {
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
           style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
-          <Link to="/#contacto">
+          <Link to="/#contacto" onClick={(e) => {
+            if (e.currentTarget.getAttribute('href') === '/') {
+              goToHome(e);
+            }
+          }}>
             <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] relative overflow-hidden group">
               <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
               <span className="relative z-10 flex items-center">

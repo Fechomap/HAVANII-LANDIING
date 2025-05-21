@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useHomeNavigation } from '@/hooks/useHomeNavigation';
+import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, MessageCircle, Map, DollarSign, Truck, Clock, Shield, Smartphone, Globe } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
 
@@ -9,6 +11,9 @@ import { Button } from '@/components/ui/button';
 import FooterSection from '@/components/sections/Footer/FooterSection';
 
 const TelegramBot = () => {
+  // Hook para la navegación a Home con transición
+  const { goToHome, isTransitioning, completeTransition } = useHomeNavigation();
+  
   // Establecer el título de la página y el fondo
   useEffect(() => {
     document.title = 'Bot de Seguimiento para Telegram | Havani - Seguimiento de Expedientes';
@@ -24,10 +29,15 @@ const TelegramBot = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-bg-body text-text-primary">
+      {/* Componente de transición */}
+      <HomeTransition 
+        isActive={isTransitioning} 
+        onComplete={completeTransition} 
+      />
       {/* Header con navegación */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.35)] backdrop-blur-sm">
         <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">
-          <Link to="/" className="text-white flex items-center">
+          <Link to="/" className="text-white flex items-center" onClick={goToHome}>
             <img 
               src="/images/logo-havani.svg" 
               alt="Havani Logo" 
@@ -36,16 +46,26 @@ const TelegramBot = () => {
           </Link>
           
           <nav className="hidden md:flex items-center space-x-1">
-            <Link to="/" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
+            <Link to="/" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors" onClick={goToHome}>
               Home
             </Link>
             <Link to="/pricing" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
               Precios
             </Link>
-            <Link to="/#productos" className="relative rounded-full bg-white/[.12] text-white px-4 py-2">
+            <Link to="/#productos" className="relative rounded-full bg-white/[.12] text-white px-4 py-2" onClick={(e) => {
+              // Si el enlace es a la página principal con un ancla, usamos goToHome
+              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                goToHome(e);
+              }
+            }}>
               Productos
             </Link>
-            <Link to="/#contacto" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
+            <Link to="/#contacto" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors" onClick={(e) => {
+              // Si el enlace es a la página principal con un ancla, usamos goToHome
+              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                goToHome(e);
+              }
+            }}>
               Contacto
             </Link>
           </nav>
