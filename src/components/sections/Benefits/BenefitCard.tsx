@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { BenefitIcon } from './BenefitIcon';
 import type { Benefit } from './benefitsData';
@@ -29,7 +28,7 @@ const BenefitCard: React.FC<Benefit> = ({
   return (
     <motion.article
       variants={cardVariants}
-      className="group relative flex flex-col items-center text-center px-8 py-14 rounded-[32px] bg-[#15161B] overflow-hidden shadow-[0_12px_28px_-8px_rgba(0,0,0,0.55)]"
+      className="group relative flex flex-col items-center text-center px-8 py-14 rounded-[32px] bg-[#1E1F24] overflow-hidden shadow-[0_12px_28px_-8px_rgba(0,0,0,0.55)]"
       role="article"
       tabIndex={0}
       aria-label={ariaLabel}
@@ -41,24 +40,9 @@ const BenefitCard: React.FC<Benefit> = ({
         transform: 'translateZ(0)'
       }}
     >
-      {/* Abstract Illustration */}
-      <img
-        src={illustration}
-        alt=""
-        className="absolute -top-6 left-1/2 -translate-x-1/2 w-[220px] h-[220px] pointer-events-none select-none md:block hidden"
-        loading="lazy"
-        decoding="async"
-        style={{
-          willChange: 'opacity',
-          backfaceVisibility: 'hidden',
-          opacity: isHovered ? 0.8 : 0.6,
-          transition: 'opacity 150ms linear'
-        }}
-      />
-
       {/* Icon Bubble */}
       <div 
-        className="relative z-10 flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-[2px] shadow-[0_4px_12px_-2px_rgba(0,0,0,0.4)]"
+        className="relative z-10 flex items-center justify-center w-16 h-16 rounded-2xl bg-[#2A2B30] border border-white/10 backdrop-blur-[2px] shadow-[0_4px_12px_-2px_rgba(0,0,0,0.4)]"
         style={{
           willChange: 'transform',
           backfaceVisibility: 'hidden',
