@@ -3,7 +3,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
-import { ArrowRight, CheckCircle, Clock, MapPin, BarChart, Cpu, Truck, Globe, Zap, Brain, Layers, MessageCircle, Activity, BarChart2, Shield, Users, FileText, Play } from 'lucide-react';
+import { ArrowRight, CheckCircle, Clock, MapPin, BarChart, Cpu, Truck, Globe, Zap, Brain, Layers, MessageCircle, Activity, BarChart2, Shield, Users, FileText, Play, Lock, Database, Settings } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
 import ShootingStarsBackground from '@/components/ShootingStarsBackground';
 
@@ -96,6 +96,15 @@ const NeuralCrane = () => {
         
         {/* Características clave */}
         <FeaturesSection />
+        
+        {/* Detalles Técnicos */}
+        <TechnicalDetailsSection />
+        
+        {/* Eficiencia y Seguridad */}
+        <EfficiencyAndSecuritySection />
+        
+        {/* Personalización Avanzada */}
+        <PersonalizationSection />
         
         {/* Comparación de IA */}
         <AIComparisonSection />
@@ -920,7 +929,9 @@ const PricingSection = () => {
 
 // FAQ Section
 const FaqSection = () => {
-  const faqs = [
+  const [activeTab, setActiveTab] = React.useState('general');
+  
+  const generalFaqs = [
     {
       question: "¿Cuánto tiempo se tarda en implementar NeuralCrane en mi empresa?",
       answer: "Según el tamaño de la flota y la complejidad de los procesos, la implementación suele llevar entre 2 y 4 semanas. Durante este período, nuestro equipo trabaja estrechamente contigo para configurar y personalizar la plataforma, asegurando una transición sin contratiempos."
@@ -955,28 +966,117 @@ const FaqSection = () => {
     }
   ];
 
+  const technicalFaqs = [
+    {
+      question: "La competencia me dice que usa \"IA\". ¿Por qué NeuralCrane no integra esa tecnología?",
+      answer: "La mayoría de los competidores se autodenominan \"IA\", pero en realidad lo que ofrecen es una automatización básica con algoritmos convencionales. En NeuralCrane preferimos ser transparentes: nuestra solución se basa en procesos avanzados y comprobados que generan resultados operativos reales, sin recurrir a etiquetas de IA que, en la práctica, no aportan valor añadido."
+    },
+    {
+      question: "¿No es la inteligencia artificial el futuro? ¿Qué diferencia hay entre la \"IA\" que ofrece la competencia y la que podría integrar NeuralCrane?",
+      answer: "Aunque \"IA\" suena futurista, muchas ofertas se limitan a técnicas de automatización sin emplear modelos robustos de aprendizaje profundo ni conexiones en tiempo real. Nosotros sabemos que la \"IA\" que se promociona en el mercado carece de las verdaderas capacidades de integración —no manejan LLM ni procesos avanzados—. En NeuralCrane, nos centramos en tecnología probada y, mientras desarrollamos modelos de IA genuinos, preferimos ofrecer una solución que funcione de verdad."
+    },
+    {
+      question: "¿Cómo sé dónde están mis grúas y cómo se conectan al sistema?",
+      answer: "Con NeuralCrane, cada unidad se conecta al sistema mediante la integración con dispositivos GPS y APIs, que transmiten datos en tiempo real sobre la ubicación de tus grúas. Esto te permite visualizar en un mapa la posición exacta de cada unidad, haciendo posible un seguimiento continuo y preciso del estado operativo."
+    },
+    {
+      question: "¿Voy a pagar algo extra por las APIs de geolocalización?",
+      answer: "No, no tendrás que pagar tarifas adicionales por las APIs de geolocalización. NeuralCrane integra estas funcionalidades dentro del paquete, utilizando proveedores confiables para ofrecerte seguimiento en tiempo real sin costos extras. Esto te permite concentrarte en optimizar tu operación sin preocuparte por gastos tecnológicos adicionales."
+    },
+    {
+      question: "¿Puedo personalizar la interfaz del sistema para reflejar la identidad de mi empresa?",
+      answer: "Sí, ofrecemos opciones de personalización avanzada que permiten integrar el logo, el nombre y otros elementos visuales de tu marca, proporcionando una experiencia de usuario coherente y única. Esto es particularmente útil para empresas que desean mantener su identidad corporativa en todas sus herramientas tecnológicas."
+    },
+    {
+      question: "¿Qué tipo de reportes y análisis podré obtener?",
+      answer: "En una fase futura, integraremos un módulo avanzado de análisis que generará reportes personalizables. Esta herramienta te permitirá monitorear métricas clave, identificar oportunidades de mejora y ajustar estrategias para optimizar la eficiencia operativa, con métricas como tiempos de respuesta, áreas de mayor demanda, eficiencia por unidad y mucho más."
+    },
+    {
+      question: "¿El sistema es adecuado para empresas que operan en zonas con tráfico intenso o áreas de difícil acceso?",
+      answer: "Definitivamente. NeuralCrane está especialmente optimizado para entornos urbanos y áreas con tráfico denso, ayudándote a maximizar la eficiencia operativa incluso en condiciones desafiantes, gracias a sus algoritmos de optimización de rutas y a la evaluación en tiempo real de múltiples factores de tráfico."
+    }
+  ];
+
+  const operationsFaqs = [
+    {
+      question: "¿Cómo puedo eficientar el personal de coordinación?",
+      answer: "Te presentamos un caso práctico: en una empresa de grúas con operaciones extensas, antes contábamos con 3 o 4 cabinas dedicadas a la coordinación y seguimiento de servicios. Con NeuralCrane, automatizamos tareas críticas mediante bots de seguimiento y una tarificación ágil y sin errores. Gracias a estas herramientas, el sistema monitorea las asignaciones en tiempo real y valida automáticamente cada servicio, permitiendo que la operación se gestione con la mitad del personal. Ahora, con solo 1 o 2 operadores, se cubren todas las funciones, concentrándose en los eventos críticos y optimizando los recursos, lo que se traduce en una significativa reducción de costos operativos y un notable incremento en la eficiencia."
+    },
+    {
+      question: "¿Qué tipo de soporte ofrecen después de la implementación?",
+      answer: "Ofrecemos soporte continuo a través de múltiples canales, incluyendo chat en vivo, correo electrónico y soporte telefónico. Nuestro equipo está disponible para resolver cualquier duda o incidencia que puedas tener, asegurando que tu operación siempre funcione sin contratiempos."
+    }
+  ];
+
+  const renderFaqs = () => {
+    switch(activeTab) {
+      case 'general':
+        return generalFaqs;
+      case 'technical':
+        return technicalFaqs;
+      case 'operations':
+        return operationsFaqs;
+      default:
+        return generalFaqs;
+    }
+  };
+
   return (
-    <section className="relative bg-[#09090C] py-[120px] overflow-hidden" id="faq">
-      <div className="max-w-[900px] mx-auto px-6 md:px-12 lg:px-24">
+    <section className="relative bg-[#0B0B0F] py-[80px] overflow-hidden" id="faq">
+      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
             Preguntas Frecuentes
           </h2>
-          <p className="mt-4 text-lg text-[#BBBBBB] max-w-[700px] mx-auto">
-            Respuestas a las dudas más comunes sobre NeuralCrane y su implementación.
+          <p className="text-lg text-[#BBBBBB] max-w-2xl mx-auto mb-8">
+            Todo lo que necesitas saber sobre NeuralCrane. ¿No encuentras lo que buscas? Contáctanos directamente.
           </p>
+          
+          {/* Pestañas de navegación */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            <button
+              onClick={() => setActiveTab('general')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                activeTab === 'general' 
+                  ? 'bg-[#7B61FF] text-white' 
+                  : 'bg-[#15161B] text-[#BBBBBB] hover:bg-[#1E1F25]'
+              }`}
+            >
+              General
+            </button>
+            <button
+              onClick={() => setActiveTab('technical')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                activeTab === 'technical' 
+                  ? 'bg-[#7B61FF] text-white' 
+                  : 'bg-[#15161B] text-[#BBBBBB] hover:bg-[#1E1F25]'
+              }`}
+            >
+              Técnicas
+            </button>
+            <button
+              onClick={() => setActiveTab('operations')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                activeTab === 'operations' 
+                  ? 'bg-[#7B61FF] text-white' 
+                  : 'bg-[#15161B] text-[#BBBBBB] hover:bg-[#1E1F25]'
+              }`}
+            >
+              Operaciones
+            </button>
+          </div>
         </motion.div>
-        
+
         <div className="space-y-6">
-          {faqs.map((faq, index) => (
+          {renderFaqs().map((faq, index) => (
             <motion.div
-              key={index}
+              key={`faq-${activeTab}-${index}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -1331,6 +1431,417 @@ const ResourcesSection = () => {
             <Link to="/support" className="mt-4 text-[#7B61FF] hover:text-[#A28CFF] font-medium flex items-center">
               Centro de ayuda <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Sección de Eficiencia y Seguridad
+const EfficiencyAndSecuritySection = () => {
+  return (
+    <section className="relative bg-[#0D0D11] py-[120px] overflow-hidden" id="efficiency-security">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          {/* Eficiencia de personal */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
+              Eficiencia del Personal de Coordinación
+            </h2>
+            
+            <div className="bg-[#15161B] border border-white/5 rounded-2xl p-8 mb-6">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 mr-4">
+                  <Users className="h-7 w-7 text-[#7B61FF]" />
+                </div>
+                <h3 className="text-xl font-semibold text-white">Reducción del 50% en Personal Operativo</h3>
+              </div>
+              
+              <p className="text-[#BBBBBB] mb-6">
+                Te presentamos un caso práctico real: en una empresa de grúas con operaciones extensas, antes contábamos con 3 o 4 cabinas dedicadas a la coordinación y seguimiento de servicios. Con NeuralCrane, automatizamos tareas críticas mediante bots de seguimiento y una tarificación ágil y sin errores.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="bg-black/30 rounded-xl p-5 border border-white/5">
+                  <h4 className="text-white font-semibold mb-2">Antes de NeuralCrane</h4>
+                  <ul className="space-y-2 text-[#BBBBBB] text-sm">
+                    <li className="flex items-start">
+                      <span className="text-[#FF5F5F] mr-2">→</span>
+                      <span>3-4 operadores en cabina a tiempo completo</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-[#FF5F5F] mr-2">→</span>
+                      <span>Seguimiento manual de cada servicio</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-[#FF5F5F] mr-2">→</span>
+                      <span>Frecuentes errores de comunicación</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-[#FF5F5F] mr-2">→</span>
+                      <span>Alto volumen de llamadas de seguimiento</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-[#FF5F5F] mr-2">→</span>
+                      <span>Sobrecarga de trabajo en horas pico</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="bg-black/30 rounded-xl p-5 border border-white/5">
+                  <h4 className="text-white font-semibold mb-2">Con NeuralCrane</h4>
+                  <ul className="space-y-2 text-[#BBBBBB] text-sm">
+                    <li className="flex items-start">
+                      <span className="text-[#7B61FF] mr-2">→</span>
+                      <span>Solo 1-2 operadores necesarios</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-[#7B61FF] mr-2">→</span>
+                      <span>Seguimiento automatizado por bots</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-[#7B61FF] mr-2">→</span>
+                      <span>Comunicación clara y estandarizada</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-[#7B61FF] mr-2">→</span>
+                      <span>Reducción del 70% en llamadas</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-[#7B61FF] mr-2">→</span>
+                      <span>Distribución equilibrada de la carga</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <p className="text-[#BBBBBB]">
+                Gracias a estas herramientas, el sistema monitorea las asignaciones en tiempo real y valida automáticamente cada servicio, permitiendo que la operación se gestione con la mitad del personal. Ahora, con solo 1 o 2 operadores, se cubren todas las funciones, concentrándose en los eventos críticos y optimizando los recursos, lo que se traduce en una significativa reducción de costos operativos y un notable incremento en la eficiencia.
+              </p>
+            </div>
+            
+            <div className="bg-[#7B61FF]/5 rounded-xl p-5 border border-[#7B61FF]/20">
+              <p className="text-white italic text-sm">
+                "Como coordinador, solíamos contar con 3 o 4 cabinas dedicadas a la gestión de servicios. Con NeuralCrane, automatizamos tareas críticas mediante bots de seguimiento y una tarificación ágil y sin errores, reduciendo la plantilla en cabina a la mitad. Esto nos permite concentrarnos en los eventos críticos y optimizar los recursos, generando importantes ahorros operativos."
+                <span className="block mt-2 font-semibold">— Román M., Coordinador de Operaciones</span>
+              </p>
+            </div>
+          </motion.div>
+          
+          {/* Seguridad y Protección de Datos */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
+              Seguridad y Protección de Datos
+            </h2>
+            
+            <div className="bg-[#15161B] border border-white/5 rounded-2xl p-8">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 mr-4">
+                  <Shield className="h-7 w-7 text-[#7B61FF]" />
+                </div>
+                <h3 className="text-xl font-semibold text-white">Seguridad de Clase Mundial</h3>
+              </div>
+              
+              <p className="text-[#BBBBBB] mb-6">
+                La seguridad es una prioridad absoluta en NeuralCrane. Utilizamos protocolos de encriptación avanzados, respaldos en la nube y monitoreo continuo para garantizar que tus datos estén protegidos y se mantengan confidenciales en todo momento.
+              </p>
+              
+              <ul className="space-y-4 mb-6">
+                <li className="bg-black/30 rounded-xl p-4 border border-white/5">
+                  <div className="flex items-start">
+                    <Lock className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">Encriptación de Datos</h4>
+                      <p className="text-[#BBBBBB] text-sm">
+                        Toda la información transmitida y almacenada está protegida con encriptación AES-256, el mismo estándar utilizado por instituciones financieras y gubernamentales.
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                
+                <li className="bg-black/30 rounded-xl p-4 border border-white/5">
+                  <div className="flex items-start">
+                    <Database className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">Respaldo Automático</h4>
+                      <p className="text-[#BBBBBB] text-sm">
+                        Realizamos copias de seguridad automáticas cada 6 horas y mantenemos un histórico completo de datos para garantizar la continuidad del servicio ante cualquier eventualidad.
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                
+                <li className="bg-black/30 rounded-xl p-4 border border-white/5">
+                  <div className="flex items-start">
+                    <Activity className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">Monitoreo 24/7</h4>
+                      <p className="text-[#BBBBBB] text-sm">
+                        Nuestros sistemas de monitoreo detectan y responden a amenazas potenciales en tiempo real, con un equipo de seguridad dedicado que supervisa constantemente la infraestructura.
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                
+                <li className="bg-black/30 rounded-xl p-4 border border-white/5">
+                  <div className="flex items-start">
+                    <Users className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">Control de Acceso</h4>
+                      <p className="text-[#BBBBBB] text-sm">
+                        Sistema granular de permisos y autenticación de múltiples factores para garantizar que solo personal autorizado pueda acceder a información sensible.
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              
+              <div className="flex items-center justify-center p-5 bg-[#7B61FF]/5 rounded-xl border border-[#7B61FF]/20">
+                <p className="text-white text-center">
+                  Cumplimos con todas las normativas aplicables de protección de datos y realizamos auditorías de seguridad periódicas para mantener los más altos estándares.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Sección de Personalización Avanzada
+const PersonalizationSection = () => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="mt-16 bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+    >
+      <div className="flex items-center mb-6">
+        <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/5">
+          <Settings className="w-8 h-8 text-[#7B61FF]" />
+        </div>
+        <h3 className="text-2xl font-bold text-white ml-5">Personalización Avanzada</h3>
+      </div>
+      
+      <p className="text-[#BBBBBB] mb-6">
+        NeuralCrane se adapta completamente a tu marca y necesidades específicas, ofreciendo una experiencia única y personalizada para tu empresa. Nuestras opciones de personalización te permiten crear una herramienta que refleja tu identidad corporativa, mejorando la experiencia de tus empleados y clientes.
+      </p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        <div className="bg-black/30 rounded-xl p-5 border border-white/5">
+          <h4 className="text-white font-semibold mb-3">Identidad Visual</h4>
+          <ul className="space-y-2">
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Integración de logo corporativo</span>
+            </li>
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Esquemas de colores personalizados</span>
+            </li>
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Tipografía y estilos de marca</span>
+            </li>
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Pantalla de inicio personalizada</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div className="bg-black/30 rounded-xl p-5 border border-white/5">
+          <h4 className="text-white font-semibold mb-3">Funcionalidad a Medida</h4>
+          <ul className="space-y-2">
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Dashboards configurables</span>
+            </li>
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Reportes personalizados</span>
+            </li>
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Perfiles de usuario adaptables</span>
+            </li>
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Flujos de trabajo específicos</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div className="bg-black/30 rounded-xl p-5 border border-white/5">
+          <h4 className="text-white font-semibold mb-3">Comunicación Personalizada</h4>
+          <ul className="space-y-2">
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Mensajes de bot con tu identidad</span>
+            </li>
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Plantillas de notificación a medida</span>
+            </li>
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Correos electrónicos con tu marca</span>
+            </li>
+            <li className="flex items-start">
+              <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+              <span className="text-[#BBBBBB]">Comunicados personalizados</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div className="bg-[#7B61FF]/5 rounded-xl p-5 border border-[#7B61FF]/20">
+        <p className="text-white text-center italic">
+          "Valoramos soluciones que se adaptan al cambio. Con NeuralCrane, hemos implementado una herramienta que integra nuestra marca y procesos específicos, lo que ha mejorado la coordinación entre nuestras unidades y elevado nuestro estándar de servicio."
+          <span className="block mt-2 font-semibold">— Elizabeth A., Directora de Operaciones</span>
+        </p>
+      </div>
+    </motion.div>
+  );
+};
+
+// Sección de Detalles Técnicos Clave
+const TechnicalDetailsSection = () => {
+  return (
+    <section className="relative bg-[#0B0B0F] py-[120px] overflow-hidden" id="technical-details">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white">
+            Detalles Técnicos Clave
+          </h2>
+          <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
+            Tecnología avanzada que impulsa los resultados operativos con transparencia y seguridad.
+          </p>
+        </motion.div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Información sobre APIs y Geolocalización */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+          >
+            <div className="flex items-center mb-6">
+              <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5 mr-4">
+                <Globe className="h-7 w-7 text-[#7B61FF]" />
+              </div>
+              <h3 className="text-xl font-semibold text-white">Integración APIs y Geolocalización</h3>
+            </div>
+            
+            <p className="text-[#BBBBBB] mb-6">
+              Con NeuralCrane, cada unidad se conecta al sistema mediante una integración robusta con dispositivos GPS y diversas APIs. Esto permite una transmisión constante de datos en tiempo real, visualizando en un mapa la posición exacta y el estado operativo de cada grúa, sin costos adicionales.
+            </p>
+            
+            <div className="bg-black/30 rounded-xl p-6 border border-white/5 mb-6">
+              <h4 className="text-lg font-semibold text-white mb-3">Sin Cargos Adicionales</h4>
+              <p className="text-[#BBBBBB]">
+                No tendrás que pagar tarifas adicionales por las APIs de geolocalización. Estas funcionalidades están incluidas dentro de tu plan, utilizando proveedores confiables para ofrecerte seguimiento en tiempo real sin costos extras. Esto te permite concentrarte en optimizar tu operación sin preocuparte por gastos tecnológicos adicionales.
+              </p>
+            </div>
+            
+            <ul className="space-y-3">
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                <span className="text-[#BBBBBB]">Transmisión automática de coordenadas GPS cada 60 segundos</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                <span className="text-[#BBBBBB]">Integración con plataformas líderes de GPS y rastreo</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                <span className="text-[#BBBBBB]">Compatibilidad con múltiples proveedores de servicios de mapas</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                <span className="text-[#BBBBBB]">Conexión con APIs de tráfico en tiempo real para optimización de rutas</span>
+              </li>
+            </ul>
+          </motion.div>
+          
+          {/* Detalle sobre reducción del error humano */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+          >
+            <div className="flex items-center mb-6">
+              <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5 mr-4">
+                <Shield className="h-7 w-7 text-[#7B61FF]" />
+              </div>
+              <h3 className="text-xl font-semibold text-white">Reducción del Error Humano</h3>
+            </div>
+            
+            <p className="text-[#BBBBBB] mb-6">
+              Al automatizar procesos críticos como la tarificación y la asignación de servicios, NeuralCrane minimiza significativamente los errores humanos, lo que se traduce en cobros más precisos, reducción de pérdidas económicas y una mayor rentabilidad operativa.
+            </p>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <div className="bg-black/30 rounded-xl p-4 border border-white/5">
+                <h4 className="text-white font-semibold mb-2">Antes</h4>
+                <p className="text-[#BBBBBB] text-sm">
+                  Errores frecuentes en tarificación por cálculos manuales, pérdida de hasta 20% de ingresos por tarifas mal aplicadas y alta dependencia de personal experimentado.
+                </p>
+              </div>
+              
+              <div className="bg-black/30 rounded-xl p-4 border border-white/5">
+                <h4 className="text-white font-semibold mb-2">Con NeuralCrane</h4>
+                <p className="text-[#BBBBBB] text-sm">
+                  Reducción del 95% en errores de tarificación, incremento de ingresos al cobrar correctamente todos los servicios y menor dependencia de personal especializado.
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-[#7B61FF]/5 rounded-xl p-5 border border-[#7B61FF]/20 mb-6">
+              <p className="text-white italic text-sm">
+                "Como propietario de una empresa de grúas con 12 unidades, antes enfrentábamos frecuentes errores en la tarificación que afectaban nuestros ingresos. Desde que implementamos NeuralCrane, la automatización de procesos críticos ha reducido drásticamente estos errores, permitiéndonos cobrar con precisión y aumentar notablemente la rentabilidad."
+                <span className="block mt-2 font-semibold">— Ricardo V., Propietario</span>
+              </p>
+            </div>
+            
+            <ul className="space-y-3">
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                <span className="text-[#BBBBBB]">Cálculo automático preciso de distancias, tiempos y costos</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                <span className="text-[#BBBBBB]">Validación en tiempo real de datos críticos para prevenir errores</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-[#7B61FF] mr-3 mt-0.5 flex-shrink-0" />
+                <span className="text-[#BBBBBB]">Sistemas de alerta para desviaciones significativas de parámetros normales</span>
+              </li>
+            </ul>
           </motion.div>
         </div>
       </div>
