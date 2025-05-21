@@ -8,6 +8,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { useIntersection } from '@/hooks/useIntersection';
 import { Play, ArrowDown } from 'lucide-react';
 import { useDeviceInfo } from '@/hooks/useDeviceInfo';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 // Carga diferida del Header para priorizar los elementos visibles
 const Header = lazy(() => import('./Header'));
@@ -240,15 +241,13 @@ const HeroSection = () => {
               />
             )}
             
-            {/* Imagen del mockup - Con lazy loading y dimensiones explícitas */}
-            <img 
+            {/* Imagen del mockup - Con OptimizedImage para mejor rendimiento */}
+            <OptimizedImage
               src="/placeholder.svg"
-              alt="Panel Havani" 
-              width="760"
-              height="480"
+              alt="Panel Havani"
+              width={760}
+              height={480}
               className="w-full max-w-[760px] h-auto rounded-2xl border border-white/6 shadow-lg"
-              loading="lazy"
-              decoding="async"
             />
           </motion.div>
         </div>
