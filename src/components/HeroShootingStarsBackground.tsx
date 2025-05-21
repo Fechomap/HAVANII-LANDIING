@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from "react"
 import { useDeviceInfo } from "@/hooks/useDeviceInfo";
 
 /**
- * @component ShootingStarsBackground
- * Fondo global de estrellas fugaces optimizado para rendimiento.
+ * @component HeroShootingStarsBackground
+ * Fondo de estrellas fugaces optimizado para la sección Hero.
  * Adaptativo a diferentes dispositivos y preferencias de usuario.
  */
 
@@ -30,7 +30,7 @@ interface Star {
   alive: boolean;
 }
 
-const ShootingStarsBackground: React.FC = () => {
+const HeroShootingStarsBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [shouldAnimate, setShouldAnimate] = useState(true);
   const animationFrameRef = useRef<number>();
@@ -201,103 +201,73 @@ const ShootingStarsBackground: React.FC = () => {
     ctx.restore();
   }, [isLowPowerDevice]);
 
-  // Efecto principal de animación con optimizaciones
+  // Efecto para gestionar la animación en el canvas
   useEffect(() => {
     if (!shouldAnimate) return;
-    
-    // Limpiar animación anterior si existe
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
     
     const canvas = canvasRef.current;
     if (!canvas) return;
     
-    let w = window.innerWidth;
-    let h = window.innerHeight;
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
     
-    // Reducir resolución del canvas en dispositivos de baja potencia
-    if (isLowPowerDevice) {
-      canvas.width = Math.floor(w * 0.75);
-      canvas.height = Math.floor(h * 0.75);
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-    } else {
-      canvas.width = w;
-      canvas.height = h;
-    }
-    
-    // Función para ajustar canvas al tamaño de la ventana
-    const resizeCanvas = () => {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      
-      if (canvas) {
-        if (isLowPowerDevice) {
-          canvas.width = Math.floor(w * 0.75);
-          canvas.height = Math.floor(h * 0.75);
-          canvas.style.width = `${w}px`;
-          canvas.style.height = `${h}px`;
-        } else {
-          canvas.width = w;
-          canvas.height = h;
-        }
-      }
-    };
-    
-    // Throttle para resize (optimización)
-    let resizeTimeout: number;
+    // Manejar redimensionamiento
+    let resizeTimeout: NodeJS.Timeout;
     const throttledResize = () => {
-      if (resizeTimeout) clearTimeout(resizeTimeout);
-      resizeTimeout = window.setTimeout(resizeCanvas, 200);
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // Forzar un reflow para evitar bloqueos al redimensionar
+        requestAnimationFrame(() => {
+          resizeCanvas();
+        });
+      }, 200);
     };
     
-    resizeCanvas();
+    const resizeCanvas = () => {
+      // Establecer tamaño basado en el contenedor padre, no en la ventana completa
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      
+      // Obtener el tamaño real del contenedor
+      const rect = parent.getBoundingClientRect();
+      
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      
+      // Regenerar las estrellas para el nuevo tamaño
+      starsRef.current = [];
+    };
+    
     window.addEventListener("resize", throttledResize);
+    resizeCanvas();
     
-    let lastTime = performance.now();
+    // Configuración de rendimiento y cantidad de estrellas según dispositivo
+    const baseSpawnInterval = isLowPowerDevice ? 3000 : (isMobile ? 1500 : 400);
+    const maxStars = isLowPowerDevice ? 5 : (isMobile ? 10 : 15);
+    
+    let lastTime = Date.now();
     let spawnAccumulator = 0;
-    
-    // Ajustar parámetros según el dispositivo
-    const baseSpawnInterval =
-      isLowPowerDevice || isChrome ? 1200 : isMobile ? 800 : 200;
     let spawnInterval = baseSpawnInterval;
     
-    // Número máximo de estrellas según capacidad del dispositivo
-    const maxStars = isLowPowerDevice ? 6 : isMobile ? 10 : isTablet ? 15 : 25;
-    
-    // Optimización: Frecuencia de actualización reducida para dispositivos de baja potencia
-    const frameSkip = isLowPowerDevice ? 2 : 1; // Saltar frames en dispositivos lentos
-    let frameCount = 0;
-    
-    // Función de animación principal optimizada
-    const animate = (now: number) => {
-      if (!canvas) return;
-      
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      
-      // Skip frames para dispositivos lentos
-      frameCount++;
-      if (isLowPowerDevice && frameCount % frameSkip !== 0) {
-        animationFrameRef.current = requestAnimationFrame(animate);
-        return;
-      }
-      
-      // Calcular delta de tiempo para animación suave
+    // Función de animación optimizada
+    const animate = () => {
+      const now = Date.now();
       const delta = now - lastTime;
       lastTime = now;
       
-      // Dibujar fondo solo cuando sea necesario (optimización)
-      if (!isLowPowerDevice || frameCount % 5 === 0) {
+      const w = canvas.width;
+      const h = canvas.height;
+      
+      // No dibujar si la pestaña no está visible
+      if (document.hidden) return;
+      
+      // Limpiar canvas con el fondo
+      ctx.clearRect(0, 0, w, h);
+      if (starsRef.current.length > 0) {
         drawBackgroundGradient(ctx, w, h);
-      } else {
-        // En dispositivos lentos, solo limpiar el rastro de las estrellas
-        ctx.fillStyle = 'rgba(0,0,0,0.15)';
-        ctx.fillRect(0, 0, w, h);
       }
       
-      // Acumular tiempo para generar nuevas estrellas
+      // Acumular tiempo para generación de estrellas
       spawnAccumulator += delta;
       
       // Generar nuevas estrellas a intervalos
@@ -341,11 +311,11 @@ const ShootingStarsBackground: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 w-screen h-screen z-0 pointer-events-none select-none"
+      className="absolute inset-0 w-full h-full z-0 pointer-events-none select-none"
       aria-hidden="true"
     />
   );
 };
 
 // Uso de React.memo para evitar renderizados innecesarios
-export default React.memo(ShootingStarsBackground);
+export default React.memo(HeroShootingStarsBackground);

@@ -5,7 +5,6 @@ import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, Phone, Bot, Clock, BarChart2, Headphones, Server, Users, Mic, Database, Settings } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
-import ShootingStarsBackground from '@/components/ShootingStarsBackground';
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -35,8 +34,6 @@ const TeXMLBotIVR = () => {
         isActive={isTransitioning} 
         onComplete={completeTransition} 
       />
-      {/* Fondo de estrellas fugaces */}
-      <ShootingStarsBackground />
       {/* Header con navegación */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.35)] backdrop-blur-sm">
         <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">
@@ -687,7 +684,7 @@ const CTASection = () => {
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
           <Link to="/#contacto">
-            <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] relative overflow-hidden group">
+            <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] hover:outline-[#7B61FF] hover:outline-2 hover:outline-offset-4 relative overflow-hidden group">
               <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
               <span className="relative z-10 flex items-center">
                 Solicitar Demo 

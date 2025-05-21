@@ -5,7 +5,6 @@ import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
-import ShootingStarsBackground from '@/components/ShootingStarsBackground';
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -35,8 +34,7 @@ const AutoMike = () => {
         isActive={isTransitioning} 
         onComplete={completeTransition} 
       />
-      {/* Fondo de estrellas fugaces */}
-      <ShootingStarsBackground />
+      
       {/* Header con navegación */}
       <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.35)] backdrop-blur-sm">
         <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">

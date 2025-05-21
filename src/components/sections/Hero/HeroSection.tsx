@@ -9,6 +9,7 @@ import { useIntersection } from '@/hooks/useIntersection';
 import { Play, ArrowDown } from 'lucide-react';
 import { useDeviceInfo } from '@/hooks/useDeviceInfo';
 import OptimizedImage from '@/components/ui/OptimizedImage';
+import HeroShootingStarsBackground from '@/components/HeroShootingStarsBackground';
 
 // Carga diferida del Header para priorizar los elementos visibles
 const Header = lazy(() => import('./Header'));
@@ -139,6 +140,11 @@ const HeroSection = () => {
       className="relative w-full min-h-screen overflow-hidden flex flex-col"
       id="hero"
     >
+      {/* Fondo de estrellas fugaces - Solo en la sección Hero */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <HeroShootingStarsBackground />
+      </div>
+      
       {/* Header con carga diferida */}
       {isHeaderVisible ? (
         <Suspense fallback={<HeaderSkeleton />}>
