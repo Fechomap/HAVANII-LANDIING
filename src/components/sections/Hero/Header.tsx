@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 interface HeaderProps {
   hasScrolled: boolean;
@@ -111,9 +112,11 @@ const Header = ({ hasScrolled }: HeaderProps) => {
             className="text-white flex items-center"
             onClick={goToHome}
           >
-            <img 
-              src="/images/logo-havani.svg" 
-              alt="Havani Logo" 
+            <OptimizedImage
+              src="/images/logo-havani.svg"
+              alt="Havani Logo"
+              width={120}
+              height={40}
               className="h-10 w-auto brightness-110 contrast-125"
             />
           </Link>
