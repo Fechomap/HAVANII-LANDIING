@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 const HeroSection = () => {
   const { goToHome } = useHomeNavigation();
@@ -123,9 +124,11 @@ const HeroSection = () => {
             aria-hidden="true"
           />
           {/* Imagen del mockup */}
-          <img 
-            src="/placeholder.svg" 
-            alt="Interfaz del sistema NeuralCrane con mapa de seguimiento de grúas en tiempo real" 
+          <OptimizedImage
+            src="/placeholder.svg"
+            alt="Interfaz del sistema NeuralCrane con mapa de seguimiento de grúas en tiempo real"
+            width={760}
+            height={480}
             className="w-full max-w-[760px] h-auto rounded-[32px] border border-white/6 shadow-[0_40px_60px_-10px_rgba(0,0,0,.6)] translate-y-[40px]"
           />
         </motion.div>
