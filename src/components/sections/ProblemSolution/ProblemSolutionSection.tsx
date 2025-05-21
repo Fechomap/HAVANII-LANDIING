@@ -181,11 +181,13 @@ const ProblemSolutionSection = () => {
             onMouseMove={handleMouseMove}
           >
             <div className="aspect-w-4 aspect-h-3">
-              <img 
-                src="/images/imageproblem.jpeg" 
-                alt="Ilustración del problema y solución" 
+              <img
+                src="/images/imageproblem.webp"
+                alt="Ilustración del problema y solución"
                 className="w-full h-full object-cover"
                 loading="lazy"
+                width="1024"
+                height="582"
               />
             </div>
             {/* Glow effect */}
