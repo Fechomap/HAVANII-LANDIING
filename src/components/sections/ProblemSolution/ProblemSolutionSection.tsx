@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useIntersection } from '@/hooks/useIntersection';
 import { useParallax } from '@/hooks/useParallax';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 const ProblemSolutionSection = () => {
   // Ref for the section to trigger animations when it's visible
@@ -181,13 +182,12 @@ const ProblemSolutionSection = () => {
             onMouseMove={handleMouseMove}
           >
             <div className="aspect-w-4 aspect-h-3">
-              <img
-                src="/images/imageproblem.webp"
+              <OptimizedImage
+                src="/images/imageproblem.jpeg"
                 alt="Ilustración del problema y solución"
+                width={800}
+                height={600}
                 className="w-full h-full object-cover"
-                loading="lazy"
-                width="1024"
-                height="582"
               />
             </div>
             {/* Glow effect */}
