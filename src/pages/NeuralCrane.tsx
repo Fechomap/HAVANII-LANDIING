@@ -3,7 +3,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
-import { ArrowRight, CheckCircle, Clock, MapPin, BarChart, Cpu, Truck, Globe, Zap, Brain, Layers, MessageCircle, Activity, BarChart2, Shield } from 'lucide-react';
+import { ArrowRight, CheckCircle, Clock, MapPin, BarChart, Cpu, Truck, Globe, Zap, Brain, Layers, MessageCircle, Activity, BarChart2, Shield, Users, FileText, Play } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
 import ShootingStarsBackground from '@/components/ShootingStarsBackground';
 
@@ -103,6 +103,9 @@ const NeuralCrane = () => {
         {/* Beneficios y casos de uso */}
         <BenefitsSection />
         
+        {/* Acerca de NeuralCrane */}
+        <AboutUsSection />
+        
         {/* Testimoniales */}
         <TestimonialsSection />
         
@@ -111,6 +114,9 @@ const NeuralCrane = () => {
         
         {/* FAQ Section */}
         <FaqSection />
+        
+        {/* Recursos y Blog */}
+        <ResourcesSection />
         
         {/* CTA - Llamado a la acción final */}
         <CTASection />
@@ -1112,6 +1118,219 @@ const AIComparisonSection = () => {
             <p className="text-[#BBBBBB]">
               Estamos a la vanguardia tecnológica y ya estamos entrenando modelos de IA que se integrarán en futuras versiones de nuestra plataforma. Nuestro compromiso es incorporar funcionalidades genuinas de IA que aporten automatización total y optimicen aún más la operatividad, una vez que la tecnología se vuelva robusta y costeable.
             </p>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Sección Acerca de NeuralCrane (Misión, visión y valores)
+const AboutUsSection = () => {
+  return (
+    <section className="relative bg-[#0D0D11] py-[140px] overflow-hidden" id="about-us">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white">
+            Acerca de NeuralCrane
+          </h2>
+          <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
+            Transformamos la gestión operativa mediante tecnología avanzada y centrada en el factor humano.
+          </p>
+        </motion.div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+          >
+            <h3 className="text-xl font-semibold text-white mb-4">Nuestra Historia</h3>
+            <p className="text-[#BBBBBB]">
+              Nacimos con la convicción de que la tecnología debe ser poderosa y accesible. Mientras la competencia se limita a la administración básica, nosotros ofrecemos una solución integral que optimiza cada proceso operativo, reduciendo errores y costos, y maximizando la rentabilidad. Trabajamos para acercar la tecnología de vanguardia al sector de grúas y asistencia vial, modernizando a nuestros clientes con una interfaz intuitiva y operativa.
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+          >
+            <h3 className="text-xl font-semibold text-white mb-4">Misión y Visión</h3>
+            <div>
+              <h4 className="text-white font-semibold mb-2">Misión</h4>
+              <p className="text-[#BBBBBB] mb-4">
+                Impulsar la transformación operativa de las empresas de grúa mediante una tecnología avanzada, amigable e intuitiva que reduce el error humano y optimiza procesos críticos, permitiendo una mayor rentabilidad y competitividad.
+              </p>
+              
+              <h4 className="text-white font-semibold mb-2">Visión</h4>
+              <p className="text-[#BBBBBB]">
+                Ser la plataforma líder en el sector de grúas y asistencia vial, revolucionando la industria con soluciones inteligentes y en constante evolución, que combinan tecnología real y un enfoque humano para impulsar la eficiencia operativa.
+              </p>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+          >
+            <h3 className="text-xl font-semibold text-white mb-4">Nuestros Valores</h3>
+            <ul className="space-y-3">
+              <li className="flex items-start">
+                <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#7B61FF]/10 mr-3 flex-shrink-0">
+                  <Zap className="h-5 w-5 text-[#7B61FF]" />
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold">Innovación Real</h4>
+                  <p className="text-[#BBBBBB] text-sm">Soluciones tecnológicas de vanguardia que combinan potencia y facilidad de uso.</p>
+                </div>
+              </li>
+              
+              <li className="flex items-start">
+                <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#7B61FF]/10 mr-3 flex-shrink-0">
+                  <Activity className="h-5 w-5 text-[#7B61FF]" />
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold">Eficiencia Operativa</h4>
+                  <p className="text-[#BBBBBB] text-sm">Optimización de procesos para reducir tiempos muertos y costos.</p>
+                </div>
+              </li>
+              
+              <li className="flex items-start">
+                <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#7B61FF]/10 mr-3 flex-shrink-0">
+                  <Shield className="h-5 w-5 text-[#7B61FF]" />
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold">Transparencia y Honestidad</h4>
+                  <p className="text-[#BBBBBB] text-sm">Comunicación abierta y sin sesgos, con resultados medibles desde el primer día.</p>
+                </div>
+              </li>
+              
+              <li className="flex items-start">
+                <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#7B61FF]/10 mr-3 flex-shrink-0">
+                  <Users className="h-5 w-5 text-[#7B61FF]" />
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold">Enfoque Humano</h4>
+                  <p className="text-[#BBBBBB] text-sm">Tecnología que simplifica el trabajo diario, permitiendo concentrarse en lo que realmente importa.</p>
+                </div>
+              </li>
+            </ul>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Sección de Recursos y Blog
+const ResourcesSection = () => {
+  return (
+    <section className="relative bg-[#0B0B0F] py-[120px] overflow-hidden" id="resources">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white">
+            Recursos y Conocimiento
+          </h2>
+          <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
+            Descubre contenido especializado para optimizar tu operación con NeuralCrane.
+          </p>
+        </motion.div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-300 flex flex-col items-center text-center"
+          >
+            <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
+              <FileText className="w-8 h-8 text-[#7B61FF]" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-3">Artículos y Guías</h3>
+            <p className="text-[#BBBBBB] text-sm">
+              Contenido actualizado sobre tendencias en el sector de grúas, mejores prácticas operativas y casos de éxito.
+            </p>
+            <Link to="/blog" className="mt-4 text-[#7B61FF] hover:text-[#A28CFF] font-medium flex items-center">
+              Explorar <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-300 flex flex-col items-center text-center"
+          >
+            <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
+              <Play className="w-8 h-8 text-[#7B61FF]" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-3">Tutoriales y Videos</h3>
+            <p className="text-[#BBBBBB] text-sm">
+              Aprende a utilizar NeuralCrane con tutoriales interactivos y videos demostrativos sobre todas sus funcionalidades.
+            </p>
+            <Link to="/tutorials" className="mt-4 text-[#7B61FF] hover:text-[#A28CFF] font-medium flex items-center">
+              Ver tutoriales <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-300 flex flex-col items-center text-center"
+          >
+            <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
+              <BarChart2 className="w-8 h-8 text-[#7B61FF]" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-3">Infografías y Whitepapers</h3>
+            <p className="text-[#BBBBBB] text-sm">
+              Documentos especializados que ofrecen análisis profundos y comparativas del mercado de asistencia vial.
+            </p>
+            <Link to="/resources" className="mt-4 text-[#7B61FF] hover:text-[#A28CFF] font-medium flex items-center">
+              Descargar recursos <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-300 flex flex-col items-center text-center"
+          >
+            <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
+              <MessageCircle className="w-8 h-8 text-[#7B61FF]" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-3">Soporte y Comunidad</h3>
+            <p className="text-[#BBBBBB] text-sm">
+              Accede a nuestro centro de soporte y únete a la comunidad de usuarios para compartir experiencias y mejores prácticas.
+            </p>
+            <Link to="/support" className="mt-4 text-[#7B61FF] hover:text-[#A28CFF] font-medium flex items-center">
+              Centro de ayuda <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
           </motion.div>
         </div>
       </div>
