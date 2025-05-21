@@ -5,7 +5,6 @@ import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, Clock, MapPin, BarChart, Cpu, Truck, Globe, Zap, Brain, Layers, MessageCircle, Activity, BarChart2, Shield, Users, FileText, Play, Lock, Database, Settings } from 'lucide-react';
 import { useIntersection } from '@/hooks/useIntersection';
-import ShootingStarsBackground from '@/components/ShootingStarsBackground';
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -35,10 +34,8 @@ const NeuralCrane = () => {
         isActive={isTransitioning} 
         onComplete={completeTransition} 
       />
-      {/* Fondo de estrellas fugaces */}
-      <ShootingStarsBackground />
       {/* Header con navegación */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.35)] backdrop-blur-sm">
+      <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.65)]" style={{ willChange: "transform", transform: "translateZ(0)" }}>
         <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">
           <Link to="/" className="text-white flex items-center" onClick={goToHome}>
             <img 
@@ -120,8 +117,6 @@ const NeuralCrane = () => {
         
         {/* Planes de precios */}
         <PricingSection />
-        
-        {/* FAQ Section */}
         <FaqSection />
         
         {/* Recursos y Blog */}
@@ -143,13 +138,16 @@ const HeroSection = () => {
   
   return (
     <section className="relative w-full min-h-[90vh] overflow-hidden flex flex-col pt-32 md:pt-48 pb-24">
-      {/* Nebulosa glow */}
+      {/* Nebulosa glow - Optimizada para rendimiento */}
       <div 
-        className="absolute top-[240px] left-1/2 -translate-x-1/2 w-[1800px] h-[900px] z-0"
+        className="absolute top-[240px] left-[50%] w-[1800px] h-[900px] z-0"
         style={{
           background: '#7B61FF33',
-          filter: 'blur(160px)',
-          mixBlendMode: 'normal'
+          filter: 'blur(80px)', // Reducir la intensidad del blur para mejor rendimiento
+          mixBlendMode: 'normal',
+          willChange: 'opacity',
+          transform: 'translate3d(-50%, 0, 0)', // Cambia porcentaje por píxeles (fix para temblor)
+          backfaceVisibility: 'hidden'
         }}
         aria-hidden="true"
       />
@@ -160,7 +158,7 @@ const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "linear" }}
+          transition={{ duration: 0.4, ease: "linear" }}
           className="flex flex-col"
           style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
@@ -230,14 +228,14 @@ const HeroSection = () => {
                 goToHome(e);
               }
             }}>
-              <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] hover:outline-[#7B61FF] hover:outline-2 hover:outline-offset-4 relative overflow-hidden group">
-                <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
+              <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-200 hover:shadow-[0_0_25px_rgba(123,97,255,0.5)] hover:outline-[#7B61FF] hover:outline-2 hover:outline-offset-4 relative overflow-hidden group" style={{ willChange: "transform", transform: "translateZ(0)" }}>
+                <span className="absolute inset-0 w-0 bg-[#7B61FF]/20 transition-all duration-200 group-hover:w-full" style={{ willChange: "width" }}></span>
                 <span className="relative z-10">Solicitar Demo</span>
               </Button>
             </Link>
             
             <Link to="#pricing">
-              <Button variant="outline" className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors">
+              <Button variant="outline" className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors" style={{ willChange: "transform", transform: "translateZ(0)" }}>
                 Ver Planes y Precios
               </Button>
             </Link>
@@ -329,7 +327,7 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col items-center p-6 rounded-2xl bg-[#15161B] border border-white/5 hover:border-[#7B61FF]/20 transition-all duration-300"
+              className="flex flex-col items-center p-6 rounded-2xl bg-[#15161B] border border-white/5 hover:border-[#7B61FF]/20 transition-all duration-200"
             >
               <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
                 <Cpu className="w-8 h-8 text-[#7B61FF]" />
@@ -342,7 +340,7 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col items-center p-6 rounded-2xl bg-[#15161B] border border-white/5 hover:border-[#7B61FF]/20 transition-all duration-300"
+              className="flex flex-col items-center p-6 rounded-2xl bg-[#15161B] border border-white/5 hover:border-[#7B61FF]/20 transition-all duration-200"
             >
               <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
                 <Shield className="w-8 h-8 text-[#7B61FF]" />
@@ -355,7 +353,7 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col items-center p-6 rounded-2xl bg-[#15161B] border border-white/5 hover:border-[#7B61FF]/20 transition-all duration-300"
+              className="flex flex-col items-center p-6 rounded-2xl bg-[#15161B] border border-white/5 hover:border-[#7B61FF]/20 transition-all duration-200"
             >
               <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
                 <Layers className="w-8 h-8 text-[#7B61FF]" />
@@ -368,7 +366,7 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col items-center p-6 rounded-2xl bg-[#15161B] border border-white/5 hover:border-[#7B61FF]/20 transition-all duration-300"
+              className="flex flex-col items-center p-6 rounded-2xl bg-[#15161B] border border-white/5 hover:border-[#7B61FF]/20 transition-all duration-200"
             >
               <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
                 <MessageCircle className="w-8 h-8 text-[#7B61FF]" />
@@ -466,7 +464,7 @@ const FeaturesSection = () => {
                 delay: index * 0.15,
                 ease: [0.22, 1, 0.36, 1]
               }}
-              className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)]"
+              className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)]"
             >
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5 mr-4">
@@ -492,7 +490,7 @@ const FeaturesSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-16 bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+          className="mt-16 bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
         >
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5">
@@ -659,7 +657,7 @@ const BenefitsSection = () => {
                     delay: index * 0.15,
                     ease: [0.22, 1, 0.36, 1]
                   }}
-                  className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] h-full"
+                  className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] h-full"
                 >
                   <h4 className="text-xl font-semibold text-white mb-4">{benefit.title}</h4>
                   <p className="text-[#BBBBBB]">{benefit.description}</p>
@@ -692,7 +690,7 @@ const BenefitsSection = () => {
                     delay: index * 0.15,
                     ease: [0.22, 1, 0.36, 1]
                   }}
-                  className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] h-full"
+                  className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] h-full"
                 >
                   <h4 className="text-xl font-semibold text-white mb-4">{benefit.title}</h4>
                   <p className="text-[#BBBBBB]">{benefit.description}</p>
@@ -707,6 +705,7 @@ const BenefitsSection = () => {
 };
 
 // Testimonials Section
+// Sección optimizada para mejor rendimiento
 const TestimonialsSection = () => {
   const testimonials = [
     {
@@ -761,11 +760,12 @@ const TestimonialsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ 
-                duration: 0.6, 
-                delay: index * 0.15,
-                ease: [0.22, 1, 0.36, 1]
+                duration: 0.4, 
+                delay: Math.min(index * 0.05, 0.15), // Limitamos el delay máximo a 150ms
+                ease: "linear"
               }}
-              className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] relative"
+              style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
+              className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] relative"
             >
               {/* Quote mark */}
               <div className="absolute top-6 right-6 text-[#7B61FF]/20 text-6xl font-serif">"</div>
@@ -1085,7 +1085,7 @@ const FaqSection = () => {
                 delay: index * 0.1,
                 ease: [0.22, 1, 0.36, 1]
               }}
-              className="bg-[#15161B] border border-white/5 rounded-xl p-6 hover:border-[#7B61FF]/20 transition-all duration-300"
+              className="bg-[#15161B] border border-white/5 rounded-xl p-6 hover:border-[#7B61FF]/20 transition-all duration-200"
             >
               <h3 className="text-lg font-semibold text-white mb-3">{faq.question}</h3>
               <p className="text-[#BBBBBB]">{faq.answer}</p>
@@ -1193,7 +1193,7 @@ const AIComparisonSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
           >
             <h3 className="text-xl font-semibold text-white mb-6">El Marketing vs. La Realidad</h3>
             <p className="text-[#BBBBBB] mb-4">
@@ -1209,7 +1209,7 @@ const AIComparisonSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
           >
             <h3 className="text-xl font-semibold text-white mb-6">Nuestro Enfoque: Resultados sobre Etiquetas</h3>
             <p className="text-[#BBBBBB] mb-4">
@@ -1251,7 +1251,7 @@ const AboutUsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
           >
             <h3 className="text-xl font-semibold text-white mb-4">Nuestra Historia</h3>
             <p className="text-[#BBBBBB]">
@@ -1264,7 +1264,7 @@ const AboutUsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
           >
             <h3 className="text-xl font-semibold text-white mb-4">Misión y Visión</h3>
             <div>
@@ -1285,7 +1285,7 @@ const AboutUsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
           >
             <h3 className="text-xl font-semibold text-white mb-4">Nuestros Valores</h3>
             <ul className="space-y-3">
@@ -1362,7 +1362,7 @@ const ResourcesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-300 flex flex-col items-center text-center"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-200 flex flex-col items-center text-center"
           >
             <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
               <FileText className="w-8 h-8 text-[#7B61FF]" />
@@ -1381,7 +1381,7 @@ const ResourcesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-300 flex flex-col items-center text-center"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-200 flex flex-col items-center text-center"
           >
             <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
               <Play className="w-8 h-8 text-[#7B61FF]" />
@@ -1400,7 +1400,7 @@ const ResourcesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-300 flex flex-col items-center text-center"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-200 flex flex-col items-center text-center"
           >
             <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
               <BarChart2 className="w-8 h-8 text-[#7B61FF]" />
@@ -1419,7 +1419,7 @@ const ResourcesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-300 flex flex-col items-center text-center"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-6 hover:border-[#7B61FF]/20 transition-all duration-200 flex flex-col items-center text-center"
           >
             <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5 mb-4">
               <MessageCircle className="w-8 h-8 text-[#7B61FF]" />
@@ -1449,7 +1449,8 @@ const EfficiencyAndSecuritySection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.4, ease: "linear" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
               Eficiencia del Personal de Coordinación
@@ -1539,7 +1540,8 @@ const EfficiencyAndSecuritySection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.4, delay: 0.2, ease: "linear" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
               Seguridad y Protección de Datos
@@ -1627,8 +1629,9 @@ const PersonalizationSection = () => {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="mt-16 bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+      transition={{ duration: 0.4, delay: 0.3, ease: "linear" }}
+      style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
+      className="mt-16 bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
     >
       <div className="flex items-center mb-6">
         <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/5">
@@ -1746,7 +1749,7 @@ const TechnicalDetailsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
           >
             <div className="flex items-center mb-6">
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5 mr-4">
@@ -1792,7 +1795,7 @@ const TechnicalDetailsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300"
+            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
           >
             <div className="flex items-center mb-6">
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5 mr-4">
