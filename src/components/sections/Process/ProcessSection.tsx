@@ -51,6 +51,7 @@ const ProcessSection = () => {
     <section
       ref={sectionRef}
       aria-labelledby="process-title"
+      id="proceso"
       className="relative bg-[#0D0D11] overflow-hidden"
     >
       {/* Top decorative wave */}
