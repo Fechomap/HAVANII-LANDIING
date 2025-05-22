@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';import { Link } from 'react-router-dom';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap } from 'lucide-react';
-import { useIntersection } from '@/hooks/useIntersection';
+import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+const { ref: sectionRef, isVisible } = useScrollTrigger(); // si necesitas visibilidad
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';

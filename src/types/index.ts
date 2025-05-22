@@ -19,7 +19,6 @@ export interface AnimationProps {
   once?: boolean;
 }
 
-// Opciones para el hook useIntersection
 export interface IntersectionOptions {
   root?: Element | null;
   rootMargin?: string;
@@ -27,7 +26,6 @@ export interface IntersectionOptions {
   once?: boolean;
 }
 
-// Opciones para el hook useParallax
 export interface ParallaxOptions {
   speed?: number;
   direction?: 'vertical' | 'horizontal';
