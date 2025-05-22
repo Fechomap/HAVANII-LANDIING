@@ -32,7 +32,6 @@ const Index = () => {
   // Forzar la activación de la transición cuando se hace clic en Home
   const handleHomeClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log('Home clicked in Index component');
     // Activamos manualmente la transición
     goToHome(e);
   };
@@ -61,13 +60,7 @@ const Index = () => {
         onComplete={completeTransition} 
       />
       
-      {/* Botón flotante para pruebas de transición */}
-      <button 
-        onClick={handleHomeClick}
-        className="fixed bottom-4 right-4 z-50 px-4 py-2 bg-[#7B61FF] text-white rounded-full shadow-lg"
-      >
-        Test Home Transition
-      </button>
+
       
       {/* Sección Hero - Implementada con el prompt específico */}
       <HeroSection onHomeClick={handleHomeClick} />

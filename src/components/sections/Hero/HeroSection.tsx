@@ -34,8 +34,11 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
   
   // Manejar eventos de scroll con throttling para mejor rendimiento
   useEffect(() => {
+    // Inicializar el estado de scroll inmediatamente para evitar cambios bruscos
+    setHasScrolled(window.scrollY > 50);
+    
     let ticking = false;
-    let lastScrollY = 0;
+    let lastScrollY = window.scrollY;
     
     const handleScroll = () => {
       lastScrollY = window.scrollY;
@@ -53,61 +56,75 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
       }
     };
     
+    // Usar { passive: true } para mejor rendimiento en Chrome
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
   
-  // Iniciar animaciones cuando la sección sea visible - optimizado
+  // Iniciar animaciones cuando la sección sea visible - optimizado para rendimiento inmediato
   useEffect(() => {
     if (isInView) {
-      // Pequeño retraso para mejorar la percepción de carga
-      const timer = setTimeout(() => {
-        controls.start('visible');
-      }, 100);
-      
-      return () => clearTimeout(timer);
+      // Iniciar animaciones inmediatamente para mejor interactividad
+      controls.start('visible');
     }
   }, [isInView, controls]);
   
-  // Manejar scroll suave al hacer clic en el indicador - optimizado con RAF
+  // Manejar scroll suave al hacer clic en el indicador - optimizado con RAF y para Chrome
   const handleScrollClick = useCallback(() => {
     const nextSection = document.querySelector('#valor');
     if (!nextSection) return;
+    
+    // Proporcionar feedback visual inmediato - pequeño movimiento para indicar respuesta
+    const preScrollPosition = window.scrollY;
+    const targetPreScroll = preScrollPosition + 5;
+    window.scrollTo(0, targetPreScroll);
     
     // Implementación personalizada de scroll suave para mejor rendimiento
     const startPosition = window.scrollY;
     const targetPosition = nextSection.getBoundingClientRect().top + window.scrollY;
     const distance = targetPosition - startPosition;
-    const duration = 800;
+    const duration = 600; // Reducido para mayor responsividad
     let startTime: number | null = null;
+    let lastPosition = startPosition;
     
-    // Función de easing para scroll más natural
-    const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3);
+    // Función de easing para scroll más natural - optimizada para Chrome
+    const easeOutQuad = (t: number): number => 1 - (1 - t) * (1 - t);
     
     function step(timestamp: number) {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const easeProgress = easeOutCubic(progress);
+      const easeProgress = easeOutQuad(progress);
       
-      window.scrollTo(0, startPosition + distance * easeProgress);
+      // Calcular nueva posición
+      const newPosition = startPosition + distance * easeProgress;
+      
+      // Solo actualizar si hay un cambio significativo
+      if (Math.abs(newPosition - lastPosition) > 1) {
+        window.scrollTo({
+          top: newPosition,
+          behavior: 'auto' // Usar 'auto' en lugar de 'smooth' para evitar lag en Chrome
+        });
+        lastPosition = newPosition;
+      }
       
       if (progress < 1) {
         window.requestAnimationFrame(step);
       }
     }
     
+    // Iniciar la animación inmediatamente
     window.requestAnimationFrame(step);
   }, []);
 
-  // Variantes de animación optimizadas y memoizadas
+  // Variantes de animación optimizadas y memoizadas - mejoradas para Chrome
   const containerVariants = React.useMemo(() => ({
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08, // Reducido para acelerar la carga
-        delayChildren: 0.05,
+        staggerChildren: 0.05, // Aún más reducido para acelerar la carga
+        delayChildren: 0.02,
       }
     }
   }), []);
@@ -115,13 +132,13 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
   const textVariants = React.useMemo(() => ({
     hidden: { 
       opacity: 0, 
-      y: 15, // Reducido para animaciones más rápidas
+      y: 10, // Reducido para animaciones más rápidas
     },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.4, // Reducido para mejor rendimiento
+        duration: 0.3, // Reducido para mejor rendimiento en Chrome
         ease: "easeOut",
       }
     }
@@ -130,17 +147,17 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
   const mockupVariants = React.useMemo(() => ({
     hidden: { 
       opacity: 0, 
-      scale: 0.95, 
-      y: 10 // Reducido para animaciones más rápidas
+      scale: 0.97, // Menos dramático para mejor rendimiento
+      y: 5 // Reducido para animaciones más rápidas
     },
     visible: {
       opacity: 1,
       scale: 1,
       y: 0,
       transition: {
-        duration: 0.5, // Reducido para mejor rendimiento
+        duration: 0.4, // Reducido para mejor rendimiento en Chrome
         ease: "easeOut",
-        delay: 0.1
+        delay: 0.05 // Reducido para respuesta más rápida
       }
     }
   }), []);
@@ -151,14 +168,14 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
       className="relative w-full min-h-screen overflow-hidden flex flex-col"
       id="hero"
     >
+      {/* Header integrado - prioridad alta para interactividad */}
+      <Header hasScrolled={hasScrolled} onHomeClick={onHomeClick} />
+      
       {/* Componente de transición restaurado */}
       <HomeTransition 
         isActive={isTransitioning} 
         onComplete={completeTransition} 
       />
-      
-      {/* Header integrado */}
-      <Header hasScrolled={hasScrolled} onHomeClick={onHomeClick} />
       
       {/* Fondo optimizado y con mejor rendimiento */}
       <div className="absolute inset-0 z-0">

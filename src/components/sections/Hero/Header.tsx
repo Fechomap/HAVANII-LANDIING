@@ -25,41 +25,60 @@ const Header = ({ hasScrolled, onHomeClick }: HeaderProps) => {
     { name: 'Contacto', id: 'contacto', href: '#contacto' }
   ], []);
   
-  // Optimized scroll function with custom easing
+  // Optimized scroll function with custom easing - optimizado para eliminar lag
   const scrollToElement = useCallback((elementId: string, offset: number = 80) => {
     const element = document.getElementById(elementId);
     if (!element) return;
     
+    // Calcular posición final con offset
     const elementPosition = element.getBoundingClientRect().top + window.scrollY;
     const offsetPosition = elementPosition - offset;
     
-    // Custom smooth scroll with requestAnimationFrame for better performance
+    // Usar performance.now() para timing más preciso
     const startPosition = window.scrollY;
     const distance = offsetPosition - startPosition;
-    const duration = 1000;
+    const duration = 600; // Reducido para mayor responsividad
     let startTime: number | null = null;
+    let lastPosition = startPosition;
     
-    // Easing function for smoother animation
-    const easeOutQuint = (t: number): number => 1 - Math.pow(1 - t, 5);
+    // Easing function optimizada para Chrome
+    const easeOutQuad = (t: number): number => 1 - (1 - t) * (1 - t);
     
+    // Función de animación optimizada
     function step(timestamp: number) {
-      if (!startTime) startTime = timestamp;
+      if (!startTime) {
+        startTime = timestamp;
+      }
+      
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const easeProgress = easeOutQuint(progress);
+      const easeProgress = easeOutQuad(progress);
       
-      window.scrollTo(0, startPosition + distance * easeProgress);
+      // Calcular nueva posición
+      const newPosition = startPosition + distance * easeProgress;
+      
+      // Solo actualizar si hay un cambio significativo (optimización)
+      if (Math.abs(newPosition - lastPosition) > 1) {
+        window.scrollTo({
+          top: newPosition,
+          behavior: 'auto' // Usar 'auto' en lugar de 'smooth' para evitar lag en Chrome
+        });
+        lastPosition = newPosition;
+      }
       
       if (progress < 1) {
         window.requestAnimationFrame(step);
       }
     }
     
-    window.requestAnimationFrame(step);
+    // Iniciar la animación inmediatamente para evitar lag
+    step(performance.now());
   }, []);
   
   const handleLinkClick = useCallback((id: string, href: string, e: React.MouseEvent) => {
     e.preventDefault();
+    
+    // Proporcionar feedback visual inmediato
     setActiveLink(id);
     setIsMobileMenuOpen(false);
     
@@ -67,22 +86,28 @@ const Header = ({ hasScrolled, onHomeClick }: HeaderProps) => {
     if (id === 'home') {
       // Si tenemos una función onHomeClick personalizada, la usamos
       if (onHomeClick) {
-        console.log('Using custom onHomeClick function');
         onHomeClick(e);
       } else {
         // De lo contrario, usamos la función goToHome estándar
-        console.log('Using standard goToHome function');
         goToHome(e);
       }
       return;
     }
     
+    // Optimización para navegación entre secciones
     if (href.startsWith('#')) {
       const targetId = href.substring(1);
+      
+      // Iniciar un pequeño movimiento inmediatamente para feedback visual
+      const preScrollPosition = window.scrollY;
+      const targetPreScroll = preScrollPosition + (window.scrollY < 300 ? 5 : -5);
+      window.scrollTo(0, targetPreScroll);
+      
+      // Ejecutar inmediatamente para eliminar la percepción de lag
       scrollToElement(targetId);
       window.history.pushState({}, '', href);
     }
-  }, [goToHome, scrollToElement]);
+  }, [goToHome, scrollToElement, onHomeClick]);
   
   // Memoize header variants for better performance
   const headerVariants = React.useMemo(() => ({
@@ -110,7 +135,9 @@ const Header = ({ hasScrolled, onHomeClick }: HeaderProps) => {
       variants={headerVariants}
       style={{ 
         willChange: "transform",
-        backfaceVisibility: "hidden"
+        backfaceVisibility: "hidden",
+        transform: "translateZ(0)", // Forzar aceleración por hardware
+        WebkitFontSmoothing: "antialiased" // Mejor renderizado de texto en Chrome
       }}
       role="banner"
     >
