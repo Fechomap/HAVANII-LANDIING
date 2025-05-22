@@ -1,40 +1,55 @@
+/**
+ * @file useAnimation.ts - ARCHIVO DE TRANSICIÓN TEMPORAL
+ * 
+ * ⚠️  IMPORTANTE: Este archivo es temporal para mantener compatibilidad
+ * durante la migración de Fase 1 → Fase 2
+ * 
+ * 🔄 ESTADO ACTUAL:
+ * - Versión simplificada de useAnimation
+ * - Muestra warning de deprecación
+ * - Será eliminado en Fase 3
+ * 
+ * ✅ USAR EN SU LUGAR: ScrollReveal component
+ */
+
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import type { IntersectionOptions, ParallaxOptions } from '@/types';
 
 // Registrar el plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Hook unificado para animación que combina funcionalidades de
- * useIntersection y useParallax en una sola API simplificada.
- * 
- * @param options - Configuración de animación
- * @returns Objeto con ref para adjuntar al elemento, estado de visibilidad y métodos
- * 
- * @example
- * // Uso básico para intersection observer
- * const { ref, isInView } = useAnimation({ 
- *   intersection: { threshold: 0.5, once: true } 
- * });
- * 
- * // Uso con parallax
- * const { ref } = useAnimation({ 
- *   parallax: { speed: 0.2, direction: 'vertical' }
- * });
- * 
- * // Uso combinado
- * const { ref, isInView } = useAnimation({
- *   intersection: { threshold: 0.5 },
- *   parallax: { speed: 0.3 }
- * });
- */
-export function useAnimation(options: {
+// Mostrar warning de deprecación en desarrollo
+if (process.env.NODE_ENV === 'development') {
+  console.warn(
+    '⚠️  useAnimation está deprecado. Usar ScrollReveal component en su lugar.\n' +
+    'Ejemplo: <ScrollReveal animation="fadeUp"><MyComponent /></ScrollReveal>'
+  );
+}
+
+// Tipos para las opciones
+interface IntersectionOptions {
+  threshold?: number;
+  rootMargin?: string;
+  once?: boolean;
+}
+
+interface ParallaxOptions {
+  speed?: number;
+  direction?: 'vertical' | 'horizontal';
+}
+
+interface UseAnimationOptions {
   intersection?: IntersectionOptions;
   parallax?: ParallaxOptions;
   onInView?: (entry: IntersectionObserverEntry) => void;
-}) {
+}
+
+/**
+ * @deprecated Usar ScrollReveal component en su lugar
+ * Hook combinado para animación (versión simplificada)
+ */
+export function useAnimation(options: UseAnimationOptions = {}) {
   const { intersection, parallax, onInView } = options;
   const elementRef = useRef<HTMLElement | null>(null);
   const [isInView, setIsInView] = useState(false);
@@ -59,14 +74,13 @@ export function useAnimation(options: {
           onInView(entry);
         }
         
-        // Si la opción once está activada, desconectar después de la primera intersección
+        // Si once está activado, desconectar
         if (intersection?.once) {
           if (elementRef.current && observerRef.current) {
             observerRef.current.unobserve(elementRef.current);
           }
         }
       } else {
-        // Si no estamos usando "once", actualizar el estado
         if (!intersection?.once) {
           setIsInView(false);
         }
@@ -77,13 +91,11 @@ export function useAnimation(options: {
   
   // Configurar IntersectionObserver
   useEffect(() => {
-    // Si prefiere reducir el movimiento, no usar animaciones
     if (prefersReducedMotion) {
       setIsInView(true);
       return;
     }
     
-    // Si no hay opciones de intersection, no hacer nada
     if (!intersection) return;
     
     const { root, rootMargin, threshold, once } = intersection;
@@ -106,56 +118,46 @@ export function useAnimation(options: {
     };
   }, [handleIntersection, intersection, prefersReducedMotion]);
   
-  // Configurar efecto Parallax usando GSAP
+  // Configurar efecto Parallax usando GSAP (simplificado)
   useEffect(() => {
-    // Si prefiere reducir el movimiento o no hay opciones de parallax, no hacer nada
     if (prefersReducedMotion || !parallax) return;
     
     const element = elementRef.current;
     if (!element) return;
     
-    // Solo aplicar parallax en desktop (≥1024px)
+    // Solo en desktop
     const isDesktop = window.innerWidth >= 1024;
     if (!isDesktop) return;
     
     const {
-      speed = 0.5,
+      speed = 0.2, // Reducido para mejor rendimiento
       direction = 'vertical',
-      start = 'top bottom',
-      end = 'bottom top',
-      scrub = 1,
     } = parallax;
     
-    // Limpiar la animación anterior si existe
+    // Limpiar animación anterior
     if (gsapInstanceRef.current) {
       gsapInstanceRef.current.kill();
     }
     
-    // Calcular la distancia del movimiento basada en la velocidad
-    const distance = speed * 100; // Convertir a porcentaje
+    // Distancia reducida
+    const distance = Math.min(speed * 30, 30); // Máximo 30px
     
-    // Configurar la propiedad a animar según la dirección
-    const propY = direction === 'vertical' ? 'y' : null;
-    const propX = direction === 'horizontal' ? 'x' : null;
-    
-    // Crear la animación con GSAP
+    // Crear animación simplificada
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: element,
-        start,
-        end,
-        scrub,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1,
       }
     });
     
-    if (propY) {
+    if (direction === 'vertical') {
       tl.fromTo(element, 
         { y: -distance }, 
         { y: distance, ease: 'none' }
       );
-    }
-    
-    if (propX) {
+    } else {
       tl.fromTo(element, 
         { x: -distance }, 
         { x: distance, ease: 'none' }
@@ -164,13 +166,11 @@ export function useAnimation(options: {
     
     gsapInstanceRef.current = tl;
     
-    // Limpiar la animación cuando el componente se desmonte
     return () => {
       if (gsapInstanceRef.current) {
         gsapInstanceRef.current.kill();
       }
-      const triggers = ScrollTrigger.getAll();
-      triggers.forEach(trigger => {
+      ScrollTrigger.getAll().forEach(trigger => {
         if (trigger.vars.trigger === element) {
           trigger.kill();
         }
@@ -178,7 +178,7 @@ export function useAnimation(options: {
     };
   }, [parallax, prefersReducedMotion]);
   
-  // Función para realizar animaciones personalizadas en el elemento
+  // Función para animaciones personalizadas (simplificada)
   const animate = useCallback((animationProps: gsap.TweenVars, options?: gsap.TweenVars) => {
     if (elementRef.current) {
       return gsap.to(elementRef.current, { ...animationProps, ...options });
@@ -192,5 +192,3 @@ export function useAnimation(options: {
     animate,
   };
 }
-
-export default useAnimation;
