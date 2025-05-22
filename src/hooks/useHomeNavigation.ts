@@ -14,41 +14,40 @@ export function useHomeNavigation() {
   const goToHome = useCallback((e?: React.MouseEvent) => {
     if (e) e.preventDefault();
     
-    // Verificamos si estamos en la página principal
-    const isHome = location.pathname === '/';
-    
-    // Siempre activamos la transición, incluso si ya estamos en la página principal
+    // Forzamos la activación de la transición siempre
     setIsTransitioning(true);
+    console.log('Transition activated:', isTransitioning);
     
-    // Si ya estamos en la página principal, solo hacemos scroll al inicio
-    // pero mantenemos la animación activa
-    if (isHome) {
+    // Hacemos scroll al inicio inmediatamente
+    window.scrollTo({
+      top: 0,
+      behavior: 'auto'
+    });
+    
+    // Si ya estamos en la página principal, no necesitamos navegar
+    // pero mantenemos la animación activa para que se vea
+    if (location.pathname === '/') {
+      // Programamos la finalización de la transición después de un tiempo
+      // para que se vea la animación completa
       setTimeout(() => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'auto'
-        });
-      }, 100);
-      return;
+        setIsTransitioning(false);
+      }, 2000);
     }
-    
-    // Si venimos de otra página, también hacemos scroll al inicio
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'auto'
-      });
-    }, 100);
+    // Si no estamos en la página principal, el completeTransition
+    // se encargará de finalizar la transición y navegar
   }, [location.pathname]);
 
   // Esta función se llamará cuando termine la animación
   const completeTransition = useCallback(() => {
     if (isTransitioning) {
       // Navegamos a la página principal usando una ruta absoluta
-      navigate('/', { replace: true });
+      // solo si no estamos ya en la página principal
+      if (location.pathname !== '/') {
+        navigate('/', { replace: true });
+      }
       setIsTransitioning(false);
     }
-  }, [isTransitioning, navigate]);
+  }, [isTransitioning, navigate, location.pathname]);
 
   return {
     goToHome,

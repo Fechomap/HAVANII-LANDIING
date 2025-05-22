@@ -13,8 +13,13 @@ import HomeTransition from '@/components/transitions/HomeTransition';
 import HeroShootingStarsBackground from '@/components/HeroShootingStarsBackground';
 import Header from './Header';
 
+// Props para pasar funciones personalizadas
+interface HeroSectionProps {
+  onHomeClick?: (e: React.MouseEvent) => void;
+}
+
 // Componente optimizado del Hero
-const HeroSection = () => {
+const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
   // Estados para animaciones y efectos
   const [hasScrolled, setHasScrolled] = useState(false);
   const controls = useAnimation();
@@ -153,7 +158,7 @@ const HeroSection = () => {
       />
       
       {/* Header integrado */}
-      <Header hasScrolled={hasScrolled} />
+      <Header hasScrolled={hasScrolled} onHomeClick={onHomeClick} />
       
       {/* Fondo optimizado y con mejor rendimiento */}
       <div className="absolute inset-0 z-0">

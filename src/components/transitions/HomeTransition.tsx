@@ -22,6 +22,9 @@ const HomeTransition: React.FC<HomeTransitionProps> = ({ isActive, onComplete })
 
   // Configurar y ejecutar animación del canvas
   useEffect(() => {
+    // Registramos el estado de la animación para depuración
+    console.log('HomeTransition active:', isActive);
+    
     if (!isActive || !canvasRef.current) return;
     
     const canvas = canvasRef.current;
@@ -114,9 +117,10 @@ const HomeTransition: React.FC<HomeTransitionProps> = ({ isActive, onComplete })
     animationFrameRef.current = requestAnimationFrame(animate);
     
     // Establecer un temporizador para completar la transición después de un tiempo
+    // Usamos un tiempo más largo para asegurar que la animación se vea completa
     const completionTimer = setTimeout(() => {
       onComplete();
-    }, 1500);
+    }, 1800);
     
     // Limpiar al desmontar
     return () => {

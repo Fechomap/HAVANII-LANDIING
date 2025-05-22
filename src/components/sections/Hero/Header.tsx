@@ -8,9 +8,10 @@ import { Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   hasScrolled: boolean;
+  onHomeClick?: (e: React.MouseEvent) => void;
 }
 
-const Header = ({ hasScrolled }: HeaderProps) => {
+const Header = ({ hasScrolled, onHomeClick }: HeaderProps) => {
   const [activeLink, setActiveLink] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { goToHome } = useHomeNavigation();
@@ -62,9 +63,17 @@ const Header = ({ hasScrolled }: HeaderProps) => {
     setActiveLink(id);
     setIsMobileMenuOpen(false);
     
-    // Caso especial para Home
+    // Caso especial para Home - Forzamos la transición
     if (id === 'home') {
-      goToHome(e);
+      // Si tenemos una función onHomeClick personalizada, la usamos
+      if (onHomeClick) {
+        console.log('Using custom onHomeClick function');
+        onHomeClick(e);
+      } else {
+        // De lo contrario, usamos la función goToHome estándar
+        console.log('Using standard goToHome function');
+        goToHome(e);
+      }
       return;
     }
     
@@ -110,7 +119,7 @@ const Header = ({ hasScrolled }: HeaderProps) => {
         <Link 
           to="/" 
           className="text-white flex items-center group"
-          onClick={goToHome}
+          onClick={onHomeClick || goToHome}
         >
           <motion.div
             whileHover={{ scale: 1.05 }}
