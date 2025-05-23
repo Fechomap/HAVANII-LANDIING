@@ -5,108 +5,62 @@
  * durante la migración de Fase 1 → Fase 2
  * 
  * 🔄 ESTADO ACTUAL:
- * - Versión simplificada de useParallax
+ * - Implementación básica para mantener compatibilidad
  * - Muestra warning de deprecación
  * - Será eliminado en Fase 3
  * 
- * ✅ USAR EN SU LUGAR: useMinimalParallax o ScrollReveal
+ * ✅ USAR EN SU LUGAR: useMinimalParallax (en useScrollTrigger)
  */
 
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// Registrar el plugin ScrollTrigger
-gsap.registerPlugin(ScrollTrigger);
+import { useEffect, useRef, useState } from 'react';
 
 // Mostrar warning de deprecación en desarrollo
 if (process.env.NODE_ENV === 'development') {
   console.warn(
-    '⚠️  useParallax está deprecado. Usar useMinimalParallax o ScrollReveal en su lugar.\n' +
-    'Ejemplo: const { ref, style } = useMinimalParallax(0.1);'
+    '⚠️  useParallax está deprecado. Usar useMinimalParallax en su lugar.\n' +
+    'Ejemplo: const { ref, style } = useMinimalParallax(0.1); // Muy sutil'
   );
 }
 
-interface ParallaxOptions {
-  speed?: number;
-  direction?: 'vertical' | 'horizontal';
-  start?: string;
-  end?: string;
-  scrub?: boolean | number;
-}
-
-// Valores por defecto
-const defaultOptions: ParallaxOptions = {
-  speed: 0.5,
-  direction: 'vertical',
-  start: 'top bottom',
-  end: 'bottom top',
-  scrub: 1,
-};
-
 /**
- * @deprecated Usar useMinimalParallax o ScrollReveal en su lugar
- * Hook para efectos de parallax (versión simplificada)
+ * @deprecated Usar useMinimalParallax en su lugar
+ * Hook para crear efectos de parallax
+ * @param speed - Velocidad del parallax (negativo = opuesto al scroll)
+ * @param direction - Dirección del parallax ('vertical' o 'horizontal')
  */
-export function useParallax(options: ParallaxOptions = {}) {
-  const config = { ...defaultOptions, ...options };
-  const elementRef = useRef<HTMLElement | null>(null);
-
+export function useParallax(speed: number = 0.1) {
+  const ref = useRef<HTMLElement | null>(null);
+  const [offset, setOffset] = useState(0);
+  
   useEffect(() => {
-    // Solo ejecutar en cliente, no en servidor
-    if (typeof window === 'undefined') return;
-    
-    const element = elementRef.current;
-    if (!element) return;
-    
-    // Verificar si estamos en desktop y si no prefiere reducir movimiento
-    const isDesktop = window.innerWidth >= 1024;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    // No aplicar parallax en mobile o si se prefiere reducir movimiento
-    if (!isDesktop || prefersReducedMotion) {
-      return;
-    }
-    
-    // Calcular la distancia del movimiento (reducida para mejor rendimiento)
-    const distance = Math.min(config.speed * 50, 50); // Máximo 50px
-    
-    // Configurar la propiedad a animar según la dirección
-    const animationProps = config.direction === 'vertical' 
-      ? { y: -distance } 
-      : { x: -distance };
-    
-    const animationPropsEnd = config.direction === 'vertical' 
-      ? { y: distance } 
-      : { x: distance };
-    
-    // Crear la animación con GSAP (simplificada)
-    const parallaxAnimation = gsap.fromTo(
-      element,
-      animationProps,
-      {
-        ...animationPropsEnd,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: element,
-          start: config.start,
-          end: config.end,
-          scrub: config.scrub,
-        },
+    const handleScroll = () => {
+      if (!ref.current) return;
+      
+      const scrollY = window.scrollY;
+      const newOffset = scrollY * speed;
+      setOffset(newOffset);
+      
+      if (ref.current) {
+        ref.current.style.transform = `translateY(${newOffset}px)`;
       }
-    );
-    
-    // Limpiar la animación cuando el componente se desmonte
-    return () => {
-      parallaxAnimation.kill();
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars.trigger === element) {
-          trigger.kill();
-        }
-      });
     };
     
-  }, [config]);
+    // Verificar preferencias de reducción de movimiento
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (!prefersReducedMotion) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      // Iniciar con un valor correcto
+      handleScroll();
+    }
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [speed]);
   
-  return elementRef;
+  return ref;
 }
+
+// Exportar también como default para mantener compatibilidad
+export default useParallax;
