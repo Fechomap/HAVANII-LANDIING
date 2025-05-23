@@ -10,8 +10,13 @@ const AboutSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: "linear" }}
           className="text-center mb-16"
+          style={{ 
+            willChange: "transform, opacity", 
+            backfaceVisibility: "hidden", 
+            transform: "translateZ(0)" 
+          }}
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
             ¿Qué es NeuralCrane?

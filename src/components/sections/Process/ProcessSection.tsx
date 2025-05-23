@@ -1,4 +1,4 @@
-import { ScrollReveal } from '@/components/ScrollReveal';
+import AnimateOnScroll from '@/components/AnimateOnScroll';
 import ProcessStep from './ProcessStep';
 import { processSteps } from './processData';
 
@@ -27,26 +27,26 @@ const ProcessSection = () => {
       <div className="max-w-[1240px] mx-auto px-6 md:px-12 lg:px-24 py-[140px] md:py-[180px] flex flex-col">
         
         {/* Título principal */}
-        <ScrollReveal animation="fadeUp" duration={0.8}>
+        <AnimateOnScroll animation="fadeUp" duration={0.8}>
           <h2 
             id="process-title" 
             className="text-white text-center text-3xl md:text-4xl font-extrabold leading-snug"
           >
             Tu Éxito en 4 Pasos: Nuestro Proceso Simple y Rápido
           </h2>
-        </ScrollReveal>
+        </AnimateOnScroll>
         
-        <ScrollReveal animation="fadeUp" delay={0.2} duration={0.8}>
+        <AnimateOnScroll animation="fadeUp" delay={0.2} duration={0.8}>
           <p className="mt-6 text-center max-w-[700px] mx-auto text-[#BBBBBB] text-lg md:text-xl">
             Olvídate de procesos interminables y la burocracia. Trabajamos de manera ágil y eficiente para que puedas ver resultados cuanto antes.
           </p>
-        </ScrollReveal>
+        </AnimateOnScroll>
         
         {/* Timeline Grid Desktop */}
-        <div className="relative mt-20 w-full">
+        <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-4 lg:gap-x-12 gap-y-16 lg:gap-y-0">
           
           {/* Connecting line for desktop */}
-          <ScrollReveal animation="fadeIn" delay={0.8} duration={1.2}>
+          <AnimateOnScroll animation="fadeIn" delay={0.8} duration={1.2}>
             <div className="absolute hidden lg:block top-[44px] left-0 w-full h-2 z-0">
               <svg 
                 width="100%" 
@@ -74,51 +74,28 @@ const ProcessSection = () => {
                 ))}
               </svg>
             </div>
-          </ScrollReveal>
+          </AnimateOnScroll>
           
           {/* Vertical line for mobile */}
           <div className="absolute lg:hidden left-[34px] top-[120px] h-[calc(100%-140px)] w-[2px] bg-[#2A2B30]" />
           
-          {/* Nueva estructura con flexbox para desktop */}
-          <div className="hidden lg:flex justify-between items-start w-full">
-            {processSteps.map((step, index) => (
-              <div key={index} className="w-[22%] flex-shrink-0">
-                <ScrollReveal
-                  animation="fadeUp"
-                  delay={0.4 + (index * 0.15)} // Stagger effect
-                  duration={0.6}
-                  threshold={0.1}
-                >
-                  <ProcessStep
-                    index={index + 1}
-                    title={step.title}
-                    description={step.description}
-                    icon={step.icon}
-                  />
-                </ScrollReveal>
-              </div>
-            ))}
-          </div>
-          
-          {/* Estructura original para mobile */}
-          <div className="lg:hidden grid grid-cols-1 gap-y-16">
-            {processSteps.map((step, index) => (
-              <ScrollReveal
-                key={index}
-                animation="fadeUp"
-                delay={0.4 + (index * 0.15)}
-                duration={0.6}
-                threshold={0.1}
-              >
-                <ProcessStep
-                  index={index + 1}
-                  title={step.title}
-                  description={step.description}
-                  icon={step.icon}
-                />
-              </ScrollReveal>
-            ))}
-          </div>
+          {/* Process steps - Cada uno se anima individualmente */}
+          {processSteps.map((step, index) => (
+            <AnimateOnScroll
+              key={index}
+              animation="fadeUp"
+              delay={0.4 + (index * 0.15)} // Stagger effect
+              duration={0.6}
+              threshold={0.1}
+            >
+              <ProcessStep
+                index={index + 1}
+                title={step.title}
+                description={step.description}
+                icon={step.icon}
+              />
+            </AnimateOnScroll>
+          ))}
         </div>
       </div>
     </section>

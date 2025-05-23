@@ -31,7 +31,11 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "linear" }}
           className="flex flex-col"
-          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
+          style={{ 
+            willChange: "transform, opacity", 
+            backfaceVisibility: "hidden", 
+            transform: "translateZ(0)" 
+          }}
         >
           <div className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-white/10 text-sm font-semibold text-white hover:bg-white/20 w-max">
             Producto Estrella 

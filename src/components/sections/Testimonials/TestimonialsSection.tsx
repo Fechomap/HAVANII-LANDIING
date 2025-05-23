@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { testimonials } from "./testimonialsData";
 import gsap from "gsap";
-import { ScrollReveal } from "@/components/ScrollReveal";
+import AnimateOnScroll from "@/components/AnimateOnScroll";
 
 // SVG Q mark
 const QuoteMark = ({ className = "" }: { className?: string }) => (
@@ -184,20 +184,20 @@ const TestimonialsSection = () => {
       <div className="relative w-full mx-auto px-1 py-[120px] md:py-[140px] text-center z-20">
         
         {/* Header migrado con ScrollReveal */}
-        <ScrollReveal animation="fadeUp" duration={0.8}>
+        <AnimateOnScroll animation="fadeUp" duration={0.8}>
           <h2
             id="test-title"
             className="text-3xl md:text-4xl font-extrabold text-white"
           >
             Ellos Ya Confían en Havani: Historias Reales
           </h2>
-        </ScrollReveal>
+        </AnimateOnScroll>
         
-        <ScrollReveal animation="fadeUp" delay={0.2} duration={0.8}>
+        <AnimateOnScroll animation="fadeUp" delay={0.2} duration={0.8}>
           <p className="mt-6 text-[#BBBBBB] text-lg md:text-xl max-w-2xl mx-auto">
             Descubre cómo nuestro enfoque "Sin Tanto Rollo" transforma negocios como el tuyo.
           </p>
-        </ScrollReveal>
+        </AnimateOnScroll>
         
         {/* Contenedor del carrusel con filas que se cruzan - MANTENER GSAP */}
         <div className="mt-12 relative overflow-hidden">

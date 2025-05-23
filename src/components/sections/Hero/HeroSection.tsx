@@ -1,6 +1,6 @@
 /**
  * @component HeroSection - Sección principal (Hero) de la landing page de Havani
- * Versión MIGRADA: ScrollReveal + parallax mínimo + optimizaciones máximas
+ * Versión MIGRADA FASE 2: AnimateOnScroll + parallax mínimo + optimizaciones máximas
  */
 
 import React, { useEffect, useRef, useState, useCallback, memo } from 'react';
@@ -10,7 +10,7 @@ import { useDeviceInfo } from '@/hooks/useDeviceInfo';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import { useAppleStyleScroll } from '@/hooks/useAppleStyleScroll';
 import { useMinimalParallax } from '@/hooks/useScrollTrigger';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import AnimateOnScroll from '@/components/AnimateOnScroll';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import HeroShootingStarsBackground from '@/components/HeroShootingStarsBackground';
 import Header from './Header';
@@ -133,16 +133,16 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
         <div className="flex flex-col order-2 lg:order-1">
           
           {/* Badge optimizado */}
-          <ScrollReveal animation="fadeUp" duration={0.6} delay={0.1}>
+          <AnimateOnScroll animation="fadeUp" duration={0.6} delay={0.1}>
             <div className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-semibold text-white hover:bg-white/15 cursor-pointer transition-colors duration-200 w-max">
               <Sparkles className="w-4 h-4 text-[#7B61FF]" />
               Descubre Havani 
               <span className="ml-1">→</span>
             </div>
-          </ScrollReveal>
+          </AnimateOnScroll>
           
           {/* Headline principal con gradientes */}
-          <ScrollReveal animation="fadeUp" duration={0.8} delay={0.2}>
+          <AnimateOnScroll animation="fadeUp" duration={0.8} delay={0.2}>
             <h1 className="mt-6 text-[clamp(48px,6vw,78px)] font-extrabold leading-[0.95] text-white">
               <span className="block">
                 <span className="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
@@ -160,19 +160,19 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 </span>
               </span>
             </h1>
-          </ScrollReveal>
+          </AnimateOnScroll>
           
           {/* Subtítulo */}
-          <ScrollReveal animation="fadeUp" duration={0.8} delay={0.4}>
+          <AnimateOnScroll animation="fadeUp" duration={0.8} delay={0.4}>
             <p className="mt-8 max-w-[540px] text-xl md:text-2xl text-gray-300 leading-relaxed font-light">
               Desarrollo a medida con un enfoque 
               <span className="text-white font-medium"> práctico y transparente</span>. 
               Entregamos innovación, velocidad y profesionalismo en cada línea de código.
             </p>
-          </ScrollReveal>
+          </AnimateOnScroll>
           
           {/* Botones optimizados */}
-          <ScrollReveal animation="fadeUp" duration={0.8} delay={0.6}>
+          <AnimateOnScroll animation="fadeUp" duration={0.8} delay={0.6}>
             <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-12">
               {/* Botón primario optimizado */}
               <Link to="/#contacto" onClick={goToHome}>
@@ -191,10 +191,10 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 Watch Demo
               </button>
             </div>
-          </ScrollReveal>
+          </AnimateOnScroll>
           
           {/* Indicadores de confianza */}
-          <ScrollReveal animation="fadeUp" duration={0.6} delay={0.8}>
+          <AnimateOnScroll animation="fadeUp" duration={0.6} delay={0.8}>
             <div className="mt-12 flex items-center gap-6 text-sm text-gray-400">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
@@ -209,12 +209,12 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 <span>Sin compromisos</span>
               </div>
             </div>
-          </ScrollReveal>
+          </AnimateOnScroll>
         </div>
         
         {/* Columna derecha - Mockup optimizado para rendimiento */}
-        <ScrollReveal 
-          animation="slideLeft" 
+        <AnimateOnScroll 
+          animation="slideInLeft" 
           duration={1.0} 
           delay={0.4}
           className="relative order-1 lg:order-2"
@@ -328,12 +328,12 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
             {/* Overlay mejorado */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5 pointer-events-none" />
           </div>
-        </ScrollReveal>
+        </AnimateOnScroll>
       </div>
       
       {/* Indicador de scroll - optimizado */}
       {!isMobile && (
-        <ScrollReveal 
+        <AnimateOnScroll 
           animation="fadeUp" 
           delay={1.0} 
           duration={0.6}
@@ -351,7 +351,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
               <ArrowDown className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
             </div>
           </button>
-        </ScrollReveal>
+        </AnimateOnScroll>
       )}
     </section>
   );

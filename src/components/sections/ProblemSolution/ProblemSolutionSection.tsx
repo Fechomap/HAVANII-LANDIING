@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import AnimateOnScroll from '@/components/AnimateOnScroll';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 
 const ProblemSolutionSection = () => {
@@ -27,17 +27,17 @@ const ProblemSolutionSection = () => {
         
         {/* Left column - Text content */}
         <div>
-          <ScrollReveal animation="fadeUp" duration={0.8}>
+          <AnimateOnScroll animation="fadeUp" duration={0.8}>
             <h2 
               id="ps-title"
               className="text-3xl md:text-4xl font-extrabold leading-snug text-white"
             >
               Navegar el Desarrollo Puede Ser un Laberinto... Hasta Ahora.
             </h2>
-          </ScrollReveal>
+          </AnimateOnScroll>
           
           {/* Problem block */}
-          <ScrollReveal animation="slideRight" delay={0.2} duration={0.7}>
+          <AnimateOnScroll animation="slideInRight" delay={0.2} duration={0.7}>
             <div className="relative pl-6 border-l-2 lg:border-l-[#FF5F5F]/70 border-l-[#FF5F5F] mt-10 group">
               {/* Usando texto alineado a la derecha en un contenedor de ancho fijo */}
               <div className="sr-only lg:not-sr-only lg:absolute lg:-left-[150px] lg:top-0 lg:w-[130px] lg:text-right">
@@ -54,10 +54,10 @@ const ProblemSolutionSection = () => {
               {/* Línea de hover para EL PROBLEMA - similar a la de NUESTRA SOLUCIÓN */}
               <div className="absolute left-0 bottom-0 h-[2px] w-0 bg-gradient-to-r from-[#FF5F5F]/70 to-[#FF5F5F]/40 group-hover:w-full group-focus:w-full transition-all duration-250 ease-out" />
             </div>
-          </ScrollReveal>
+          </AnimateOnScroll>
           
           {/* Solution block */}
-          <ScrollReveal animation="slideRight" delay={0.4} duration={0.7}>
+          <AnimateOnScroll animation="slideInRight" delay={0.4} duration={0.7}>
             <div className="relative pl-6 border-l-2 lg:border-l-[#7B61FF]/70 border-l-[#7B61FF] mt-8 group" tabIndex={0}>
               {/* Usando texto alineado a la derecha en un contenedor del mismo ancho fijo */}
               <div className="sr-only lg:not-sr-only lg:absolute lg:-left-[150px] lg:top-0 lg:w-[130px] lg:text-right">
@@ -73,11 +73,11 @@ const ProblemSolutionSection = () => {
               </p>
               <div className="absolute left-0 bottom-0 h-[2px] w-0 bg-gradient-to-r from-[#7B61FF]/70 to-[#7B61FF]/40 group-hover:w-full group-focus:w-full transition-all duration-250 ease-out" />
             </div>
-          </ScrollReveal>
+          </AnimateOnScroll>
         </div>
         
         {/* Right column - Illustration sin parallax, solo scroll reveal */}
-        <ScrollReveal animation="slideLeft" delay={0.6} duration={0.8}>
+        <AnimateOnScroll animation="slideInLeft" delay={0.6} duration={0.8}>
           <figure className="relative">
             <div className="relative rounded-3xl border border-white/6 shadow-[inset_0_0_20px_rgba(0,0,0,.25)] overflow-hidden hover:scale-105 transition-transform duration-300">
               <div className="aspect-w-4 aspect-h-3">
@@ -93,7 +93,7 @@ const ProblemSolutionSection = () => {
               <div className="absolute -bottom-10 -right-10 w-[200px] h-[200px] rounded-full bg-[#7B61FF] opacity-20 blur-[140px] will-change-transform" />
             </div>
           </figure>
-        </ScrollReveal>
+        </AnimateOnScroll>
       </div>
     </section>
   );
