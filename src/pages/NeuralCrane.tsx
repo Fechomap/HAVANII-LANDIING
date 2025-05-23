@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
@@ -6,21 +6,21 @@ import HomeTransition from '@/components/transitions/HomeTransition';
 // Componentes UI base de Havani
 import FooterSection from '@/components/sections/Footer/FooterSection';
 
-// Secciones modularizadas con lazy loading
-const HeroSection = lazy(() => import('@/components/sections/NeuralCrane/HeroSection'));
-const AboutSection = lazy(() => import('@/components/sections/NeuralCrane/AboutSection'));
-const FeaturesSection = lazy(() => import('@/components/sections/NeuralCrane/FeaturesSection'));
-const BenefitsSection = lazy(() => import('@/components/sections/NeuralCrane/BenefitsSection'));
-const TestimonialsSection = lazy(() => import('@/components/sections/NeuralCrane/TestimonialsSection'));
-const PricingSection = lazy(() => import('@/components/sections/NeuralCrane/PricingSection'));
-const FaqSection = lazy(() => import('@/components/sections/NeuralCrane/FaqSection'));
-const CTASection = lazy(() => import('@/components/sections/NeuralCrane/CTASection'));
-const AIComparisonSection = lazy(() => import('@/components/sections/NeuralCrane/AIComparisonSection'));
-const AboutUsSection = lazy(() => import('@/components/sections/NeuralCrane/AboutUsSection'));
-const ResourcesSection = lazy(() => import('@/components/sections/NeuralCrane/ResourcesSection'));
-const EfficiencyAndSecuritySection = lazy(() => import('@/components/sections/NeuralCrane/EfficiencyAndSecuritySection'));
-const PersonalizationSection = lazy(() => import('@/components/sections/NeuralCrane/PersonalizationSection'));
-const TechnicalDetailsSection = lazy(() => import('@/components/sections/NeuralCrane/TechnicalDetailsSection'));
+// Importación directa de secciones (sin lazy loading)
+import HeroSection from '@/components/sections/NeuralCrane/HeroSection';
+import AboutSection from '@/components/sections/NeuralCrane/AboutSection';
+import FeaturesSection from '@/components/sections/NeuralCrane/FeaturesSection';
+import BenefitsSection from '@/components/sections/NeuralCrane/BenefitsSection';
+import TestimonialsSection from '@/components/sections/NeuralCrane/TestimonialsSection';
+import PricingSection from '@/components/sections/NeuralCrane/PricingSection';
+import FaqSection from '@/components/sections/NeuralCrane/FaqSection';
+import CTASection from '@/components/sections/NeuralCrane/CTASection';
+import AIComparisonSection from '@/components/sections/NeuralCrane/AIComparisonSection';
+import AboutUsSection from '@/components/sections/NeuralCrane/AboutUsSection';
+import ResourcesSection from '@/components/sections/NeuralCrane/ResourcesSection';
+import EfficiencyAndSecuritySection from '@/components/sections/NeuralCrane/EfficiencyAndSecuritySection';
+import PersonalizationSection from '@/components/sections/NeuralCrane/PersonalizationSection';
+import TechnicalDetailsSection from '@/components/sections/NeuralCrane/TechnicalDetailsSection';
 
 const NeuralCrane = () => {
   // Hook para la navegación a Home con transición
@@ -94,75 +94,48 @@ const NeuralCrane = () => {
       </header>
       
       <main>
-        {/* Suspense para componentes lazy */}
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          {/* Hero Section - Este se carga inmediatamente */}
-          <HeroSection />
-        </Suspense>
+        {/* Componentes cargados directamente (sin lazy loading) */}
+        {/* Hero Section */}
+        <HeroSection />
         
         {/* Acerca de */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <AboutSection />
-        </Suspense>
+        <AboutSection />
         
         {/* Características principales */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <FeaturesSection />
-        </Suspense>
+        <FeaturesSection />
         
         {/* Comparativa y aclaración IA */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <AIComparisonSection />
-        </Suspense>
+        <AIComparisonSection />
         
         {/* Personalización */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <PersonalizationSection />
-        </Suspense>
+        <PersonalizationSection />
         
         {/* Eficiencia y Seguridad */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <EfficiencyAndSecuritySection />
-        </Suspense>
+        <EfficiencyAndSecuritySection />
         
         {/* Detalles Técnicos */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <TechnicalDetailsSection />
-        </Suspense>
+        <TechnicalDetailsSection />
         
         {/* Beneficios */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <BenefitsSection />
-        </Suspense>
+        <BenefitsSection />
         
         {/* Acerca de NeuralCrane */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <AboutUsSection />
-        </Suspense>
+        <AboutUsSection />
         
         {/* Testimoniales */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <TestimonialsSection />
-        </Suspense>
+        <TestimonialsSection />
         
         {/* Planes de precios */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <PricingSection />
-        </Suspense>
+        <PricingSection />
         
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <FaqSection />
-        </Suspense>
+        {/* Preguntas frecuentes */}
+        <FaqSection />
         
         {/* Recursos y Blog */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <ResourcesSection />
-        </Suspense>
+        <ResourcesSection />
         
         {/* CTA - Llamado a la acción final */}
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#7B61FF]"></div></div>}>
-          <CTASection />
-        </Suspense>
+        <CTASection />
       </main>
       
       {/* Footer */}

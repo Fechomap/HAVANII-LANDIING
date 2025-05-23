@@ -1,6 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { ProductIcon } from './ProductIcon';
 import type { Product } from './productsData';
 
@@ -10,6 +11,15 @@ const ProductCard: React.FC<Product> = ({
   icon,
   url
 }) => {
+  // Función para garantizar que la navegación sea directa y sin animaciones de scroll
+  const handleDirectNavigation = () => {
+    // Este enfoque usa la API nativa de navegación del navegador
+    // que siempre inicia las páginas desde arriba sin animaciones
+    window.location.href = url;
+    
+    // Importante: Prevenir el comportamiento predeterminado de React Router
+    return false;
+  };
   // Card animation variant
   const cardVariants = {
     hidden: { opacity: 0, y: 34, scale: 0.92 },
@@ -53,6 +63,7 @@ const ProductCard: React.FC<Product> = ({
       {/* CTA link */}
       <a
         href={url}
+        onClick={handleDirectNavigation}
         className="relative z-10 inline-flex items-center gap-1 mt-8 text-[#7B61FF] font-semibold transition-colors group-hover:text-[#A28CFF] group-hover:underline"
       >
         Ver más
