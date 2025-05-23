@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, Phone, Bot, Clock, BarChart2, Headphones, Server, Users, Mic, Database, Settings } from 'lucide-react';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
-const { ref: sectionRef, isVisible } = useScrollTrigger(); // si necesitas visibilidad
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -211,19 +212,8 @@ const HeroSection = () => {
 
 // About Section
 const AboutSection = () => {
-  const controls = useAnimation();
-  const sectionRef = useIntersection(
-    (entry) => { 
-      if (entry.isIntersecting) {
-        controls.start({ opacity: 1, y: 0 });
-      }
-    },
-    { root: null, rootMargin: '0px', threshold: 0.4, once: true }
-  );
-
   return (
     <section
-      ref={sectionRef}
       className="relative bg-[#0D0D11] py-[140px] md:py-[180px] overflow-hidden"
     >
       {/* Top decorative wave */}
@@ -241,11 +231,11 @@ const AboutSection = () => {
       </svg>
       
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        <ScrollReveal
+          animation="fadeUp"
+          duration={0.6}
+          threshold={0.4}
+          once={true}
           className="text-center"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -255,7 +245,7 @@ const AboutSection = () => {
           <p className="mt-8 text-lg leading-relaxed text-[#BBBBBB] max-w-[900px] mx-auto">
             TeXML Bot IVR es un Sistema de Respuesta de Voz Interactiva (IVR) que automatiza la consulta de expedientes y la cotización de servicios vía telefónica. Utilizando la tecnología Telnyx TeXML, este sistema elimina la necesidad de personal dedicado a atender consultas rutinarias, proporcionando información actualizada a tus clientes de forma automática, precisa y disponible 24/7.
           </p>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   );

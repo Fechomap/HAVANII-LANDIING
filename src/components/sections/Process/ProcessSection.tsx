@@ -43,7 +43,7 @@ const ProcessSection = () => {
         </ScrollReveal>
         
         {/* Timeline Grid Desktop */}
-        <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-4 lg:gap-x-12 gap-y-16 lg:gap-y-0">
+        <div className="relative mt-20 w-full">
           
           {/* Connecting line for desktop */}
           <ScrollReveal animation="fadeIn" delay={0.8} duration={1.2}>
@@ -79,23 +79,46 @@ const ProcessSection = () => {
           {/* Vertical line for mobile */}
           <div className="absolute lg:hidden left-[34px] top-[120px] h-[calc(100%-140px)] w-[2px] bg-[#2A2B30]" />
           
-          {/* Process steps - Cada uno se anima individualmente */}
-          {processSteps.map((step, index) => (
-            <ScrollReveal
-              key={index}
-              animation="fadeUp"
-              delay={0.4 + (index * 0.15)} // Stagger effect
-              duration={0.6}
-              threshold={0.1}
-            >
-              <ProcessStep
-                index={index + 1}
-                title={step.title}
-                description={step.description}
-                icon={step.icon}
-              />
-            </ScrollReveal>
-          ))}
+          {/* Nueva estructura con flexbox para desktop */}
+          <div className="hidden lg:flex justify-between items-start w-full">
+            {processSteps.map((step, index) => (
+              <div key={index} className="w-[22%] flex-shrink-0">
+                <ScrollReveal
+                  animation="fadeUp"
+                  delay={0.4 + (index * 0.15)} // Stagger effect
+                  duration={0.6}
+                  threshold={0.1}
+                >
+                  <ProcessStep
+                    index={index + 1}
+                    title={step.title}
+                    description={step.description}
+                    icon={step.icon}
+                  />
+                </ScrollReveal>
+              </div>
+            ))}
+          </div>
+          
+          {/* Estructura original para mobile */}
+          <div className="lg:hidden grid grid-cols-1 gap-y-16">
+            {processSteps.map((step, index) => (
+              <ScrollReveal
+                key={index}
+                animation="fadeUp"
+                delay={0.4 + (index * 0.15)}
+                duration={0.6}
+                threshold={0.1}
+              >
+                <ProcessStep
+                  index={index + 1}
+                  title={step.title}
+                  description={step.description}
+                  icon={step.icon}
+                />
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

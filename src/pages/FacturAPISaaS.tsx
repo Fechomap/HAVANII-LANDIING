@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, FileText, MessageCircle, Users, CreditCard, Database, Shield, Clock, Globe, Receipt, Tag } from 'lucide-react';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
-const { ref: sectionRef, isVisible } = useScrollTrigger(); // si necesitas visibilidad
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -220,20 +221,9 @@ const HeroSection = () => {
 const AboutSection = () => {
   // Acceder al hook de navegación en el contexto del componente
   const { goToHome } = useHomeNavigation();
-  
-  const controls = useAnimation();
-  const sectionRef = useIntersection(
-    (entry) => { 
-      if (entry.isIntersecting) {
-        controls.start({ opacity: 1, y: 0 });
-      }
-    },
-    { root: null, rootMargin: '0px', threshold: 0.4, once: true }
-  );
 
   return (
     <section
-      ref={sectionRef}
       className="relative bg-[#0D0D11] py-[140px] md:py-[180px] overflow-hidden"
     >
       {/* Top decorative wave */}
@@ -251,11 +241,11 @@ const AboutSection = () => {
       </svg>
       
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        <ScrollReveal
+          animation="fadeUp"
+          duration={0.6}
+          threshold={0.4}
+          once={true}
           className="text-center"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -265,7 +255,7 @@ const AboutSection = () => {
           <p className="mt-8 text-lg leading-relaxed text-[#BBBBBB] max-w-[900px] mx-auto">
             FacturAPI SaaS es una plataforma multi-tenant de facturación electrónica para México que elimina la complejidad técnica y administrativa de la emisión de facturas. Permite a pequeñas y medianas empresas generar y gestionar facturas CFDI de manera sencilla a través de un bot de Telegram y una interfaz web, sin necesidad de conocimientos técnicos especializados y garantizando el cumplimiento fiscal.
           </p>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   );

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap } from 'lucide-react';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
-const { ref: sectionRef, isVisible } = useScrollTrigger(); // si necesitas visibilidad
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -227,19 +228,8 @@ const AboutSection = () => {
   // Acceder al hook de navegación en el contexto del componente
   const { goToHome } = useHomeNavigation();
   
-  const controls = useAnimation();
-  const sectionRef = useIntersection(
-    (entry) => { 
-      if (entry.isIntersecting) {
-        controls.start({ opacity: 1, y: 0 });
-      }
-    },
-    { threshold: 0.4, once: true }
-  );
-
   return (
     <section
-      ref={sectionRef}
       className="relative bg-[#0D0D11] py-[140px] md:py-[180px] overflow-hidden"
     >
       {/* Top decorative wave */}
@@ -257,13 +247,12 @@ const AboutSection = () => {
       </svg>
       
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: "linear" }}
+        <ScrollReveal
+          animation="fadeUp"
+          duration={0.6}
+          threshold={0.4}
+          once={true}
           className="text-center"
-          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
             ¿Qué es AutoMike?
@@ -272,7 +261,7 @@ const AboutSection = () => {
           <p className="mt-8 text-lg leading-relaxed text-[#BBBBBB] max-w-[900px] mx-auto">
             AutoMike es una solución de automatización especializada para proveedores de IKE Asistencia que revoluciona el proceso de validación y gestión de expedientes. Diseñado específicamente para agilizar los flujos de trabajo, este software optimiza la validación de expedientes mediante la automatización inteligente, reduciendo drásticamente tiempos operativos y eliminando errores humanos.
           </p>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   );

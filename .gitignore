@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-Hooks deprecados (temporal)
-src/hooks/deprecated/
+# Hooks deprecados (temporal)
+#src/hooks/deprecated/
 

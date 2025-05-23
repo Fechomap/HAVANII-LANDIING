@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, MessageCircle, Map, DollarSign, Truck, Clock, Shield, Smartphone, Globe } from 'lucide-react';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
-const { ref: sectionRef, isVisible } = useScrollTrigger(); // si necesitas visibilidad
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -208,14 +208,8 @@ const HeroSection = () => {
 
 // About Section
 const AboutSection = () => {
-  const sectionRef = useIntersection(
-    (entry) => { /* Animation handled by Framer Motion */ },
-    { threshold: 0.4, once: true }
-  );
-
   return (
     <section
-      ref={sectionRef}
       className="relative bg-[#0D0D11] py-[140px] md:py-[180px] overflow-hidden"
     >
       {/* Top decorative wave */}

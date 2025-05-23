@@ -14,8 +14,9 @@
  */
 
 import { useRef } from 'react';
-import { useInView } from 'framer-motion';
+import { useInView, useScroll, useTransform } from 'framer-motion';
 
+// Opciones específicas para el IntersectionObserver
 interface ScrollTriggerOptions {
   threshold?: number;
   rootMargin?: string;
@@ -36,8 +37,8 @@ export function useScrollTrigger(options: ScrollTriggerOptions = {}) {
   // Usar framer-motion's useInView optimizado
   const isInView = useInView(ref, {
     once,
-    amount,
-    margin: rootMargin
+    amount
+    // No usamos rootMargin porque framer-motion usa 'amount' en su lugar
   });
 
   return { 
@@ -105,8 +106,8 @@ export function useMinimalParallax(strength: number = 0.1) {
   }
   
   // Parallax muy sutil para elementos específicos
-  const { scrollY } = require('framer-motion').useScroll();
-  const y = require('framer-motion').useTransform(
+  const { scrollY } = useScroll();
+  const y = useTransform(
     scrollY, 
     [0, 1000], 
     [0, -strength * 100]
