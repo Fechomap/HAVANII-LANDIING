@@ -48,7 +48,7 @@ const ProcessStep: React.FC<ProcessStepProps> = ({ index, title, description, ic
         variants={circleVariants}
         whileHover={{ scale: 1.07 }}
       >
-        <span className="step-index font-bold text-xl lg:text-2xl text-white absolute">
+        <span className="step-index font-bold text-xl lg:text-2xl text-white absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
           {index}
         </span>
         <div className="absolute bottom-2 right-2 w-6 h-6 text-[#7B61FF]">

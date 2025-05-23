@@ -42,12 +42,12 @@ const ProcessSection = () => {
           </p>
         </AnimateOnScroll>
         
-        {/* Timeline Grid Desktop */}
-        <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-4 lg:gap-x-12 gap-y-16 lg:gap-y-0">
+        {/* Contenedor principal con líneas conectoras */}
+        <div className="relative mt-20">
           
-          {/* Connecting line for desktop */}
-          <AnimateOnScroll animation="fadeIn" delay={0.8} duration={1.2}>
-            <div className="absolute hidden lg:block top-[44px] left-0 w-full h-2 z-0">
+          {/* Línea conectora horizontal - DESKTOP */}
+          <div className="absolute hidden lg:block top-[44px] left-0 w-full h-2 z-0">
+            <AnimateOnScroll animation="fadeIn" delay={0.8} duration={1.2}>
               <svg 
                 width="100%" 
                 height="2" 
@@ -73,29 +73,52 @@ const ProcessSection = () => {
                   />
                 ))}
               </svg>
-            </div>
-          </AnimateOnScroll>
+            </AnimateOnScroll>
+          </div>
           
-          {/* Vertical line for mobile */}
+          {/* Línea vertical para móvil */}
           <div className="absolute lg:hidden left-[34px] top-[120px] h-[calc(100%-140px)] w-[2px] bg-[#2A2B30]" />
           
-          {/* Process steps - Cada uno se anima individualmente */}
-          {processSteps.map((step, index) => (
-            <AnimateOnScroll
-              key={index}
-              animation="fadeUp"
-              delay={0.4 + (index * 0.15)} // Stagger effect
-              duration={0.6}
-              threshold={0.1}
-            >
-              <ProcessStep
-                index={index + 1}
-                title={step.title}
-                description={step.description}
-                icon={step.icon}
-              />
-            </AnimateOnScroll>
-          ))}
+          {/* CONTENEDOR PARA ESCRITORIO - flexbox para garantizar que los 4 pasos estén alineados */}
+          <div className="hidden lg:flex justify-between items-start w-full">
+            {processSteps.map((step, index) => (
+              <div key={index} className="flex-1 max-w-[280px] px-4">
+                <AnimateOnScroll
+                  animation="fadeUp"
+                  delay={0.4 + (index * 0.15)}
+                  duration={0.6}
+                  threshold={0.1}
+                >
+                  <ProcessStep
+                    index={index + 1}
+                    title={step.title}
+                    description={step.description}
+                    icon={step.icon}
+                  />
+                </AnimateOnScroll>
+              </div>
+            ))}
+          </div>
+          
+          {/* CONTENEDOR PARA MÓVIL - se mantiene como estaba */}
+          <div className="lg:hidden space-y-16">
+            {processSteps.map((step, index) => (
+              <AnimateOnScroll
+                key={index}
+                animation="fadeUp"
+                delay={0.4 + (index * 0.15)}
+                duration={0.6}
+                threshold={0.1}
+              >
+                <ProcessStep
+                  index={index + 1}
+                  title={step.title}
+                  description={step.description}
+                  icon={step.icon}
+                />
+              </AnimateOnScroll>
+            ))}
+          </div>
         </div>
       </div>
     </section>
