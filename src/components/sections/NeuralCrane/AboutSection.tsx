@@ -1,6 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 const AboutSection = () => {
+  // Utilizamos useAnimation de framer-motion para controlar las animaciones
   const controls = useAnimation();
   return (
     <section className="relative bg-[#0F0F13] py-[120px] overflow-hidden" id="about">
