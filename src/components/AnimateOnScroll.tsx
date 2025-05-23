@@ -1,6 +1,5 @@
 import React, { ReactNode, CSSProperties } from 'react';
-import { motion } from 'framer-motion';
-import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import { ScrollReveal } from './ScrollReveal';
 
 interface AnimateOnScrollProps {
   children: ReactNode;
@@ -14,9 +13,24 @@ interface AnimateOnScrollProps {
 }
 
 /**
- * Componente que anima elementos cuando entran en la vista (reemplaza ScrollReveal)
- * Utiliza la API Intersection Observer mediante nuestro hook personalizado
- * para mejor rendimiento y experiencia de usuario
+ * @deprecated Este componente está deprecado. Por favor, utiliza el componente ScrollReveal
+ * para todas las animaciones nuevas. Este componente se mantiene solo para
+ * compatibilidad con código existente.
+ * 
+ * Ejemplo de migración:
+ * 
+ * Antes:
+ * <AnimateOnScroll animation="fadeUp" duration={0.6}>
+ *   <Component />
+ * </AnimateOnScroll>
+ * 
+ * Después:
+ * <ScrollReveal animation="fadeUp" duration={0.6}>
+ *   <Component />
+ * </ScrollReveal>
+ * 
+ * ScrollReveal ofrece mejor rendimiento, optimizaciones para móviles
+ * y respeta prefers-reduced-motion para accesibilidad.
  */
 export const AnimateOnScroll: React.FC<AnimateOnScrollProps> = ({
   children,
@@ -28,60 +42,31 @@ export const AnimateOnScroll: React.FC<AnimateOnScrollProps> = ({
   className = '',
   style = {},
 }) => {
-  // Utilizamos nuestro hook personalizado para detectar intersección
-  const { ref, isVisible } = useIntersectionObserver({
-    threshold,
-    triggerOnce,
-  });
-
-  // Definir variantes de animación según el tipo seleccionado
-  const variants = {
-    fadeUp: {
-      hidden: { y: 20, opacity: 0 },
-      visible: { y: 0, opacity: 1 },
-    },
-    fadeIn: {
-      hidden: { opacity: 0 },
-      visible: { opacity: 1 },
-    },
-    scaleUp: {
-      hidden: { scale: 0.95, opacity: 0 },
-      visible: { scale: 1, opacity: 1 },
-    },
-    slideInLeft: {
-      hidden: { x: -30, opacity: 0 },
-      visible: { x: 0, opacity: 1 },
-    },
-    slideInRight: {
-      hidden: { x: 30, opacity: 0 },
-      visible: { x: 0, opacity: 1 },
-    },
+  // Mapeo de tipos de animación entre AnimateOnScroll y ScrollReveal
+  const mapAnimationType = (type: string): 'fadeUp' | 'fadeDown' | 'fadeLeft' | 'fadeRight' | 'fadeIn' | 'scale' | 'slideUp' | 'slideLeft' | 'slideRight' | 'stagger' => {
+    const animationMap: Record<string, any> = {
+      'fadeUp': 'fadeUp',
+      'fadeIn': 'fadeIn',
+      'scaleUp': 'scale',
+      'slideInLeft': 'slideLeft',
+      'slideInRight': 'slideRight'
+    };
+    
+    return animationMap[type] || 'fadeUp';
   };
-
-  // Optimizaciones de rendimiento inspiradas en nuestras mejoras previas para Swiper
-  const optimizedStyle: CSSProperties = {
-    willChange: 'transform, opacity',
-    backfaceVisibility: 'hidden',
-    transform: 'translateZ(0)', // Forzar compositing en GPU
-    ...style,
-  };
-
+  
+  // Usamos ScrollReveal internamente, adaptando la API para mantener compatibilidad
   return (
-    <motion.div
-      ref={ref as React.RefObject<HTMLDivElement>}
-      initial="hidden"
-      animate={isVisible ? 'visible' : 'hidden'}
-      variants={variants[animation]}
-      transition={{
-        duration,
-        delay,
-        ease: [0.22, 1, 0.36, 1], // ease-out-quint para transiciones suaves
-      }}
+    <ScrollReveal
+      animation={mapAnimationType(animation)}
+      duration={duration}
+      delay={delay}
+      threshold={threshold}
+      once={triggerOnce}
       className={className}
-      style={optimizedStyle}
     >
       {children}
-    </motion.div>
+    </ScrollReveal>
   );
 };
 

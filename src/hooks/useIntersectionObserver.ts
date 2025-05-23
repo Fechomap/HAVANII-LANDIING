@@ -1,7 +1,20 @@
 import { useState, useEffect, useRef, RefObject } from 'react';
 
 /**
- * Opciones para el hook useIntersectionObserver
+ * @deprecated Este hook está deprecado. Por favor, utiliza useScrollTrigger 
+ * para todas las detecciones de visibilidad en scroll. Este hook se mantiene solo para
+ * compatibilidad con código existente como AnimateOnScroll.
+ * 
+ * Ejemplo de migración:
+ * 
+ * Antes:
+ * const { ref, isVisible } = useIntersectionObserver({ threshold: 0.2 });
+ * 
+ * Después:
+ * const { ref, visible } = useScrollTrigger({ threshold: 0.2 });
+ * 
+ * useScrollTrigger ofrece mejor rendimiento, optimizaciones para móviles
+ * y respeta prefers-reduced-motion para accesibilidad.
  */
 export interface IntersectionObserverOptions {
   /** Margen alrededor del elemento (similar a CSS margin) */
@@ -15,6 +28,8 @@ export interface IntersectionObserverOptions {
 }
 
 /**
+ * @deprecated Este hook está deprecado. Utiliza useScrollTrigger para nuevos desarrollos.
+ * 
  * Hook personalizado que detecta cuando un elemento entra en el viewport
  * @param options Opciones de configuración para el IntersectionObserver
  * @returns Un objeto con la referencia del elemento, si es visible y una función para forzar visibilidad
