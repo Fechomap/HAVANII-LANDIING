@@ -1,4 +1,4 @@
-import AnimateOnScroll from '@/components/AnimateOnScroll';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import ProcessStep from './ProcessStep';
 import { processSteps } from './processData';
 
@@ -27,27 +27,27 @@ const ProcessSection = () => {
       <div className="max-w-[1240px] mx-auto px-6 md:px-12 lg:px-24 py-[140px] md:py-[180px] flex flex-col">
         
         {/* Título principal */}
-        <AnimateOnScroll animation="fadeUp" duration={0.8}>
+        <ScrollReveal animation="fadeUp" duration={0.8}>
           <h2 
             id="process-title" 
             className="text-white text-center text-3xl md:text-4xl font-extrabold leading-snug"
           >
             Tu Éxito en 4 Pasos: Nuestro Proceso Simple y Rápido
           </h2>
-        </AnimateOnScroll>
+        </ScrollReveal>
         
-        <AnimateOnScroll animation="fadeUp" delay={0.2} duration={0.8}>
+        <ScrollReveal animation="fadeUp" delay={0.2} duration={0.8}>
           <p className="mt-6 text-center max-w-[700px] mx-auto text-[#BBBBBB] text-lg md:text-xl">
             Olvídate de procesos interminables y la burocracia. Trabajamos de manera ágil y eficiente para que puedas ver resultados cuanto antes.
           </p>
-        </AnimateOnScroll>
+        </ScrollReveal>
         
         {/* Contenedor principal con líneas conectoras */}
         <div className="relative mt-20">
           
           {/* Línea conectora horizontal - DESKTOP */}
           <div className="absolute hidden lg:block top-[44px] left-0 w-full h-2 z-0">
-            <AnimateOnScroll animation="fadeIn" delay={0.8} duration={1.2}>
+            <ScrollReveal animation="fadeIn" delay={0.8} duration={1.2}>
               <svg 
                 width="100%" 
                 height="2" 
@@ -73,7 +73,7 @@ const ProcessSection = () => {
                   />
                 ))}
               </svg>
-            </AnimateOnScroll>
+            </ScrollReveal>
           </div>
           
           {/* Línea vertical para móvil */}
@@ -83,7 +83,7 @@ const ProcessSection = () => {
           <div className="hidden lg:flex justify-between items-start w-full">
             {processSteps.map((step, index) => (
               <div key={index} className="flex-1 max-w-[280px] px-4">
-                <AnimateOnScroll
+                <ScrollReveal
                   animation="fadeUp"
                   delay={0.4 + (index * 0.15)}
                   duration={0.6}
@@ -95,7 +95,7 @@ const ProcessSection = () => {
                     description={step.description}
                     icon={step.icon}
                   />
-                </AnimateOnScroll>
+                </ScrollReveal>
               </div>
             ))}
           </div>
@@ -103,7 +103,7 @@ const ProcessSection = () => {
           {/* CONTENEDOR PARA MÓVIL - se mantiene como estaba */}
           <div className="lg:hidden space-y-16">
             {processSteps.map((step, index) => (
-              <AnimateOnScroll
+              <ScrollReveal
                 key={index}
                 animation="fadeUp"
                 delay={0.4 + (index * 0.15)}
@@ -116,7 +116,7 @@ const ProcessSection = () => {
                   description={step.description}
                   icon={step.icon}
                 />
-              </AnimateOnScroll>
+              </ScrollReveal>
             ))}
           </div>
         </div>

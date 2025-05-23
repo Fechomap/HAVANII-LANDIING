@@ -12,6 +12,7 @@
 import React, { useMemo } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import { useCallback } from 'react';
 
 type AnimationType = 
   | 'fadeUp' 
@@ -61,11 +62,19 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   
   // Hook de scroll trigger
   // Usar el hook useScrollTrigger con su API actual
-  const { ref, isInView } = useScrollTrigger({
+  const { ref: internalRef, isInView } = useScrollTrigger({
     threshold,
     rootMargin,
     once,
   });
+  
+  // Callback para sincronizar la referencia interna con el elemento
+  const refCallback = useCallback((element: HTMLElement | null) => {
+    if (element) {
+      // @ts-ignore - Necesario para compatibilidad
+      internalRef.current = element;
+    }
+  }, [internalRef]);
   
   // Crear una ref compatible con div HTML estándar para elementos no animados
   const divRef = React.useRef<HTMLDivElement>(null);
@@ -234,6 +243,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   // Asegurar que los props sean compatibles con el componente de motion
   return (
     <MotionComponent 
+      ref={refCallback}
       variants={variants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}

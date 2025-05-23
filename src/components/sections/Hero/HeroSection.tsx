@@ -11,7 +11,7 @@ import { useDeviceInfo } from '@/hooks/useDeviceInfo';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import { useAppleStyleScroll } from '@/hooks/useAppleStyleScroll';
 import { useMinimalParallax } from '@/hooks/useScrollTrigger';
-import AnimateOnScroll from '@/components/AnimateOnScroll';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import HeroShootingStarsBackground from '@/components/HeroShootingStarsBackground';
 import Header from './Header';
@@ -136,16 +136,16 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
         <div className="flex flex-col order-2 lg:order-1">
           
           {/* Badge optimizado */}
-          <AnimateOnScroll animation="fadeUp" duration={0.6} delay={0.1}>
+          <ScrollReveal animation="fadeUp" duration={0.6} delay={0.1}>
             <div className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-semibold text-white hover:bg-white/15 cursor-pointer transition-colors duration-200 w-max">
               <Sparkles className="w-4 h-4 text-[#7B61FF]" />
               Descubre Havani 
               <span className="ml-1">→</span>
             </div>
-          </AnimateOnScroll>
+          </ScrollReveal>
           
           {/* Headline principal con gradientes */}
-          <AnimateOnScroll animation="fadeUp" duration={0.8} delay={0.2}>
+          <ScrollReveal animation="fadeUp" duration={0.8} delay={0.2}>
             <h1 className="mt-6 text-[clamp(48px,6vw,78px)] font-extrabold leading-[0.95] text-white">
               <span className="block">
                 <span className="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
@@ -163,19 +163,19 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 </span>
               </span>
             </h1>
-          </AnimateOnScroll>
+          </ScrollReveal>
           
           {/* Subtítulo */}
-          <AnimateOnScroll animation="fadeUp" duration={0.8} delay={0.4}>
+          <ScrollReveal animation="fadeUp" duration={0.8} delay={0.4}>
             <p className="mt-8 max-w-[540px] text-xl md:text-2xl text-gray-300 leading-relaxed font-light">
               Desarrollo a medida con un enfoque 
               <span className="text-white font-medium"> práctico y transparente</span>. 
               Entregamos innovación, velocidad y profesionalismo en cada línea de código.
             </p>
-          </AnimateOnScroll>
+          </ScrollReveal>
           
           {/* Botones optimizados */}
-          <AnimateOnScroll animation="fadeUp" duration={0.8} delay={0.6}>
+          <ScrollReveal animation="fadeUp" duration={0.8} delay={0.6}>
             <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-12">
               {/* Botón primario optimizado */}
               <Link to="/#contacto" onClick={goToHome}>
@@ -194,10 +194,10 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 Watch Demo
               </button>
             </div>
-          </AnimateOnScroll>
+          </ScrollReveal>
           
           {/* Indicadores de confianza */}
-          <AnimateOnScroll animation="fadeUp" duration={0.6} delay={0.8}>
+          <ScrollReveal animation="fadeUp" duration={0.6} delay={0.8}>
             <div className="mt-12 flex items-center gap-6 text-sm text-gray-400">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
@@ -212,12 +212,12 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 <span>Sin compromisos</span>
               </div>
             </div>
-          </AnimateOnScroll>
+          </ScrollReveal>
         </div>
         
         {/* Columna derecha - Mockup optimizado para rendimiento */}
-        <AnimateOnScroll 
-          animation="slideInLeft" 
+        <ScrollReveal 
+          animation="slideLeft" 
           duration={1.0} 
           delay={0.4}
           className="relative order-1 lg:order-2"
@@ -331,17 +331,16 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
             {/* Overlay mejorado */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5 pointer-events-none" />
           </div>
-        </AnimateOnScroll>
+        </ScrollReveal>
       </div>
       
       {/* Indicador de scroll - optimizado */}
       {!isMobile && (
-        <AnimateOnScroll 
+        <ScrollReveal 
           animation="fadeUp" 
           delay={1.0} 
           duration={0.6}
-          className="absolute left-1/2 bottom-8 z-20 flex flex-col items-center cursor-pointer group"
-          style={{ transform: "translateX(-50%)" }}
+          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
         >
           <button
             onClick={handleScrollClick}
@@ -354,7 +353,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
               <ArrowDown className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
             </div>
           </button>
-        </AnimateOnScroll>
+        </ScrollReveal>
       )}
     </section>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckCircle, Layers, Zap, MessageCircle, BarChart, Globe, Cpu, BarChart2 } from 'lucide-react';
-import AnimateOnScroll from '@/components/AnimateOnScroll';
+import { ScrollReveal } from '@/components/ScrollReveal';
 
 const FeaturesSection = () => {
   const features = [
@@ -62,15 +62,10 @@ const FeaturesSection = () => {
         }}
       />
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <AnimateOnScroll
+        <ScrollReveal
           animation="fadeUp"
           duration={0.7}
           className="text-center mb-16"
-          style={{
-            willChange: "transform, opacity",
-            backfaceVisibility: "hidden",
-            transform: "translateZ(0)"
-          }}
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
             Características Innovadoras
@@ -78,22 +73,17 @@ const FeaturesSection = () => {
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
             NeuralCrane no es solo un ERP, es un sistema operativo completo que transforma la gestión de tu flotilla de grúas con tecnología de vanguardia.
           </p>
-        </AnimateOnScroll>
+        </ScrollReveal>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {features.map((feature, index) => (
-            <AnimateOnScroll
+            <ScrollReveal
               key={feature.title}
               animation="fadeUp"
               delay={0.1 + (index * 0.15)}
               duration={0.7}
-              threshold={0.1}
-              className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)]"
-              style={{
-                willChange: "transform, opacity",
-                backfaceVisibility: "hidden",
-                transform: "translateZ(0)"
-              }}
+              threshold={0.2}
+              className="bg-[#121212] p-6 rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300"
             >
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5 mr-4">
@@ -109,21 +99,16 @@ const FeaturesSection = () => {
                   </li>
                 ))}
               </ul>
-            </AnimateOnScroll>
+            </ScrollReveal>
           ))}
         </div>
         
-        <AnimateOnScroll
+        <ScrollReveal
           animation="fadeUp"
           delay={0.6}
           duration={0.7}
-          threshold={0.1}
-          className="mt-16 bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
-          style={{
-            willChange: "transform, opacity",
-            backfaceVisibility: "hidden",
-            transform: "translateZ(0)"
-          }}
+          threshold={0.2}
+          className="mt-16 bg-gradient-to-br from-[#1a1a1a] to-[#121212] p-8 rounded-2xl border border-white/10"
         >
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/5">
@@ -136,20 +121,15 @@ const FeaturesSection = () => {
               </p>
             </div>
           </div>
-        </AnimateOnScroll>
+        </ScrollReveal>
         
         {/* Sección de Asignación Secuencial Optimizada (ASO) */}
-        <AnimateOnScroll
+        <ScrollReveal
           animation="fadeUp"
           delay={0.7}
           duration={0.7}
-          threshold={0.1}
-          className="mt-16 bg-gradient-to-br from-[#15161B] to-[#1A1B22] border border-[#7B61FF]/30 rounded-2xl p-8 shadow-[0_0_30px_rgba(123,97,255,0.1)]"
-          style={{
-            willChange: "transform, opacity",
-            backfaceVisibility: "hidden",
-            transform: "translateZ(0)"
-          }}
+          threshold={0.2}
+          className="mt-16 bg-gradient-to-br from-[#1a1a1a] to-[#121212] p-8 rounded-2xl border border-white/10"
         >
           <div className="flex flex-col">
             <div className="flex items-center mb-6">
@@ -190,7 +170,7 @@ const FeaturesSection = () => {
               </div>
             </div>
           </div>
-        </AnimateOnScroll>
+        </ScrollReveal>
       </div>
     </section>
   );

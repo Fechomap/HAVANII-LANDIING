@@ -1,38 +1,28 @@
 import React from 'react';
-import AnimateOnScroll from '@/components/AnimateOnScroll';
+import { ScrollReveal } from '@/components/ScrollReveal';
 
 const EfficiencyAndSecuritySection = () => {
   return (
     <section className="relative bg-[#0B0B0F] py-[120px] overflow-hidden" id="efficiency-security">
       <div className="max-w-[1240px] mx-auto px-6 md:px-12 lg:px-24">
-        <AnimateOnScroll
-          animation="fadeUp"
+        <ScrollReveal
+          animation="slideLeft"
           duration={0.7}
           className="text-center mb-16"
-          style={{
-            willChange: "transform, opacity",
-            backfaceVisibility: "hidden",
-            transform: "translateZ(0)"
-          }}
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Eficiencia y Seguridad</h2>
           <p className="text-lg text-[#BBBBBB] max-w-2xl mx-auto mb-8">
             Optimiza tus operaciones y protege tus datos con tecnología de punta, cifrado y monitoreo constante.
           </p>
-        </AnimateOnScroll>
+        </ScrollReveal>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <AnimateOnScroll
-            animation="fadeUp"
+          <ScrollReveal
+            animation="slideLeft"
             delay={0.1}
             duration={0.7}
             threshold={0.1}
-            style={{
-              willChange: "transform, opacity",
-              backfaceVisibility: "hidden",
-              transform: "translateZ(0)"
-            }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
+            className="bg-[#15161B] p-6 rounded-2xl border border-white/10"
           >
             <h3 className="text-xl font-semibold text-white mb-4">Automatización Eficiente</h3>
             <p className="text-[#BBBBBB]">
@@ -52,19 +42,14 @@ const EfficiencyAndSecuritySection = () => {
                 <span className="text-[#BBBBBB]">Optimización de rutas y asignación inteligente</span>
               </li>
             </ul>
-          </AnimateOnScroll>
+          </ScrollReveal>
           
-          <AnimateOnScroll
-            animation="fadeUp"
+          <ScrollReveal
+            animation="slideLeft"
             delay={0.2}
             duration={0.7}
             threshold={0.1}
-            style={{
-              willChange: "transform, opacity",
-              backfaceVisibility: "hidden",
-              transform: "translateZ(0)"
-            }}
-            className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
+            className="bg-[#15161B] p-6 rounded-2xl border border-white/10"
           >
             <h3 className="text-xl font-semibold text-white mb-4">Seguridad y Confidencialidad</h3>
             <p className="text-[#BBBBBB]">
@@ -84,20 +69,15 @@ const EfficiencyAndSecuritySection = () => {
                 <span className="text-[#BBBBBB]">Cumplimiento con estándares internacionales de privacidad</span>
               </li>
             </ul>
-          </AnimateOnScroll>
+          </ScrollReveal>
         </div>
         
-        <AnimateOnScroll
-          animation="fadeUp"
+        <ScrollReveal
+          animation="slideLeft"
           delay={0.3}
           duration={0.7}
           threshold={0.1}
-          className="mt-16"
-          style={{
-            willChange: "transform, opacity",
-            backfaceVisibility: "hidden",
-            transform: "translateZ(0)"
-          }}
+          className="mt-16 bg-[#15161B] p-8 rounded-2xl border border-white/10 overflow-hidden"
         >
           <div className="bg-gradient-to-br from-[#15161B] to-[#1A1B22] border border-[#7B61FF]/30 rounded-2xl p-8 shadow-[0_0_30px_rgba(123,97,255,0.1)]">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
@@ -115,7 +95,7 @@ const EfficiencyAndSecuritySection = () => {
               </div>
             </div>
           </div>
-        </AnimateOnScroll>
+        </ScrollReveal>
       </div>
     </section>
   );

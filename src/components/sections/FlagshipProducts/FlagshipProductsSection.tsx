@@ -1,4 +1,4 @@
-import AnimateOnScroll from '@/components/AnimateOnScroll';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import ProductCard from './ProductCard';
 import { products } from './productsData';
 
@@ -19,25 +19,25 @@ const FlagshipProductsSection = () => {
       <div className="relative max-w-[1240px] mx-auto px-6 md:px-12 lg:px-24 py-[140px] md:py-[180px]">
         
         {/* Título principal */}
-        <AnimateOnScroll animation="fadeUp" duration={0.8}>
+        <ScrollReveal animation="fadeUp" duration={0.8}>
           <h2
             id="fp-title"
             className="text-center text-3xl md:text-4xl font-extrabold text-white"
           >
             Nuestras Soluciones Inteligentes: Eficiencia y Control para Tu Negocio
           </h2>
-        </AnimateOnScroll>
+        </ScrollReveal>
 
-        <AnimateOnScroll animation="fadeUp" delay={0.2} duration={0.8}>
+        <ScrollReveal animation="fadeUp" delay={0.2} duration={0.8}>
           <p className="mt-6 text-center mx-auto max-w-[680px] text-[#BBBBBB] text-lg md:text-xl">
             Descubre cómo nuestras herramientas "Sin Tanto Rollo" automatizan procesos y potencian resultados.
           </p>
-        </AnimateOnScroll>
+        </ScrollReveal>
 
         {/* Grid de productos con stagger effect */}
         <div className="relative mt-20 grid grid-cols-1 md:grid-cols-3 gap-10">
           {products.map((product, index) => (
-            <AnimateOnScroll
+            <ScrollReveal
               key={index}
               animation="fadeUp"
               delay={0.4 + (index * 0.1)} // Stagger effect
@@ -45,7 +45,7 @@ const FlagshipProductsSection = () => {
               threshold={0.1}
             >
               <ProductCard {...product} />
-            </AnimateOnScroll>
+            </ScrollReveal>
           ))}
         </div>
       </div>

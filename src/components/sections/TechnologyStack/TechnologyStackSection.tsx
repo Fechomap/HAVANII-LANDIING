@@ -1,7 +1,7 @@
 // src/components/sections/TechnologyStack/TechnologyStackSection.tsx
 
 import React from 'react';
-import AnimateOnScroll from '@/components/AnimateOnScroll';
+import { ScrollReveal } from '@/components/ScrollReveal';
 
 const TechnologyStackSection = () => {
   // Datos de los lenguajes de programación y frameworks
@@ -92,34 +92,34 @@ const TechnologyStackSection = () => {
       <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-12 lg:px-24">
         
         {/* Título principal */}
-        <AnimateOnScroll animation="fadeUp" duration={0.8}>
+        <ScrollReveal animation="fadeUp" duration={0.8}>
           <h2
             id="tech-stack-title"
             className="text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight text-center"
           >
             Nuestro Arsenal Tecnológico
           </h2>
-        </AnimateOnScroll>
+        </ScrollReveal>
 
-        <AnimateOnScroll animation="fadeUp" delay={0.2} duration={0.8}>
+        <ScrollReveal animation="fadeUp" delay={0.2} duration={0.8}>
           <p className="mx-auto mt-6 max-w-[680px] text-center text-[#BBBBBB] text-lg md:text-xl">
             Combinamos lenguajes de programación de vanguardia con las herramientas de IA más potentes para crear soluciones que destacan.
           </p>
-        </AnimateOnScroll>
+        </ScrollReveal>
 
         {/* Sección de Lenguajes de Programación */}
         <div className="mt-16">
-          <AnimateOnScroll animation="fadeUp" delay={0.4}>
+          <ScrollReveal animation="fadeUp" delay={0.4}>
             <h3 className="text-xl font-semibold text-white text-center mb-8">
               Lenguajes de Programación
             </h3>
-          </AnimateOnScroll>
+          </ScrollReveal>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center justify-center">
             {programmingTech.map((tech, index) => (
-              <AnimateOnScroll
+              <ScrollReveal
                 key={tech.name}
-                animation="scaleUp"
+                animation="scale"
                 delay={0.6 + (index * 0.05)} // Stagger más rápido
                 duration={0.4} // Más rápido
                 threshold={0.1} // Más sensible
@@ -132,24 +132,24 @@ const TechnologyStackSection = () => {
                     {tech.name}
                   </span>
                 </div>
-              </AnimateOnScroll>
+              </ScrollReveal>
             ))}
           </div>
         </div>
 
         {/* Sección de Frameworks y Librerías */}
         <div className="mt-20">
-          <AnimateOnScroll animation="fadeUp" delay={0.2}>
+          <ScrollReveal animation="fadeUp" delay={0.2}>
             <h3 className="text-xl font-semibold text-white text-center mb-8">
               Frameworks y Librerías
             </h3>
-          </AnimateOnScroll>
+          </ScrollReveal>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center justify-center">
             {frameworks.map((tech, index) => (
-              <AnimateOnScroll
+              <ScrollReveal
                 key={tech.name}
-                animation="scaleUp"
+                animation="scale"
                 delay={0.4 + (index * 0.05)}
                 duration={0.4}
                 threshold={0.1}
@@ -162,24 +162,24 @@ const TechnologyStackSection = () => {
                     {tech.name}
                   </span>
                 </div>
-              </AnimateOnScroll>
+              </ScrollReveal>
             ))}
           </div>
         </div>
 
         {/* Sección de Herramientas de IA */}
         <div className="mt-20">
-          <AnimateOnScroll animation="fadeUp" delay={0.2}>
+          <ScrollReveal animation="fadeUp" delay={0.2}>
             <h3 className="text-xl font-semibold text-white text-center mb-8">
               Inteligencia Artificial
             </h3>
-          </AnimateOnScroll>
+          </ScrollReveal>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center justify-center">
             {aiTools.map((tech, index) => (
-              <AnimateOnScroll
+              <ScrollReveal
                 key={tech.name}
-                animation="scaleUp"
+                animation="scale"
                 delay={0.4 + (index * 0.05)}
                 duration={0.4}
                 threshold={0.1}
@@ -192,24 +192,24 @@ const TechnologyStackSection = () => {
                     {tech.name}
                   </span>
                 </div>
-              </AnimateOnScroll>
+              </ScrollReveal>
             ))}
           </div>
         </div>
 
         {/* Sección de Herramientas de Desarrollo */}
         <div className="mt-20">
-          <AnimateOnScroll animation="fadeUp" delay={0.2}>
+          <ScrollReveal animation="fadeUp" delay={0.2}>
             <h3 className="text-xl font-semibold text-white text-center mb-8">
               Bases de Datos y Herramientas
             </h3>
-          </AnimateOnScroll>
+          </ScrollReveal>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center justify-center">
             {devTools.map((tech, index) => (
-              <AnimateOnScroll
+              <ScrollReveal
                 key={tech.name}
-                animation="scaleUp"
+                animation="scale"
                 delay={0.4 + (index * 0.05)}
                 duration={0.4}
                 threshold={0.1}
@@ -222,17 +222,17 @@ const TechnologyStackSection = () => {
                     {tech.name}
                   </span>
                 </div>
-              </AnimateOnScroll>
+              </ScrollReveal>
             ))}
           </div>
         </div>
 
         {/* Texto de cierre */}
-        <AnimateOnScroll animation="fadeUp" delay={0.6}>
+        <ScrollReveal animation="fadeUp" delay={0.6}>
           <p className="text-center mt-16 text-lg text-[#7B61FF]/90 font-medium">
             La combinación perfecta para tu próximo proyecto
           </p>
-        </AnimateOnScroll>
+        </ScrollReveal>
       </div>
     </section>
   );
