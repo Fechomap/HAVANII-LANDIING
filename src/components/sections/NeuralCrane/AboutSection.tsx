@@ -1,16 +1,13 @@
 import React from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import AnimateOnScroll from '@/components/AnimateOnScroll';
+
 const AboutSection = () => {
-  // Utilizamos useAnimation de framer-motion para controlar las animaciones
-  const controls = useAnimation();
   return (
     <section className="relative bg-[#0F0F13] py-[120px] overflow-hidden" id="about">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: "linear" }}
+        <AnimateOnScroll
+          animation="fadeUp"
+          duration={0.7}
           className="text-center mb-16"
           style={{ 
             willChange: "transform, opacity", 
@@ -24,13 +21,17 @@ const AboutSection = () => {
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
             Plataforma inteligente para la gestión de grúas en tiempo real. NeuralCrane automatiza la asignación, seguimiento y control de servicios, optimizando recursos y reduciendo costos.
           </p>
-        </motion.div>
+        </AnimateOnScroll>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          <AnimateOnScroll
+            animation="slideInLeft"
+            duration={0.7}
+            style={{ 
+              willChange: "transform, opacity", 
+              backfaceVisibility: "hidden", 
+              transform: "translateZ(0)" 
+            }}
           >
             <img
               src="/images/neuralcrane-dashboard.png"
@@ -38,13 +39,17 @@ const AboutSection = () => {
               className="w-full rounded-2xl shadow-lg border border-white/10"
               loading="lazy"
             />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          </AnimateOnScroll>
+          
+          <AnimateOnScroll
+            animation="slideInRight"
+            duration={0.7}
             className="flex flex-col gap-6"
+            style={{ 
+              willChange: "transform, opacity", 
+              backfaceVisibility: "hidden", 
+              transform: "translateZ(0)" 
+            }}
           >
             <div>
               <h3 className="text-xl font-semibold text-white mb-2">Automatización Total</h3>
@@ -64,7 +69,7 @@ const AboutSection = () => {
                 Integra fácilmente con sistemas ERP, GPS y plataformas de asistencia. Escala tu operación sin límites.
               </p>
             </div>
-          </motion.div>
+          </AnimateOnScroll>
         </div>
       </div>
     </section>

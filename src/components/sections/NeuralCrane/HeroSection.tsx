@@ -1,10 +1,10 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import OptimizedImage from '@/components/ui/OptimizedImage';
+import AnimateOnScroll from '@/components/AnimateOnScroll';
 
 const HeroSection = () => {
   const { goToHome } = useHomeNavigation();
@@ -26,10 +26,9 @@ const HeroSection = () => {
       {/* Grid principal */}
       <div className="relative z-10 max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[46%_54%] gap-8 px-6 md:px-12 lg:px-24">
         {/* Columna izquierda - Texto */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: "linear" }}
+        <AnimateOnScroll 
+          animation="fadeUp" 
+          duration={0.7} 
           className="flex flex-col"
           style={{ 
             willChange: "transform, opacity", 
@@ -39,14 +38,12 @@ const HeroSection = () => {
         >
           <div className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-white/10 text-sm font-semibold text-white hover:bg-white/20 w-max">
             Producto Estrella 
-            <motion.span
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.15, ease: "linear" }}
-              className="w-4 h-4"
+            <span 
+              className="w-4 h-4 transform transition-transform duration-200 hover:translate-x-1"
               style={{ willChange: "transform" }}
             >
               →
-            </motion.span>
+            </span>
           </div>
           <h1 className="mt-4 text-[clamp(44px,6vw,76px)] font-extrabold leading-[1.1] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,.5)]">
             <span className="block">Transforma tu</span>
@@ -107,14 +104,18 @@ const HeroSection = () => {
               </Button>
             </Link>
           </div>
-        </motion.div>
+        </AnimateOnScroll>
+        
         {/* Columna derecha - Mockup */}
-        <motion.div 
+        <AnimateOnScroll 
+          animation="slideInRight" 
+          duration={0.9} 
           className="relative"
-          initial={{ opacity: 0, scale: 0.88, x: 60 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 0.9, ease: "linear" }}
-          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
+          style={{ 
+            willChange: "transform", 
+            backfaceVisibility: "hidden", 
+            transform: "translateZ(0)" 
+          }}
         >
           {/* Glow effect para el mockup */}
           <div
@@ -135,7 +136,7 @@ const HeroSection = () => {
             height={480}
             className="w-full max-w-[760px] h-auto rounded-[32px] border border-white/6 shadow-[0_40px_60px_-10px_rgba(0,0,0,.6)] translate-y-[40px]"
           />
-        </motion.div>
+        </AnimateOnScroll>
       </div>
     </section>
   );
