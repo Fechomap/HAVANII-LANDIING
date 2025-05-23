@@ -15,7 +15,7 @@
 
 /**
  * Hook principal para scroll-triggered animations
- * Reemplaza completamente useIntersection y useParallax antiguos
+ * Sistema optimizado para animaciones basadas en scroll
  */
 export { 
   useScrollTrigger, 
