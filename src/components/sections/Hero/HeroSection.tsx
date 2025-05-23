@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useRef, useState, useCallback, memo } from 'react';
+import { motion, MotionValue } from 'framer-motion';
 import { Play, ArrowDown, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useDeviceInfo } from '@/hooks/useDeviceInfo';
@@ -97,9 +98,11 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
         
         {/* Nebulosa principal con parallax mínimo */}
         <div 
-          ref={nebulasRef}
-          style={nebulasStyle}
           className="absolute top-0 left-1/2 w-[120%] h-[100%] opacity-30 z-[2]"
+          style={{
+            willChange: "transform",
+            backfaceVisibility: "hidden"
+          }}
           aria-hidden="true"
         >
           <div

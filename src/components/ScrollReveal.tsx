@@ -60,11 +60,15 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   const shouldAnimate = !disabled && !prefersReducedMotion;
   
   // Hook de scroll trigger
+  // Usar el hook useScrollTrigger con su API actual
   const { ref, isInView } = useScrollTrigger({
     threshold,
+    rootMargin,
     once,
-    rootMargin
   });
+  
+  // Crear una ref compatible con div HTML estándar para elementos no animados
+  const divRef = React.useRef<HTMLDivElement>(null);
   
   // Variantes de animación memoizadas para mejor rendimiento
   const variants: Variants = useMemo(() => {
@@ -200,8 +204,10 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   }, [animation, delay, duration, shouldAnimate, staggerChildren]);
   
   // Optimizaciones de rendimiento
+  // No necesitamos sincronizar refs ya que usaremos la del componente directamente
+  
+  // Memoizar las variantes para mejorar rendimiento
   const motionProps = useMemo(() => ({
-    ref,
     variants,
     initial: "hidden",
     animate: isInView ? "visible" : "hidden",
@@ -211,22 +217,33 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
       transform: 'translateZ(0)' // Forzar aceleración por hardware
     },
     className
-  }), [ref, variants, isInView, shouldAnimate, className]);
+  }), [variants, isInView, shouldAnimate, className]);
   
   // Si las animaciones están deshabilitadas, renderizar sin motion
   if (!shouldAnimate) {
     return (
-      <Component ref={ref} className={className}>
+      <div ref={divRef} className={className}>
         {children}
-      </Component>
+      </div>
     );
   }
   
-  // Usar motion.div por defecto o el componente especificado
-  const MotionComponent = motion[Component as keyof typeof motion] || motion.div;
+  // Usar motion.div por defecto
+  const MotionComponent = motion.div;
   
+  // Asegurar que los props sean compatibles con el componente de motion
   return (
-    <MotionComponent {...motionProps}>
+    <MotionComponent 
+      variants={variants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      style={{
+        willChange: 'transform, opacity',
+        backfaceVisibility: 'hidden' as const,
+        transform: 'translateZ(0)'
+      }}
+      className={className}
+    >
       {children}
     </MotionComponent>
   );

@@ -93,8 +93,8 @@ const getTransition = () => ({
 });
 
 // Hook específico para efectos de parallax mínimos (solo cuando sea necesario)
-export function useMinimalParallax(strength: number = 0.1) {
-  const ref = useRef<HTMLElement>(null);
+export function useMinimalParallax<T extends HTMLElement = HTMLDivElement>(strength: number = 0.1) {
+  const ref = useRef<T>(null);
   
   // Solo en desktop y sin prefers-reduced-motion
   const shouldUseParallax = typeof window !== 'undefined' && 
@@ -102,7 +102,7 @@ export function useMinimalParallax(strength: number = 0.1) {
     !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
   if (!shouldUseParallax) {
-    return { ref, style: {} };
+    return { ref, style: {}, shouldUseParallax };
   }
   
   // Parallax muy sutil para elementos específicos
@@ -116,6 +116,7 @@ export function useMinimalParallax(strength: number = 0.1) {
   return { 
     ref, 
     style: { y },
+    shouldUseParallax,
     // Optimizaciones de rendimiento
     className: "will-change-transform"
   };

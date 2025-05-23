@@ -13,7 +13,7 @@
  * </AppleStyleSection>
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ScrollReveal } from './ScrollReveal';
 import { useMinimalParallax } from '@/hooks/useScrollTrigger';
@@ -95,40 +95,34 @@ export const AppleStyleSection: React.FC<AppleStyleSectionProps> = ({
     return {};
   }, [background, customBackground]);
   
-  // Componente de motion dinámico
-  const MotionComponent = motion[Component as keyof typeof motion] || motion.section;
+  // Crear un div ref compatible
+  const divRef = useRef<HTMLDivElement>(null);
   
-  // Props combinadas para el componente
-  const sectionProps = useMemo(() => ({
-    ref: parallaxRef,
-    id,
-    className: `
-      relative overflow-hidden
-      ${backgroundClasses}
-      ${paddingClasses}
-      ${className}
-    `.trim(),
-    style: {
-      ...parallaxStyle,
-      ...backgroundStyle,
-      willChange: enableParallax ? 'transform' : 'auto',
-      backfaceVisibility: 'hidden' as const
-    },
-    ...accessibilityProps
-  }), [
-    parallaxRef, 
-    id, 
-    backgroundClasses, 
-    paddingClasses, 
-    className, 
-    parallaxStyle, 
-    backgroundStyle, 
-    enableParallax, 
-    accessibilityProps
-  ]);
+  // Sincronizar referencias cuando sea necesario
+  useEffect(() => {
+    if (enableParallax && divRef.current) {
+      // Aquí podríamos sincronizar las refs si fuera necesario
+    }
+  }, [enableParallax]);
+
+  // Propiedades de estilo según sea necesario
+  const styleProps = enableParallax 
+    ? {
+        ...backgroundStyle,
+        willChange: "transform, opacity",
+        backfaceVisibility: "hidden" as const,
+        transform: "translateZ(0)"
+      }
+    : backgroundStyle;
   
   return (
-    <MotionComponent {...sectionProps}>
+    <div
+      ref={divRef}
+      id={id}
+      className={`relative overflow-hidden ${backgroundClasses} ${paddingClasses} ${className}`}
+      style={styleProps}
+      {...accessibilityProps}
+    >
       {/* Background Effects */}
       {background === 'noise' && <NoiseBackground />}
       {background === 'pattern' && <PatternBackground />}
@@ -145,7 +139,7 @@ export const AppleStyleSection: React.FC<AppleStyleSectionProps> = ({
           {children}
         </div>
       )}
-    </MotionComponent>
+    </div>
   );
 };
 
