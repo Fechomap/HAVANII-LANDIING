@@ -225,7 +225,10 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
           <ScrollReveal animation="fadeUp" duration={0.8} delay={0.6}>
             <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-12">
               {/* Botón primario optimizado */}
-              <Link to="/#contacto" onClick={goToHome}>
+              <Link to="/#contacto" onClick={(e) => {
+                e.preventDefault();
+                scrollToElement('contacto');
+              }}>
                 <motion.button 
                   className="group relative px-8 py-4 rounded-full bg-gradient-to-r from-[#7B61FF] to-[#9575FF] text-white font-bold text-lg shadow-[0_8px_32px_rgba(123,97,255,0.3)] border border-[#7B61FF]/30 overflow-hidden"
                   whileHover={{ 
