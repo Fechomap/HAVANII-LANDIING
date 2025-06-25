@@ -5,7 +5,6 @@ import { ScrollReveal } from '@/components/ScrollReveal';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap } from 'lucide-react';
-import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';

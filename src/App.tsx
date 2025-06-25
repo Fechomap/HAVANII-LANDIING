@@ -12,6 +12,7 @@ import AutoMike from './pages/AutoMike';
 import Conciliador from './pages/Conciliador';
 import TeXMLBotIVR from './pages/TeXMLBotIVR';
 import FacturAPISaaS from './pages/FacturAPISaaS';
+import TelegramBot from './pages/TelegramBot';
 import NotFound from './pages/NotFound';
 
 // Optimización para mejorar el rendimiento de navegación en Chrome
@@ -86,6 +87,7 @@ const App = () => {
               <Route path="/conciliador" element={<Conciliador />} />
               <Route path="/texmlbotivr" element={<TeXMLBotIVR />} />
               <Route path="/facturapisaas" element={<FacturAPISaaS />} />
+              <Route path="/telegrambot" element={<TelegramBot />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
