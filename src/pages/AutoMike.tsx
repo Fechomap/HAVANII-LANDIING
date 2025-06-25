@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import HomeTransition from '@/components/transitions/HomeTransition';
-import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap } from 'lucide-react';
+import VideoModal from '@/components/VideoModal';
+import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap, Play } from 'lucide-react';
 
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
@@ -119,6 +120,19 @@ const HeroSection = () => {
   // Acceder al hook de navegación en el contexto del componente
   const { goToHome } = useHomeNavigation();
   
+  // Estado para el modal de video
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [videoSrc, setVideoSrc] = useState('/videos/automike-demo.mp4');
+  
+  // Manejar apertura y cierre del modal de video
+  const handleOpenVideoModal = useCallback(() => {
+    setIsVideoModalOpen(true);
+  }, []);
+  
+  const handleCloseVideoModal = useCallback(() => {
+    setIsVideoModalOpen(false);
+  }, []);
+  
   return (
     <section className="relative w-full min-h-[90vh] overflow-hidden flex flex-col pt-32 md:pt-48">
       {/* Nebulosa glow */}
@@ -177,16 +191,16 @@ const HeroSection = () => {
               </Button>
             </Link>
             
-            <Link to="/#valor" onClick={(e) => {
-              // Si el enlace es a la página principal con un ancla, usamos goToHome
-              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
-                goToHome(e);
-              }
-            }}>
-              <Button variant="outline" className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors">
-                Conocer Más
-              </Button>
-            </Link>
+            <Button 
+              variant="outline" 
+              className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-all duration-300"
+              onClick={handleOpenVideoModal}
+            >
+              <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-white/20 group-hover:bg-[#7B61FF] transition-colors duration-300">
+                <Play className="w-4 h-4 ml-0.5" />
+              </div>
+              Watch Demo
+            </Button>
           </div>
         </motion.div>
         
@@ -218,6 +232,14 @@ const HeroSection = () => {
           />
         </motion.div>
       </div>
+      
+      {/* Modal de video */}
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={handleCloseVideoModal}
+        videoSrc={videoSrc}
+        videoTitle="AutoMike: Automatización de Expedientes"
+      />
     </section>
   );
 };
