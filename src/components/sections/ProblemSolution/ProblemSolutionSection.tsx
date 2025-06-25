@@ -82,7 +82,7 @@ const ProblemSolutionSection = () => {
             <div className="relative rounded-3xl border border-white/6 shadow-[inset_0_0_20px_rgba(0,0,0,.25)] overflow-hidden hover:scale-105 transition-transform duration-300">
               <div className="aspect-w-4 aspect-h-3">
                 <OptimizedImage
-                  src="/images/imageproblem.jpeg"
+                  src="/images/imageproblem.webp"
                   alt="Ilustración del problema y solución"
                   width={800}
                   height={600}

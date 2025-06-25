@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import OptimizedImage from '@/components/ui/OptimizedImage';
+import VideoModal from '@/components/VideoModal';
 import { motion } from 'framer-motion';
 
 const HeroSection = () => {
   const { goToHome } = useHomeNavigation();
+  
+  // Estado para el modal de video
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [videoSrc, setVideoSrc] = useState('/videos/neuralcrane-demo.mp4');
+  
+  // Manejar apertura y cierre del modal de video
+  const handleOpenVideoModal = useCallback(() => {
+    setIsVideoModalOpen(true);
+  }, []);
+  
+  const handleCloseVideoModal = useCallback(() => {
+    setIsVideoModalOpen(false);
+  }, []);
+  
   return (
     <section className="relative w-full min-h-[90vh] overflow-hidden flex flex-col pt-32 md:pt-48 pb-24">
       {/* Nebulosa glow - Optimizada para rendimiento */}
@@ -95,11 +110,17 @@ const HeroSection = () => {
                 <span className="relative z-10">Solicitar Demo</span>
               </Button>
             </Link>
-            <Link to="#pricing">
-              <Button variant="outline" className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors" style={{ willChange: "transform", transform: "translateZ(0)" }}>
-                Ver Planes y Precios
-              </Button>
-            </Link>
+            <Button 
+              variant="outline" 
+              className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-all duration-300"
+              onClick={handleOpenVideoModal}
+              style={{ willChange: "transform", transform: "translateZ(0)" }}
+            >
+              <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-white/20 group-hover:bg-[#7B61FF] transition-colors duration-300">
+                <Play className="w-4 h-4 ml-0.5" />
+              </div>
+              Watch Demo
+            </Button>
           </div>
         </motion.div>
         
@@ -132,6 +153,14 @@ const HeroSection = () => {
           />
         </motion.div>
       </div>
+      
+      {/* Modal de video */}
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={handleCloseVideoModal}
+        videoSrc={videoSrc}
+        videoTitle="NeuralCrane: Plataforma de Gestión de Expedientes con IA"
+      />
     </section>
   );
 };
