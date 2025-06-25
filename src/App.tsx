@@ -1,7 +1,6 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Importar todas las páginas directamente como antes
@@ -36,15 +35,6 @@ const optimizeChromeBehavior = () => {
   }
 };
 
-// Crear cliente de consulta para React Query
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      staleTime: 5 * 60 * 1000, // 5 minutos
-    },
-  },
-});
 
 const App = () => {
   // Aplicar optimizaciones para Chrome al montar la aplicación
@@ -76,24 +66,22 @@ const App = () => {
   
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/neuralcrane" element={<NeuralCrane />} />
-              <Route path="/automike" element={<AutoMike />} />
-              <Route path="/conciliador" element={<Conciliador />} />
-              <Route path="/texmlbotivr" element={<TeXMLBotIVR />} />
-              <Route path="/facturapisaas" element={<FacturAPISaaS />} />
-              <Route path="/telegrambot" element={<TelegramBot />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
+      <TooltipProvider>
+        <Toaster />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/neuralcrane" element={<NeuralCrane />} />
+            <Route path="/automike" element={<AutoMike />} />
+            <Route path="/conciliador" element={<Conciliador />} />
+            <Route path="/texmlbotivr" element={<TeXMLBotIVR />} />
+            <Route path="/facturapisaas" element={<FacturAPISaaS />} />
+            <Route path="/telegrambot" element={<TelegramBot />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
     </>
   );
 };
