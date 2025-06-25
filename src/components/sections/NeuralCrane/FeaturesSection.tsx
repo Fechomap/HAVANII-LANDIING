@@ -64,7 +64,7 @@ const FeaturesSection = () => {
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
         <ScrollReveal
           animation="fadeUp"
-          duration={0.7}
+          duration={0.6}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -81,7 +81,7 @@ const FeaturesSection = () => {
               key={feature.title}
               animation="fadeUp"
               delay={0.1 + (index * 0.15)}
-              duration={0.7}
+              duration={0.6}
               threshold={0.2}
               className="bg-[#121212] p-6 rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300"
             >
@@ -106,7 +106,7 @@ const FeaturesSection = () => {
         <ScrollReveal
           animation="fadeUp"
           delay={0.6}
-          duration={0.7}
+          duration={0.6}
           threshold={0.2}
           className="mt-16 bg-gradient-to-br from-[#1a1a1a] to-[#121212] p-8 rounded-2xl border border-white/10"
         >
@@ -127,7 +127,7 @@ const FeaturesSection = () => {
         <ScrollReveal
           animation="fadeUp"
           delay={0.7}
-          duration={0.7}
+          duration={0.6}
           threshold={0.2}
           className="mt-16 bg-gradient-to-br from-[#1a1a1a] to-[#121212] p-8 rounded-2xl border border-white/10"
         >

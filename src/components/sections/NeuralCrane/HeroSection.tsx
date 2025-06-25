@@ -4,7 +4,7 @@ import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import OptimizedImage from '@/components/ui/OptimizedImage';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { motion } from 'framer-motion';
 
 const HeroSection = () => {
   const { goToHome } = useHomeNavigation();
@@ -26,10 +26,12 @@ const HeroSection = () => {
       {/* Grid principal */}
       <div className="relative z-10 max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[46%_54%] gap-8 px-6 md:px-12 lg:px-24">
         {/* Columna izquierda - Texto */}
-        <ScrollReveal 
-          animation="fadeUp" 
-          duration={0.7} 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "linear", repeatType: "mirror" }}
           className="flex flex-col"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <div className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-white/10 text-sm font-semibold text-white hover:bg-white/20 w-max">
             Producto Estrella 
@@ -99,13 +101,15 @@ const HeroSection = () => {
               </Button>
             </Link>
           </div>
-        </ScrollReveal>
+        </motion.div>
         
         {/* Columna derecha - Mockup */}
-        <ScrollReveal 
-          animation="slideRight" 
-          duration={0.9} 
+        <motion.div 
           className="relative"
+          initial={{ opacity: 0, scale: 0.88, x: 60 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 0.9, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           {/* Glow effect para el mockup */}
           <div
@@ -126,7 +130,7 @@ const HeroSection = () => {
             height={480}
             className="w-full max-w-[760px] h-auto rounded-[32px] border border-white/6 shadow-[0_40px_60px_-10px_rgba(0,0,0,.6)] translate-y-[40px]"
           />
-        </ScrollReveal>
+        </motion.div>
       </div>
     </section>
   );

@@ -7,7 +7,7 @@ const AIComparisonSection = () => {
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
         <ScrollReveal
           animation="fadeUp"
-          duration={0.7}
+          duration={0.6}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -21,7 +21,7 @@ const AIComparisonSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <ScrollReveal
             animation="slideLeft"
-            duration={0.7}
+            duration={0.6}
             className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] transition-shadow duration-300"
           >
             <h3 className="text-2xl font-bold text-white mb-4">Lo que Otros Llaman "IA"</h3>
@@ -49,7 +49,7 @@ const AIComparisonSection = () => {
 
           <ScrollReveal
             animation="slideRight"
-            duration={0.7}
+            duration={0.6}
             className="bg-[#15161B] border border-[#7B61FF]/20 rounded-2xl p-8 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] transition-shadow duration-300"
           >
             <h3 className="text-2xl font-bold text-white mb-4">Nuestro Enfoque de Precisión</h3>
@@ -79,7 +79,7 @@ const AIComparisonSection = () => {
         <ScrollReveal
           animation="fadeUp"
           delay={0.4}
-          duration={0.7}
+          duration={0.6}
           className="mt-16 text-center"
         >
           <div className="inline-block bg-[#15161B] px-6 py-4 rounded-full border border-[#7B61FF]/30">

@@ -7,7 +7,7 @@ const EfficiencyAndSecuritySection = () => {
       <div className="max-w-[1240px] mx-auto px-6 md:px-12 lg:px-24">
         <ScrollReveal
           animation="slideLeft"
-          duration={0.7}
+          duration={0.6}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Eficiencia y Seguridad</h2>
@@ -20,7 +20,7 @@ const EfficiencyAndSecuritySection = () => {
           <ScrollReveal
             animation="slideLeft"
             delay={0.1}
-            duration={0.7}
+            duration={0.6}
             threshold={0.1}
             className="bg-[#15161B] p-6 rounded-2xl border border-white/10"
           >
@@ -47,7 +47,7 @@ const EfficiencyAndSecuritySection = () => {
           <ScrollReveal
             animation="slideLeft"
             delay={0.2}
-            duration={0.7}
+            duration={0.6}
             threshold={0.1}
             className="bg-[#15161B] p-6 rounded-2xl border border-white/10"
           >
@@ -75,7 +75,7 @@ const EfficiencyAndSecuritySection = () => {
         <ScrollReveal
           animation="slideLeft"
           delay={0.3}
-          duration={0.7}
+          duration={0.6}
           threshold={0.1}
           className="mt-16 bg-[#15161B] p-8 rounded-2xl border border-white/10 overflow-hidden"
         >

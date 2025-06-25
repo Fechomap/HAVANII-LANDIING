@@ -7,7 +7,7 @@ const AboutSection = () => {
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
         <ScrollReveal
           animation="fadeUp"
-          duration={0.7}
+          duration={0.6}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -21,7 +21,7 @@ const AboutSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <ScrollReveal
             animation="slideLeft"
-            duration={0.7}
+            duration={0.6}
           >
             <img
               src="/images/neuralcrane-dashboard.png"
@@ -33,7 +33,7 @@ const AboutSection = () => {
           
           <ScrollReveal
             animation="slideRight"
-            duration={0.7}
+            duration={0.6}
             className="flex flex-col gap-6"
           >
             <div>

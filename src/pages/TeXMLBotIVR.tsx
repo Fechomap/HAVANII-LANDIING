@@ -145,7 +145,7 @@ const HeroSection = () => {
               whileHover={{ x: 4 }}
               transition={{ duration: 0.15, ease: "linear" }}
               className="w-4 h-4"
-              style={{ willChange: "transform" }}
+              style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             >
               →
             </motion.span>
@@ -331,7 +331,8 @@ const FeaturesSection = () => {
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.15,
-                ease: "linear"
+                ease: "linear",
+                repeatType: "mirror"
               }}
               className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)]"
             >
@@ -419,7 +420,8 @@ const BenefitsSection = () => {
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.15,
-                ease: "linear"
+                ease: "linear",
+                repeatType: "mirror"
               }}
               className="bg-[#15161B] border border-white/5 rounded-2xl p-8 text-center hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] flex flex-col items-center"
             >
