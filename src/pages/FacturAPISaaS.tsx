@@ -323,7 +323,7 @@ const FeaturesSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: "linear" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -344,7 +344,7 @@ const FeaturesSection = () => {
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.15,
-                ease: [0.22, 1, 0.36, 1]
+                ease: "linear"
               }}
               className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)]"
             >
@@ -414,7 +414,7 @@ const BenefitsSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: "linear" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -435,7 +435,7 @@ const BenefitsSection = () => {
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.15,
-                ease: [0.22, 1, 0.36, 1]
+                ease: "linear"
               }}
               className="bg-[#15161B] border border-white/5 rounded-2xl p-8 text-center hover:border-[#7B61FF]/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] flex flex-col items-center"
             >
@@ -493,7 +493,7 @@ const HowItWorksSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: "linear" }}
           className="text-center mb-20"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -518,7 +518,7 @@ const HowItWorksSection = () => {
                 transition={{ 
                   duration: 0.5, 
                   delay: index * 0.1,
-                  ease: [0.22, 1, 0.36, 1]
+                  ease: "linear"
                 }}
                 className="flex items-start"
               >
@@ -602,7 +602,7 @@ const PlansSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: "linear" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -623,7 +623,7 @@ const PlansSection = () => {
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.15,
-                ease: [0.22, 1, 0.36, 1]
+                ease: "linear"
               }}
               className={`bg-[#15161B] border ${plan.highlight ? 'border-[#7B61FF]/50' : 'border-white/5'} rounded-2xl p-8 flex flex-col items-center hover:border-[#7B61FF]/40 transition-all duration-300 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] relative ${plan.highlight ? 'shadow-[0_0_25px_rgba(123,97,255,0.15)]' : ''}`}
             >
