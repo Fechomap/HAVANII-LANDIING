@@ -13,6 +13,7 @@ import { useAppleStyleScroll } from '@/hooks/useAppleStyleScroll';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import HomeTransition from '@/components/transitions/HomeTransition';
 import HeroShootingStarsBackground from '@/components/HeroShootingStarsBackground';
+import VideoModal from '@/components/VideoModal';
 import Header from './Header';
 
 // Props para pasar funciones personalizadas
@@ -24,6 +25,10 @@ interface HeroSectionProps {
 const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
   // Estados para animaciones y efectos
   const [hasScrolled, setHasScrolled] = useState(false);
+  
+  // Estado para el modal de video
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [videoSrc, setVideoSrc] = useState('/videos/havani-demo.mp4');
   
   // Hook de navegación restaurado
   const { goToHome, isTransitioning, completeTransition } = useHomeNavigation();
@@ -72,6 +77,15 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
   const handleScrollClick = useCallback(() => {
     scrollToElement('valor'); // Usar el nuevo hook de Apple scroll
   }, [scrollToElement]);
+
+  // Manejar apertura y cierre del modal de video
+  const handleOpenVideoModal = useCallback(() => {
+    setIsVideoModalOpen(true);
+  }, []);
+  
+  const handleCloseVideoModal = useCallback(() => {
+    setIsVideoModalOpen(false);
+  }, []);
 
   return (
     <section 
@@ -268,6 +282,8 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full border-2 border-white/30 text-white font-semibold text-lg hover:bg-white/10 hover:border-white/50 transition-colors duration-200 backdrop-blur-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={handleOpenVideoModal}
+                aria-label="Watch Demo Video"
               >
                 <motion.div 
                   className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors"
@@ -611,6 +627,14 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
         </ScrollReveal>
       </div>
       
+      {/* Modal de video */}
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={handleCloseVideoModal}
+        videoSrc={videoSrc}
+        videoTitle="HAVANI: Construyendo el Futuro con IA"
+      />
+
       {/* Indicador de scroll con más animación */}
       {!isMobile && (
         <ScrollReveal 
