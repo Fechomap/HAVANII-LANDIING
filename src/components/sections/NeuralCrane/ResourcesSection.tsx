@@ -9,7 +9,8 @@ const ResourcesSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Recursos y Soporte</h2>
@@ -22,7 +23,8 @@ const ResourcesSection = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "linear", repeatType: "mirror" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
           >
             <h3 className="text-xl font-semibold text-white mb-4">Centro de Ayuda</h3>
@@ -34,7 +36,8 @@ const ResourcesSection = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "linear", repeatType: "mirror" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200"
           >
             <h3 className="text-xl font-semibold text-white mb-4">Soporte Personalizado</h3>

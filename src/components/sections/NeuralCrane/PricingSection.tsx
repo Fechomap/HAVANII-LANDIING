@@ -59,7 +59,8 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -80,7 +81,7 @@ const PricingSection = () => {
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.15,
-                ease: [0.22, 1, 0.36, 1]
+                ease: "linear", repeatType: "mirror"
               }}
               style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
               className={`bg-[#15161B] border ${plan.popular ? 'border-[#7B61FF]' : 'border-white/5'} rounded-2xl p-8 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] transition-all duration-300 relative ${plan.popular ? 'shadow-[0_0_25px_rgba(123,97,255,0.15)]' : ''}`}
@@ -119,7 +120,8 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, delay: 0.6, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-16 bg-gradient-to-r from-[#15161B] to-[#1A1B22] border border-[#7B61FF]/20 rounded-2xl p-8 text-center"
         >
           <h3 className="text-2xl font-semibold text-white mb-4">Prueba Gratuita</h3>

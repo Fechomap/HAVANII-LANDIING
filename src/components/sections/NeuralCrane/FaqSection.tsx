@@ -58,7 +58,8 @@ const FaqSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
@@ -109,10 +110,11 @@ const FaqSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ 
-                duration: 0.5, 
+                duration: 0.6, 
                 delay: index * 0.1,
-                ease: [0.22, 1, 0.36, 1]
+                ease: "linear", repeatType: "mirror"
               }}
+              style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
               className="bg-[#15161B] border border-white/5 rounded-xl p-6 hover:border-[#7B61FF]/20 transition-all duration-200"
             >
               <h3 className="text-lg font-semibold text-white mb-3">{faq.question}</h3>

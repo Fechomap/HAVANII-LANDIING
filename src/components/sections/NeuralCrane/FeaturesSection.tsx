@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckCircle, Layers, Zap, MessageCircle, BarChart, Globe, Cpu, BarChart2 } from 'lucide-react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { motion } from 'framer-motion';
 
 const FeaturesSection = () => {
   const features = [
@@ -62,9 +62,12 @@ const FeaturesSection = () => {
         }}
       />
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <ScrollReveal
-          animation="fadeUp"
-          duration={0.6}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -73,16 +76,22 @@ const FeaturesSection = () => {
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
             NeuralCrane no es solo un ERP, es un sistema operativo completo que transforma la gestión de tu flotilla de grúas con tecnología de vanguardia.
           </p>
-        </ScrollReveal>
+        </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {features.map((feature, index) => (
-            <ScrollReveal
+            <motion.div
               key={feature.title}
-              animation="fadeUp"
-              delay={0.1 + (index * 0.15)}
-              duration={0.6}
-              threshold={0.2}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ 
+                duration: 0.6, 
+                delay: 0.1 + (index * 0.15),
+                ease: "linear",
+                repeatType: "mirror"
+              }}
+              style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
               className="bg-[#121212] p-6 rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300"
             >
               <div className="flex items-center mb-6">
@@ -99,15 +108,21 @@ const FeaturesSection = () => {
                   </li>
                 ))}
               </ul>
-            </ScrollReveal>
+            </motion.div>
           ))}
         </div>
         
-        <ScrollReveal
-          animation="fadeUp"
-          delay={0.6}
-          duration={0.6}
-          threshold={0.2}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ 
+            duration: 0.6, 
+            delay: 0.6,
+            ease: "linear",
+            repeatType: "mirror"
+          }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-16 bg-gradient-to-br from-[#1a1a1a] to-[#121212] p-8 rounded-2xl border border-white/10"
         >
           <div className="flex flex-col md:flex-row md:items-center gap-6">
@@ -121,14 +136,20 @@ const FeaturesSection = () => {
               </p>
             </div>
           </div>
-        </ScrollReveal>
+        </motion.div>
         
         {/* Sección de Asignación Secuencial Optimizada (ASO) */}
-        <ScrollReveal
-          animation="fadeUp"
-          delay={0.7}
-          duration={0.6}
-          threshold={0.2}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ 
+            duration: 0.6, 
+            delay: 0.7,
+            ease: "linear",
+            repeatType: "mirror"
+          }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-16 bg-gradient-to-br from-[#1a1a1a] to-[#121212] p-8 rounded-2xl border border-white/10"
         >
           <div className="flex flex-col">
@@ -170,7 +191,7 @@ const FeaturesSection = () => {
               </div>
             </div>
           </div>
-        </ScrollReveal>
+        </motion.div>
       </div>
     </section>
   );

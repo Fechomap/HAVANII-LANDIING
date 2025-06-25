@@ -1,13 +1,16 @@
 import React from 'react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { motion } from 'framer-motion';
 
 const AboutSection = () => {
   return (
     <section className="relative bg-[#0F0F13] py-[120px] overflow-hidden" id="about">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <ScrollReveal
-          animation="fadeUp"
-          duration={0.6}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -16,12 +19,15 @@ const AboutSection = () => {
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
             Plataforma inteligente para la gestión de grúas en tiempo real. NeuralCrane automatiza la asignación, seguimiento y control de servicios, optimizando recursos y reduciendo costos.
           </p>
-        </ScrollReveal>
+        </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <ScrollReveal
-            animation="slideLeft"
-            duration={0.6}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           >
             <img
               src="/images/neuralcrane-dashboard.png"
@@ -29,11 +35,14 @@ const AboutSection = () => {
               className="w-full rounded-2xl shadow-lg border border-white/10"
               loading="lazy"
             />
-          </ScrollReveal>
+          </motion.div>
           
-          <ScrollReveal
-            animation="slideRight"
-            duration={0.6}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             className="flex flex-col gap-6"
           >
             <div>
@@ -54,7 +63,7 @@ const AboutSection = () => {
                 Integra fácilmente con sistemas ERP, GPS y plataformas de asistencia. Escala tu operación sin límites.
               </p>
             </div>
-          </ScrollReveal>
+          </motion.div>
         </div>
       </div>
     </section>

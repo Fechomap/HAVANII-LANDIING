@@ -18,7 +18,8 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.6, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="text-3xl md:text-4xl font-extrabold leading-tight text-white"
         >
           ¿Listo para transformar la forma en que gestionas tu parque de grúas?
@@ -27,7 +28,8 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.6, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-6 text-lg md:text-xl text-[#BBBBBB] max-w-[560px] mx-auto"
         >
           Descubre la diferencia y lleva tu operación al siguiente nivel. Agenda una demostración personalizada o inicia tu prueba gratuita de 1 mes hoy mismo.
@@ -36,7 +38,8 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.6, 0.8, 0.25, 1] }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
           <Link to="/#contacto">
@@ -58,7 +61,8 @@ const CTASection = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-8 text-sm text-[#BBBBBB]/70"
         >
           Contáctanos en soporte@neuralcrane.com o al +52 55 1234 5678

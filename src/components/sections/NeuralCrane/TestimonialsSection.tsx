@@ -54,9 +54,10 @@ const TestimonialsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ 
-                duration: 0.4, 
+                duration: 0.6, 
                 delay: Math.min(index * 0.05, 0.15),
-                ease: "linear"
+                ease: "linear",
+                repeatType: "mirror"
               }}
               style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
               className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:border-[#7B61FF]/20 transition-all duration-200 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] relative"

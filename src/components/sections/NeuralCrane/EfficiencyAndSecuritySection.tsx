@@ -1,27 +1,36 @@
 import React from 'react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { motion } from 'framer-motion';
 
 const EfficiencyAndSecuritySection = () => {
   return (
     <section className="relative bg-[#0B0B0F] py-[120px] overflow-hidden" id="efficiency-security">
       <div className="max-w-[1240px] mx-auto px-6 md:px-12 lg:px-24">
-        <ScrollReveal
-          animation="slideLeft"
-          duration={0.6}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Eficiencia y Seguridad</h2>
           <p className="text-lg text-[#BBBBBB] max-w-2xl mx-auto mb-8">
             Optimiza tus operaciones y protege tus datos con tecnología de punta, cifrado y monitoreo constante.
           </p>
-        </ScrollReveal>
+        </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <ScrollReveal
-            animation="slideLeft"
-            delay={0.1}
-            duration={0.6}
-            threshold={0.1}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ 
+              duration: 0.6, 
+              delay: 0.1,
+              ease: "linear",
+              repeatType: "mirror"
+            }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             className="bg-[#15161B] p-6 rounded-2xl border border-white/10"
           >
             <h3 className="text-xl font-semibold text-white mb-4">Automatización Eficiente</h3>
@@ -42,13 +51,19 @@ const EfficiencyAndSecuritySection = () => {
                 <span className="text-[#BBBBBB]">Optimización de rutas y asignación inteligente</span>
               </li>
             </ul>
-          </ScrollReveal>
+          </motion.div>
           
-          <ScrollReveal
-            animation="slideLeft"
-            delay={0.2}
-            duration={0.6}
-            threshold={0.1}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ 
+              duration: 0.6, 
+              delay: 0.2,
+              ease: "linear",
+              repeatType: "mirror"
+            }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             className="bg-[#15161B] p-6 rounded-2xl border border-white/10"
           >
             <h3 className="text-xl font-semibold text-white mb-4">Seguridad y Confidencialidad</h3>
@@ -69,14 +84,20 @@ const EfficiencyAndSecuritySection = () => {
                 <span className="text-[#BBBBBB]">Cumplimiento con estándares internacionales de privacidad</span>
               </li>
             </ul>
-          </ScrollReveal>
+          </motion.div>
         </div>
         
-        <ScrollReveal
-          animation="slideLeft"
-          delay={0.3}
-          duration={0.6}
-          threshold={0.1}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ 
+            duration: 0.6, 
+            delay: 0.3,
+            ease: "linear",
+            repeatType: "mirror"
+          }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-16 bg-[#15161B] p-8 rounded-2xl border border-white/10 overflow-hidden"
         >
           <div className="bg-gradient-to-br from-[#15161B] to-[#1A1B22] border border-[#7B61FF]/30 rounded-2xl p-8 shadow-[0_0_30px_rgba(123,97,255,0.1)]">
@@ -95,7 +116,7 @@ const EfficiencyAndSecuritySection = () => {
               </div>
             </div>
           </div>
-        </ScrollReveal>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,13 +1,16 @@
 import React from 'react';
-import { ScrollReveal } from '@/components/ScrollReveal';
+import { motion } from 'framer-motion';
 
 const AIComparisonSection = () => {
   return (
     <section className="relative bg-[#0B0B0F] py-[120px] overflow-hidden" id="ai-comparison">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24">
-        <ScrollReveal
-          animation="fadeUp"
-          duration={0.6}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold text-white">
@@ -16,12 +19,15 @@ const AIComparisonSection = () => {
           <p className="mt-4 text-lg text-[#BBBBBB] max-w-[800px] mx-auto">
             Por qué elegimos la transparencia y la eficiencia comprobada en lugar de etiquetas de marketing.
           </p>
-        </ScrollReveal>
+        </motion.div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <ScrollReveal
-            animation="slideLeft"
-            duration={0.6}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             className="bg-[#15161B] border border-white/5 rounded-2xl p-8 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] transition-shadow duration-300"
           >
             <h3 className="text-2xl font-bold text-white mb-4">Lo que Otros Llaman "IA"</h3>
@@ -45,11 +51,14 @@ const AIComparisonSection = () => {
                 </p>
               </div>
             </div>
-          </ScrollReveal>
+          </motion.div>
 
-          <ScrollReveal
-            animation="slideRight"
-            duration={0.6}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "linear", repeatType: "mirror" }}
+            style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
             className="bg-[#15161B] border border-[#7B61FF]/20 rounded-2xl p-8 hover:shadow-[0_0_25px_rgba(123,97,255,0.1)] transition-shadow duration-300"
           >
             <h3 className="text-2xl font-bold text-white mb-4">Nuestro Enfoque de Precisión</h3>
@@ -73,13 +82,20 @@ const AIComparisonSection = () => {
                 </p>
               </div>
             </div>
-          </ScrollReveal>
+          </motion.div>
         </div>
 
-        <ScrollReveal
-          animation="fadeUp"
-          delay={0.4}
-          duration={0.6}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ 
+            duration: 0.6, 
+            delay: 0.4,
+            ease: "linear",
+            repeatType: "mirror"
+          }}
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-16 text-center"
         >
           <div className="inline-block bg-[#15161B] px-6 py-4 rounded-full border border-[#7B61FF]/30">
@@ -87,7 +103,7 @@ const AIComparisonSection = () => {
               NeuralCrane: <span className="text-[#7B61FF]">Tecnología con propósito</span>, no buzzwords de marketing
             </p>
           </div>
-        </ScrollReveal>
+        </motion.div>
       </div>
     </section>
   );
