@@ -23,7 +23,7 @@ const ProblemSolutionSection = () => {
       </svg>
       
       {/* Main content container */}
-      <div className="max-w-[1280px] mx-auto px-6 md:px-12 lg:px-24 py-[140px] md:py-[180px] grid grid-cols-1 lg:grid-cols-[52%_48%] gap-16 items-center">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 lg:px-24 py-[120px] sm:py-[140px] md:py-[180px] grid grid-cols-1 lg:grid-cols-[45%_55%] gap-8 sm:gap-12 lg:gap-16 items-start lg:items-center">
         
         {/* Left column - Text content */}
         <div>
@@ -76,24 +76,22 @@ const ProblemSolutionSection = () => {
           </ScrollReveal>
         </div>
         
-        {/* Right column - Illustration sin parallax, solo scroll reveal */}
+        {/* Right column - Imagen completa del laberinto/cerebro */}
         <ScrollReveal animation="slideLeft" delay={0.6} duration={0.8}>
-          <figure className="relative">
-            <div className="relative rounded-3xl border border-white/6 shadow-[inset_0_0_20px_rgba(0,0,0,.25)] overflow-hidden hover:scale-105 transition-transform duration-300 bg-gradient-to-br from-gray-900/50 to-gray-800/30">
-              {/* Contenedor flexible para mostrar imagen completa */}
-              <div className="relative p-4 sm:p-6 md:p-8">
-                <OptimizedImage
-                  src="/images/imageproblem.webp"
-                  alt="Ilustración completa del circuito/laberinto con logotipo HAVANI - Navegación del desarrollo"
-                  width={800}
-                  height={600}
-                  className="w-full h-auto object-contain rounded-2xl max-h-[70vh] min-h-[300px] sm:min-h-[350px] md:min-h-[400px]"
-                />
-              </div>
-              {/* Glow effect optimizado */}
-              <div className="absolute -bottom-10 -right-10 w-[200px] h-[200px] rounded-full bg-[#7B61FF] opacity-20 blur-[140px] will-change-transform" />
-              {/* Glow effect adicional para móviles */}
-              <div className="absolute -top-10 -left-10 w-[150px] h-[150px] rounded-full bg-[#7B61FF] opacity-10 blur-[100px] will-change-transform" />
+          <figure className="relative w-full">
+            {/* Contenedor sin restricciones para mostrar imagen completa */}
+            <div className="relative w-full">
+              <OptimizedImage
+                src="/images/imageproblem.webp"
+                alt="Cerebro con circuitos electrónicos tipo laberinto y logotipo HAVANI central - Navegación del desarrollo tecnológico"
+                width={1024}
+                height={1024}
+                className="w-full h-auto object-contain"
+              />
+              {/* Efectos visuales mejorados */}
+              <div className="absolute inset-0 rounded-3xl border border-white/10 shadow-[0_20px_60px_rgba(123,97,255,0.3)] hover:shadow-[0_30px_80px_rgba(123,97,255,0.4)] transition-all duration-500 pointer-events-none" />
+              {/* Glow effect principal */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full bg-[#7B61FF] opacity-15 blur-[120px] will-change-transform" />
             </div>
           </figure>
         </ScrollReveal>
