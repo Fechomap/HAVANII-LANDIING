@@ -48,6 +48,9 @@ interface Stats {
 }
 
 const AdminDashboard = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState('');
   const [leads, setLeads] = useState<Lead[]>([]);
   const [stats, setStats] = useState<Stats>({
     total: 0,
@@ -66,6 +69,17 @@ const AdminDashboard = () => {
     priority: 'all',
     product: 'all'
   });
+
+  const handleAuth = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Password simple - cambiar por uno más seguro
+    if (password === 'Alpinista1916') {
+      setIsAuthenticated(true);
+      setAuthError('');
+    } else {
+      setAuthError('Contraseña incorrecta');
+    }
+  };
 
   const statusLabels = {
     new: 'Nuevo',
@@ -200,6 +214,54 @@ const AdminDashboard = () => {
     link.click();
   };
 
+  // Pantalla de autenticación
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#09090C] flex items-center justify-center">
+        <div className="bg-[#15161B] border border-white/10 rounded-lg p-8 w-full max-w-md">
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-bold text-white mb-2">Dashboard Admin</h1>
+            <p className="text-[#BBBBBB]">Acceso restringido - Havani Technologies</p>
+          </div>
+          
+          <form onSubmit={handleAuth} className="space-y-4">
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-[#BBBBBB] mb-2">
+                Contraseña
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-[#09090C] border border-white/10 rounded-lg text-white placeholder:text-[#7A7A7A] focus:border-[#7B61FF] focus:ring-2 focus:ring-[#7B61FF]/40 transition outline-none"
+                placeholder="Ingresa la contraseña"
+                required
+              />
+            </div>
+            
+            {authError && (
+              <div className="text-red-400 text-sm text-center">
+                {authError}
+              </div>
+            )}
+            
+            <button
+              type="submit"
+              className="w-full bg-[#7B61FF] hover:bg-[#6B4FE8] text-white font-medium py-3 rounded-lg transition"
+            >
+              Acceder
+            </button>
+          </form>
+          
+          <div className="mt-6 text-center text-xs text-[#7A7A7A]">
+            Solo personal autorizado de Havani Technologies
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#09090C] flex items-center justify-center">
@@ -232,6 +294,12 @@ const AdminDashboard = () => {
             >
               <Download className="w-4 h-4" />
               Exportar CSV
+            </button>
+            <button
+              onClick={() => setIsAuthenticated(false)}
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 transition rounded-lg"
+            >
+              Cerrar Sesión
             </button>
           </div>
         </div>
