@@ -79,21 +79,17 @@ const ProblemSolutionSection = () => {
         {/* Right column - Imagen completa del laberinto/cerebro */}
         <ScrollReveal animation="slideLeft" delay={0.6} duration={0.8}>
           <figure className="relative w-full flex justify-center">
-            {/* Contenedor con tamaño controlado para mostrar imagen completa pero proporcional */}
-            <div className="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[480px] xl:max-w-[520px]">
+            {/* Contenedor con altura fija para controlar tamaño y mostrar imagen completa */}
+            <div className="relative w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] max-w-[500px] flex items-center justify-center rounded-3xl border border-white/10 overflow-visible">
               <OptimizedImage
                 src="/images/imageproblem.webp"
                 alt="Cerebro con circuitos electrónicos tipo laberinto y logotipo HAVANI central - Navegación del desarrollo tecnológico"
                 width={1024}
                 height={1024}
-                className="w-full h-auto object-contain rounded-2xl"
+                className="max-w-full max-h-full object-contain rounded-2xl"
               />
-              {/* Efectos visuales mejorados */}
-              <div className="absolute inset-0 rounded-2xl border border-white/10 shadow-[0_20px_60px_rgba(123,97,255,0.3)] hover:shadow-[0_30px_80px_rgba(123,97,255,0.4)] transition-all duration-500 pointer-events-none" />
-              {/* Glow effect principal */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] rounded-full bg-[#7B61FF] opacity-15 blur-[80px] will-change-transform" />
-              {/* Glow effect secundario */}
-              <div className="absolute -bottom-8 -right-8 w-[120px] h-[120px] rounded-full bg-[#7B61FF] opacity-10 blur-[60px] will-change-transform" />
+              {/* Sombra sutil sin glow intenso */}
+              <div className="absolute inset-0 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all duration-300 pointer-events-none" />
             </div>
           </figure>
         </ScrollReveal>
