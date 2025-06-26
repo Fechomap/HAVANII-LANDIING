@@ -78,20 +78,22 @@ const ProblemSolutionSection = () => {
         
         {/* Right column - Imagen completa del laberinto/cerebro */}
         <ScrollReveal animation="slideLeft" delay={0.6} duration={0.8}>
-          <figure className="relative w-full">
-            {/* Contenedor sin restricciones para mostrar imagen completa */}
-            <div className="relative w-full">
+          <figure className="relative w-full flex justify-center">
+            {/* Contenedor con tamaño controlado para mostrar imagen completa pero proporcional */}
+            <div className="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[480px] xl:max-w-[520px]">
               <OptimizedImage
                 src="/images/imageproblem.webp"
                 alt="Cerebro con circuitos electrónicos tipo laberinto y logotipo HAVANI central - Navegación del desarrollo tecnológico"
                 width={1024}
                 height={1024}
-                className="w-full h-auto object-contain"
+                className="w-full h-auto object-contain rounded-2xl"
               />
               {/* Efectos visuales mejorados */}
-              <div className="absolute inset-0 rounded-3xl border border-white/10 shadow-[0_20px_60px_rgba(123,97,255,0.3)] hover:shadow-[0_30px_80px_rgba(123,97,255,0.4)] transition-all duration-500 pointer-events-none" />
+              <div className="absolute inset-0 rounded-2xl border border-white/10 shadow-[0_20px_60px_rgba(123,97,255,0.3)] hover:shadow-[0_30px_80px_rgba(123,97,255,0.4)] transition-all duration-500 pointer-events-none" />
               {/* Glow effect principal */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full bg-[#7B61FF] opacity-15 blur-[120px] will-change-transform" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] rounded-full bg-[#7B61FF] opacity-15 blur-[80px] will-change-transform" />
+              {/* Glow effect secundario */}
+              <div className="absolute -bottom-8 -right-8 w-[120px] h-[120px] rounded-full bg-[#7B61FF] opacity-10 blur-[60px] will-change-transform" />
             </div>
           </figure>
         </ScrollReveal>
