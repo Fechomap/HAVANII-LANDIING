@@ -12,6 +12,7 @@ const Conciliador = lazy(() => import('./pages/Conciliador'));
 const TeXMLBotIVR = lazy(() => import('./pages/TeXMLBotIVR'));
 const FacturAPISaaS = lazy(() => import('./pages/FacturAPISaaS'));
 const TelegramBot = lazy(() => import('./pages/TelegramBot'));
+const Admin = lazy(() => import('./pages/Admin'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Componente de loading optimizado
@@ -89,6 +90,7 @@ const App = () => {
               <Route path="/facturapisaas" element={<FacturAPISaaS />} />
               <Route path="/telegrambot" element={<TelegramBot />} />
               <Route path="/pricing" element={<Pricing />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

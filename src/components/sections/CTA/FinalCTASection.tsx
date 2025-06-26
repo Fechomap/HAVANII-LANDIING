@@ -74,14 +74,14 @@ export default function FinalCTASection() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Validation logic
-    let newErr: typeof errors = {};
+    
+    // Validaciones existentes
+    const newErr: typeof errors = {};
     if (!fields.name.trim()) newErr.name = "Por favor ingresa tu nombre.";
     if (!fields.email.trim() || !validateEmail(fields.email)) newErr.email = "Ingresa un correo válido.";
     if (!fields.message.trim()) newErr.message = "Describe brevemente tu necesidad.";
     setErrors(newErr);
 
-    // Scroll to first error if any
     if (Object.keys(newErr).length) {
       const firstErrKey = Object.keys(newErr)[0];
       const el = formRef.current?.querySelector(`[name='${firstErrKey}']`);
@@ -90,14 +90,73 @@ export default function FinalCTASection() {
     }
 
     setLoading(true);
-    // Placeholder API call
+    
     try {
-      await new Promise((r) => setTimeout(r, 700));
+      // Detectar productos de interés basado en la página actual
+      const detectProductsInterest = () => {
+        const path = window.location.pathname;
+        if (path.includes('neural-crane')) return ['neural-crane'];
+        if (path.includes('automike')) return ['automike'];
+        if (path.includes('telegram-bot')) return ['telegram-bot'];
+        if (path.includes('texml-bot')) return ['texml-bot'];
+        if (path.includes('conciliador')) return ['conciliador'];
+        if (path.includes('facturapi')) return ['facturapi'];
+        return ['custom-development'];
+      };
+
+      // Obtener parámetros UTM
+      const getUTMParams = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        return {
+          source: urlParams.get('utm_source') || undefined,
+          medium: urlParams.get('utm_medium') || undefined,
+          campaign: urlParams.get('utm_campaign') || undefined,
+        };
+      };
+
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          ...fields,
+          products_interest: detectProductsInterest(),
+          utm_params: getUTMParams(),
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error en el envío');
+      }
+      
+      const result = await response.json();
+      
+      console.log('✅ Lead enviado exitosamente:', result);
+      
       setLoading(false);
       setSuccess(true);
-    } catch {
+      
+      // Limpiar formulario
+      setFields({ name: "", email: "", message: "" });
+      
+      // Analytics tracking
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'lead_generated', {
+          event_category: 'engagement',
+          event_label: 'contact_form',
+          value: 1
+        });
+      }
+      
+    } catch (error) {
+      console.error('❌ Error submitting form:', error);
       setLoading(false);
-      // ... handle error scenario if needed
+      setErrors({ 
+        submit: error instanceof Error ? error.message : 'Error al enviar. Intenta nuevamente.' 
+      });
     }
   };
 
@@ -310,6 +369,23 @@ export default function FinalCTASection() {
                   )}
                 </AnimatePresence>
               </motion.div>
+
+              {/* Error general de envío */}
+              <AnimatePresence initial={false}>
+                {errors.submit && (
+                  <motion.div
+                    key="submit-error"
+                    role="alert"
+                    aria-live="polite"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="rounded-lg bg-[#FF5F5F]/10 border border-[#FF5F5F]/20 px-4 py-3 text-center text-sm text-[#FF5F5F]"
+                  >
+                    {errors.submit}
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Button - Updated text and added neon glow effect with fill animation */}
               <motion.button
