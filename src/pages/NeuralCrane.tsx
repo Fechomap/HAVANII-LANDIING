@@ -79,9 +79,14 @@ const NeuralCrane = () => {
             <a href="#faq" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
               FAQ
             </a>
-            <a href="#contacto" className="ml-2 px-5 py-2 bg-[#7B61FF] hover:bg-[#6A50E0] text-white rounded-full transition-colors text-sm font-medium">
+            <Link to="/#contacto" className="ml-2 px-5 py-2 bg-[#7B61FF] hover:bg-[#6A50E0] text-white rounded-full transition-colors text-sm font-medium" onClick={(e) => {
+              // Si el enlace es a la página principal con un ancla, usamos goToHome
+              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                goToHome(e);
+              }
+            }}>
               Contacto
-            </a>
+            </Link>
           </nav>
           
           {/* Botón móvil */}

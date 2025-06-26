@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 
 const CTASection = () => {
+  const { goToHome } = useHomeNavigation();
   return (
     <section className="relative bg-[#09090C] py-[120px] overflow-hidden">
       {/* Overlay Glow */}
@@ -42,7 +44,7 @@ const CTASection = () => {
           style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
-          <Link to="/#contacto">
+          <Link to="/#contacto" onClick={goToHome}>
             <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] hover:outline-[#7B61FF] hover:outline-2 hover:outline-offset-4 relative overflow-hidden group">
               <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
               <span className="relative z-10 flex items-center">
@@ -51,7 +53,7 @@ const CTASection = () => {
               </span>
             </Button>
           </Link>
-          <Link to="/#contacto">
+          <Link to="/#contacto" onClick={goToHome}>
             <Button variant="outline" className="px-8 py-4 rounded-full border border-white/40 text-white/90 hover:bg-white hover:text-[#060E15] transition-colors">
               Prueba Gratuita de 1 Mes
             </Button>

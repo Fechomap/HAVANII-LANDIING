@@ -165,7 +165,7 @@ const HeroSection = () => {
           </p>
           
           <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-10">
-            <Link to="/#contacto">
+            <Link to="/#contacto" onClick={goToHome}>
               <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] hover:outline-[#7B61FF] hover:outline-2 hover:outline-offset-4 relative overflow-hidden group">
                 <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
                 <span className="relative z-10">Comenzar Prueba Gratuita</span>
@@ -728,7 +728,7 @@ const CTASection = () => {
           style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
-          <Link to="/#contacto">
+          <Link to="/#contacto" onClick={goToHome}>
             <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] relative overflow-hidden group">
               <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#7B61FF]/10 to-[#7B61FF]/40 transition-all duration-300 group-hover:w-full"></span>
               <span className="relative z-10 flex items-center">

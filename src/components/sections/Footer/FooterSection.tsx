@@ -11,6 +11,8 @@
 
 import { motion } from "framer-motion"; // Importar motion de framer-motion para animaciones
 import { Twitter, Linkedin, Github, Zap, Cpu, Sparkles } from "lucide-react"; // Importar iconos de redes sociales y tech
+import { Link } from "react-router-dom";
+import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 
 // Configuración de las columnas del footer
 const footerColumns = [
@@ -28,7 +30,7 @@ const footerColumns = [
     links: [
       { label: "Nuestra Historia", href: "#our-story" },
       { label: "Testimonios", href: "#testimonials" },
-      { label: "Contacto", href: "#contact-form" },
+      { label: "Contacto", href: "/#contacto" },
       { label: "Carreras (Próximamente)", href: "/404" },
     ],
   },
@@ -72,7 +74,7 @@ const colVariants = {
 
 // Componente de partículas flotantes
 const FloatingParticles = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+  <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
     {[...Array(20)].map((_, i) => (
       <motion.div
         key={i}
@@ -112,7 +114,10 @@ const GridPattern = () => (
   </div>
 );
 
-const FooterSection = () => (
+const FooterSection = () => {
+  const { goToHome } = useHomeNavigation();
+
+  return (
   <footer
     aria-label="Información legal y enlaces"
     className="relative bg-gradient-to-b from-[#060E15] via-[#0A1220] to-[#060E15] overflow-hidden"
@@ -153,14 +158,29 @@ const FooterSection = () => (
           <ul className="space-y-4">
             {col.links.map(link => (
               <li key={link.label}>
-                <a
-                  href={link.href}
-                  className="footer-link"
-                  {...(link.target ? {target: link.target} : {})}
-                  {...(link.rel ? {rel: link.rel} : {})}
-                >
-                  {link.label}
-                </a>
+                {link.href === "/#contacto" ? (
+                  <Link
+                    to={link.href}
+                    className="footer-link"
+                    onClick={(e) => {
+                      // Si el enlace es a la página principal con un ancla, usamos goToHome
+                      if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+                        goToHome(e);
+                      }
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={link.href}
+                    className="footer-link"
+                    {...(link.target ? {target: link.target} : {})}
+                    {...(link.rel ? {rel: link.rel} : {})}
+                  >
+                    {link.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
@@ -271,27 +291,37 @@ const FooterSection = () => (
 
     {/* CTA Final */}
     <motion.div 
-      className="mt-12 mb-8"
+      className="relative mt-12 mb-8 z-30"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: 0.4 }}
     >
       <div className="text-center">
-        <motion.a
-          href="#contact-form"
-          className="inline-flex items-center gap-3 bg-gradient-to-r from-[#7B61FF] to-[#00D4FF] text-white px-8 py-4 rounded-full font-semibold text-sm cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#7B61FF]/25"
-          whileHover={{ y: -2 }}
-          whileTap={{ scale: 0.98 }}
+        <Link
+          to="/#contacto"
+          onClick={(e) => {
+            // Si el enlace es a la página principal con un ancla, usamos goToHome
+            if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
+              goToHome(e);
+            }
+          }}
+          className="inline-block text-white no-underline"
         >
-          <Sparkles className="w-4 h-4" />
-          <span>¿Listo para innovar?</span>
           <motion.div
-            className="w-2 h-2 bg-white rounded-full"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        </motion.a>
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-[#7B61FF] to-[#00D4FF] text-white px-8 py-4 rounded-full font-semibold text-sm cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#7B61FF]/25"
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>¿Listo para innovar?</span>
+            <motion.div
+              className="w-2 h-2 bg-white rounded-full"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          </motion.div>
+        </Link>
       </div>
     </motion.div>
 
@@ -315,6 +345,7 @@ const FooterSection = () => (
       </div>
     </div>
   </footer>
-);
+  );
+};
 
 export default FooterSection;

@@ -1,10 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useHomeNavigation } from '@/hooks/useHomeNavigation';
 import { Button } from '@/components/ui/button';
 import { CheckCircle } from 'lucide-react';
 
 const PricingSection = () => {
+  const { goToHome } = useHomeNavigation();
   const plans = [
     {
       name: "Esencial",
@@ -106,7 +108,7 @@ const PricingSection = () => {
               </ul>
               
               <div className="mt-auto pt-4 text-center">
-                <Link to="/#contacto">
+                <Link to="/#contacto" onClick={goToHome}>
                   <Button className={`px-6 py-3 rounded-full ${plan.popular ? 'bg-[#7B61FF] text-white hover:bg-[#6A50E0]' : 'bg-white/10 text-white hover:bg-white/20'} font-semibold transition-colors`}>
                     Contactar para cotización
                   </Button>
@@ -128,7 +130,7 @@ const PricingSection = () => {
           <p className="text-[#BBBBBB] max-w-[700px] mx-auto mb-6">
             Experimenta NeuralCrane sin compromiso durante <span className="text-white font-semibold">1 mes</span> y descubre cómo nuestra plataforma puede transformar la operatividad de tu empresa.
           </p>
-          <Link to="/#contacto">
+          <Link to="/#contacto" onClick={goToHome}>
             <Button className="px-8 py-4 rounded-full bg-white text-[#7B61FF] font-bold shadow-[0_0_15px_rgba(123,97,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(123,97,255,0.6)]">
               Solicitar Prueba Gratuita
             </Button>
