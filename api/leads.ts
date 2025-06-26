@@ -26,10 +26,18 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  console.log('🚀 API /leads called:', req.method);
+  console.log('📊 Environment check:', {
+    hasSupabaseUrl: !!process.env.SUPABASE_URL,
+    hasSupabaseKey: !!process.env.SUPABASE_ANON_KEY,
+    hasResendKey: !!process.env.RESEND_API_KEY
+  });
+
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With');
+  res.setHeader('Access-Control-Allow-Credentials', 'false');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -37,6 +45,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Verificar variables de entorno
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+    console.error('❌ Missing Supabase environment variables');
+    return res.status(500).json({ error: 'Server configuration error' });
+  }
+
+  if (!process.env.RESEND_API_KEY) {
+    console.error('❌ Missing Resend API key');
+    return res.status(500).json({ error: 'Email service configuration error' });
   }
 
   try {
