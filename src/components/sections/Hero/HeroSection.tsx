@@ -164,7 +164,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
       </div>
       
       {/* Contenido principal */}
-      <div className="relative z-10 max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[46%_54%] gap-8 px-6 md:px-12 lg:px-24 pt-36 pb-24 md:pt-44 md:pb-28 flex-1 items-center">
+      <div className="relative z-10 max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[46%_54%] gap-6 md:gap-8 px-4 sm:px-6 md:px-12 lg:px-24 pt-32 sm:pt-36 pb-20 sm:pb-24 md:pt-44 md:pb-28 flex-1 items-center">
         
         {/* Columna izquierda - Texto */}
         <div className="flex flex-col order-2 lg:order-1">
@@ -352,7 +352,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
           animation="slideLeft" 
           duration={1.0} 
           delay={0.4}
-          className="relative order-1 lg:order-2"
+          className="relative order-1 lg:order-2 px-4 sm:px-0"
         >
           {/* Efecto de resplandor mejorado */}
           <div
@@ -372,10 +372,10 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
             transition={{ duration: 0.4 }}
           >
             {/* Dashboard simulado con CSS - COLORES CONTRASTANTES */}
-            <div className="relative w-full aspect-[5/4] bg-gradient-to-br from-gray-900 via-gray-800 to-black p-8 md:p-12">
+            <div className="relative w-full aspect-[4/3] sm:aspect-[5/4] lg:aspect-[5/4] bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4 sm:p-6 md:p-8 lg:p-12">
               
               {/* Header del dashboard con animación */}
-              <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center justify-between mb-4 md:mb-6 lg:mb-8">
                 <div className="flex items-center gap-4">
                   <motion.div 
                     className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500"
@@ -392,21 +392,21 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                       boxShadow: { duration: 2, repeat: Infinity }
                     }}
                   />
-                  <div className="text-white font-bold text-lg">Havani Dashboard</div>
+                  <div className="text-white font-bold text-sm md:text-base lg:text-lg">Havani Dashboard</div>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-2 md:gap-3">
                   <motion.div 
-                    className="w-4 h-4 rounded-full bg-red-400"
+                    className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-red-400"
                     animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   />
                   <motion.div 
-                    className="w-4 h-4 rounded-full bg-yellow-400"
+                    className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-yellow-400"
                     animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
                   />
                   <motion.div 
-                    className="w-4 h-4 rounded-full bg-green-400"
+                    className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-green-400"
                     animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 1.5, repeat: Infinity, delay: 0.6 }}
                   />
@@ -414,10 +414,10 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
               </div>
               
               {/* Contenido principal del dashboard */}
-              <div className="grid grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
                 {/* Panel principal animado - CYAN/BLUE */}
                 <motion.div 
-                  className="col-span-2 h-40 rounded-2xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 backdrop-blur-sm p-6 relative overflow-hidden"
+                  className="col-span-1 md:col-span-2 min-h-[120px] md:min-h-[140px] lg:h-40 rounded-xl md:rounded-2xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 backdrop-blur-sm p-4 md:p-6 relative overflow-hidden"
                   animate={{
                     background: [
                       "linear-gradient(to right, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2))",
@@ -428,14 +428,14 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                   transition={{ duration: 4, repeat: Infinity }}
                 >
                   <motion.div 
-                    className="w-24 h-5 bg-white/30 rounded mb-4"
+                    className="w-20 md:w-24 h-4 md:h-5 bg-white/30 rounded mb-3 md:mb-4"
                     animate={{ opacity: [0.3, 0.6, 0.3] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
                   <motion.div 
-                    className="w-40 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded shadow-lg"
+                    className="w-32 md:w-36 lg:w-40 h-6 md:h-7 lg:h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded shadow-lg"
                     animate={{ 
-                      width: ["10rem", "12rem", "10rem"],
+                      width: ["8rem", "10rem", "8rem"],
                       boxShadow: [
                         "0 4px 6px rgba(6, 182, 212, 0.2)",
                         "0 8px 25px rgba(6, 182, 212, 0.4)",
@@ -445,7 +445,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                     transition={{ duration: 3, repeat: Infinity }}
                   />
                   <motion.div 
-                    className="absolute bottom-6 right-6 text-3xl font-bold text-white"
+                    className="absolute bottom-3 right-3 md:bottom-4 md:right-4 lg:bottom-6 lg:right-6 text-xl md:text-2xl lg:text-3xl font-bold text-white"
                     animate={{ 
                       scale: [1, 1.1, 1],
                       color: ["#ffffff", "#06b6d4", "#ffffff"]
@@ -458,7 +458,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 
                 {/* Panel lateral con métricas - ORANGE/AMBER */}
                 <motion.div 
-                  className="h-40 rounded-2xl bg-white/5 border border-orange-400/30 backdrop-blur-sm p-6"
+                  className="min-h-[120px] md:min-h-[140px] lg:h-40 rounded-xl md:rounded-2xl bg-white/5 border border-orange-400/30 backdrop-blur-sm p-4 md:p-6"
                   animate={{
                     borderColor: [
                       "rgba(251, 146, 60, 0.3)",
@@ -468,20 +468,20 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                   }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
-                  <div className="w-20 h-4 bg-orange-200/30 rounded mb-4" />
-                  <div className="space-y-3">
+                  <div className="w-16 md:w-20 h-3 md:h-4 bg-orange-200/30 rounded mb-3 md:mb-4" />
+                  <div className="space-y-2 md:space-y-3">
                     <motion.div 
-                      className="w-full h-3 bg-gradient-to-r from-orange-400 to-amber-400 rounded shadow-md"
+                      className="w-full h-2 md:h-3 bg-gradient-to-r from-orange-400 to-amber-400 rounded shadow-md"
                       animate={{ width: ["100%", "80%", "100%"] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
                     <motion.div 
-                      className="w-3/4 h-3 bg-gradient-to-r from-amber-400 to-yellow-400 rounded shadow-md"
+                      className="w-3/4 h-2 md:h-3 bg-gradient-to-r from-amber-400 to-yellow-400 rounded shadow-md"
                       animate={{ width: ["75%", "90%", "75%"] }}
                       transition={{ duration: 2.5, repeat: Infinity }}
                     />
                     <motion.div 
-                      className="w-1/2 h-3 bg-gradient-to-r from-yellow-400 to-lime-400 rounded shadow-md"
+                      className="w-1/2 h-2 md:h-3 bg-gradient-to-r from-yellow-400 to-lime-400 rounded shadow-md"
                       animate={{ width: ["50%", "65%", "50%"] }}
                       transition={{ duration: 3, repeat: Infinity }}
                     />
@@ -490,10 +490,10 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
               </div>
               
               {/* Charts animados mejorados */}
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {/* Gráfico de barras - VERDE/TEAL */}
-                <div className="h-32 rounded-2xl bg-white/5 border border-emerald-400/30 backdrop-blur-sm p-6">
-                  <div className="flex items-end gap-2 h-full">
+                <div className="min-h-[100px] md:min-h-[120px] lg:h-32 rounded-xl md:rounded-2xl bg-white/5 border border-emerald-400/30 backdrop-blur-sm p-4 md:p-6">
+                  <div className="flex items-end gap-1 md:gap-2 h-full">
                     {[60, 80, 40, 90, 70, 95, 55].map((height, index) => (
                       <motion.div
                         key={index}
@@ -522,15 +522,15 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 </div>
                 
                 {/* Gráfico circular - ROSA/PURPLE */}
-                <div className="h-32 rounded-2xl bg-white/5 border border-pink-400/30 backdrop-blur-sm p-6 flex items-center justify-center">
+                <div className="min-h-[100px] md:min-h-[120px] lg:h-32 rounded-xl md:rounded-2xl bg-white/5 border border-pink-400/30 backdrop-blur-sm p-4 md:p-6 flex items-center justify-center">
                   <div className="relative">
                     <motion.div 
-                      className="w-20 h-20 rounded-full border-4 border-pink-300/30"
+                      className="w-16 h-16 md:w-20 md:h-20 rounded-full border-3 md:border-4 border-pink-300/30"
                       animate={{ rotate: 360 }}
                       transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                     />
                     <motion.div 
-                      className="absolute inset-0 w-20 h-20 rounded-full border-4 border-transparent border-t-pink-400 border-r-purple-400"
+                      className="absolute inset-0 w-16 h-16 md:w-20 md:h-20 rounded-full border-3 md:border-4 border-transparent border-t-pink-400 border-r-purple-400"
                       animate={{ 
                         rotate: [0, 270],
                         borderTopColor: ["#f472b6", "#a855f7", "#f472b6"],
@@ -544,7 +544,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                     />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <motion.span 
-                        className="text-white font-bold text-sm"
+                        className="text-white font-bold text-xs md:text-sm"
                         animate={{ 
                           scale: [1, 1.1, 1],
                           color: ["#ffffff", "#f472b6", "#ffffff"]
@@ -559,7 +559,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                 
                 {/* Panel de estadísticas - AZUL/INDIGO */}
                 <motion.div 
-                  className="h-32 rounded-2xl bg-white/5 border border-blue-400/30 backdrop-blur-sm p-6"
+                  className="min-h-[100px] md:min-h-[120px] lg:h-32 rounded-xl md:rounded-2xl bg-white/5 border border-blue-400/30 backdrop-blur-sm p-4 md:p-6"
                   animate={{
                     borderColor: [
                       "rgba(96, 165, 250, 0.3)",
@@ -570,15 +570,15 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                   transition={{ duration: 4, repeat: Infinity }}
                 >
                   <motion.div 
-                    className="text-xs text-blue-200/80 mb-2 font-semibold"
+                    className="text-xs md:text-sm text-blue-200/80 mb-1 md:mb-2 font-semibold"
                     animate={{ opacity: [0.8, 1, 0.8] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   >
                     LIVE DATA
                   </motion.div>
-                  <div className="space-y-2">
+                  <div className="space-y-1 md:space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-white/80 text-sm">Users</span>
+                      <span className="text-white/80 text-xs md:text-sm">Users</span>
                       <motion.span 
                         className="text-cyan-400 font-bold"
                         animate={{ 
@@ -591,7 +591,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                       </motion.span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-white/80 text-sm">Sales</span>
+                      <span className="text-white/80 text-xs md:text-sm">Sales</span>
                       <motion.span 
                         className="text-blue-400 font-bold"
                         animate={{ 
@@ -604,7 +604,7 @@ const HeroSection = ({ onHomeClick }: HeroSectionProps = {}) => {
                       </motion.span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-white/80 text-sm">Growth</span>
+                      <span className="text-white/80 text-xs md:text-sm">Growth</span>
                       <motion.span 
                         className="text-emerald-400 font-bold"
                         animate={{ 
