@@ -10,10 +10,24 @@ import { ArrowRight, CheckCircle, Clock, Database, Lock, BarChart, Globe, Zap, P
 // Componentes UI base de Havani
 import { Button } from '@/components/ui/button';
 import FooterSection from '@/components/sections/Footer/FooterSection';
+import Header from '@/components/sections/Hero/Header';
 
 const AutoMike = () => {
   // Hook para la navegación a Home con transición
   const { goToHome, isTransitioning, completeTransition } = useHomeNavigation();
+  
+  // Estado para el scroll del header
+  const [hasScrolled, setHasScrolled] = useState(false);
+  
+  // Detectar scroll para el header
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 50);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   
   // Establecer el título de la página y el fondo
   useEffect(() => {
@@ -36,54 +50,8 @@ const AutoMike = () => {
         onComplete={completeTransition} 
       />
       
-      {/* Header con navegación */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-[rgba(0,0,0,.35)] backdrop-blur-sm">
-        <div className="max-w-[1280px] mx-auto px-6 py-10 flex items-center justify-between">
-          <Link to="/" className="text-white flex items-center" onClick={goToHome}>
-            <img 
-              src="/images/logo-havani.svg" 
-              alt="Havani Logo" 
-              className="h-10 w-auto brightness-110 contrast-125"
-            />
-          </Link>
-          
-          <nav className="hidden md:flex items-center space-x-1">
-            <Link to="/" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors" onClick={goToHome}>
-              Home
-            </Link>
-            <Link to="/pricing" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors">
-              Precios
-            </Link>
-            <Link to="/#productos" className="relative rounded-full bg-white/[.12] text-white px-4 py-2" onClick={(e) => {
-              // Si el enlace es a la página principal con un ancla, usamos goToHome
-              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
-                goToHome(e);
-              }
-            }}>
-              Productos
-            </Link>
-            <Link to="/#contacto" className="relative px-4 py-2 text-white hover:text-white/90 transition-colors" onClick={(e) => {
-              // Si el enlace es a la página principal con un ancla, usamos goToHome
-              if (e.currentTarget.getAttribute('href')?.startsWith('/#')) {
-                goToHome(e);
-              }
-            }}>
-              Contacto
-            </Link>
-          </nav>
-          
-          {/* Menú móvil (simplificado) */}
-          <div className="md:hidden">
-            <button className="text-white">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Header completo con menú móvil funcional */}
+      <Header hasScrolled={hasScrolled} onHomeClick={goToHome} />
 
       {/* Hero Section */}
       <HeroSection />
